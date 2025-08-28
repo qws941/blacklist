@@ -140,12 +140,7 @@ INSERT INTO api_keys (key_name, key_hash, permissions, rate_limit)
 VALUES ('system_default', 'hashed_system_key', '{"read": true, "write": false}', 10000)
 ON CONFLICT (key_name) DO NOTHING;
 
--- 샘플 블랙리스트 데이터 (테스트용)
-INSERT INTO blacklist_ips (ip_address, reason, source, category, confidence_level) 
-VALUES 
-    ('192.168.1.100'::INET, 'Test IP for development', 'system', 'test', 1),
-    ('10.0.0.1'::INET, 'Internal test IP', 'manual', 'test', 1)
-ON CONFLICT (ip_address) DO NOTHING;
+-- 샘플 블랙리스트 데이터 제거됨 (깨끗한 빈 테이블로 시작)
 
 -- 데이터베이스 설정 최적화
 ALTER SYSTEM SET shared_preload_libraries = 'pg_stat_statements';
