@@ -33,6 +33,9 @@ COPY src/ /app/src/
 COPY main.py /app/main.py
 COPY instance/ /app/instance/
 
+# 모니터링 대시보드 복사
+COPY monitoring-dashboard.html /app/monitoring-dashboard.html
+
 # 헬스체크 스크립트 추가 (단순화)
 COPY <<'EOF' /app/health_check.py
 #!/usr/bin/env python3

@@ -4,8 +4,9 @@
 """
 import os
 import psycopg2
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect, send_file
 from datetime import datetime
+from pathlib import Path
 
 
 def create_minimal_app():
@@ -75,16 +76,39 @@ def create_minimal_app():
 
     @app.route("/")
     def index():
-        """메인 페이지"""
-        return jsonify(
-            {
-                "service": "Blacklist Application",
-                "status": "running",
-                "version": "custom-postgres-test",
-                "timestamp": datetime.now().isoformat(),
-                "endpoints": ["/health", "/"],
-            }
-        )
+        """메인 페이지 - 모니터링 대시보드로 리다이렉트"""
+        # Check if monitoring dashboard exists
+        dashboard_path = Path("/app/monitoring-dashboard.html")
+        if not dashboard_path.exists():
+            # Try relative path
+            dashboard_path = Path("monitoring-dashboard.html")
+
+        if dashboard_path.exists():
+            return send_file(str(dashboard_path), mimetype="text/html")
+        else:
+            # Fallback to API info if dashboard not found
+            return jsonify(
+                {
+                    "service": "Blacklist Application",
+                    "status": "running",
+                    "version": "custom-postgres-test",
+                    "timestamp": datetime.now().isoformat(),
+                    "endpoints": ["/health", "/", "/dashboard"],
+                    "message": "Monitoring dashboard not found, showing API info",
+                }
+            )
+
+    @app.route("/dashboard")
+    def dashboard():
+        """모니터링 대시보드"""
+        dashboard_path = Path("/app/monitoring-dashboard.html")
+        if not dashboard_path.exists():
+            dashboard_path = Path("monitoring-dashboard.html")
+
+        if dashboard_path.exists():
+            return send_file(str(dashboard_path), mimetype="text/html")
+        else:
+            return jsonify({"error": "Dashboard file not found"}), 404
 
     return app
 
