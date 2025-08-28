@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # Error Monitor Service
+  error-monitor:
+    image: python:3.11-alpine
+    container_name: blacklist-error-monitor
+    restart: unless-stopped
+    volumes:
+      - ./scripts/container-error-monitor.py:/app/monitor.py:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_REPO=qws941/blacklist
+      - MONITOR_INTERVAL=60
+      - ERROR_THRESHOLD=5
+      - MONITOR_CONTAINERS=blacklist-app,blacklist-postgres,blacklist-redis
+      - PYTHONUNBUFFERED=1
+    command: >
+      sh -c "
+        pip install requests --quiet &&
+        python /app/monitor.py
+      "
+    networks:
+      - blacklist-network
+    depends_on:
+      - blacklist
+      - postgres
+      - redis
+    labels:
+      - "com.blacklist.service=monitor"
+      - "com.blacklist.description=Container error monitoring and GitHub issue creation"
+
+networks:
+  blacklist-network:
+    external: true
