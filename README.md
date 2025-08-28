@@ -6,17 +6,20 @@ Enterprise threat intelligence platform for collecting, processing, and managing
 
 ### Using Docker (Recommended)
 ```bash
-# Start all services
-docker-compose up -d
+# First time setup (pulls custom images from private registry)
+./deploy.sh
+
+# Or quick start (if images already pulled)
+./start.sh
 
 # Check status
 docker-compose ps
 
 # View logs
-docker-compose logs -f blacklist-app
+docker-compose logs -f app
 ```
 
-Access the application at: http://localhost:32542
+Access the application at: http://localhost:2542
 
 ### Local Development
 ```bash
