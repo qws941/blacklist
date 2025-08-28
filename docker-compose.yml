@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database (Custom with pre-initialized schema)
+  blacklist-postgres:
+    image: registry.jclee.me/blacklist-postgres:latest
+    container_name: blacklist-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=blacklist
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - blacklist-network
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/pg_health_check.sh"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+
+  # Redis Cache
+  blacklist-redis:
+    image: registry.jclee.me/blacklist-redis:latest
+    container_name: blacklist-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    networks:
+      - blacklist-network
+    ports:
+      - "32544:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Main Application (simplified without DB init)
+  blacklist-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.simple
+    container_name: blacklist-app
+    restart: unless-stopped
+    depends_on:
+      blacklist-postgres:
+        condition: service_healthy
+      blacklist-redis:
+        condition: service_healthy
+    environment:
+      - POSTGRES_HOST=blacklist-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=blacklist
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - REDIS_HOST=blacklist-redis
+      - REDIS_PORT=6379
+      - FLASK_ENV=production
+      - PORT=2542
+    volumes:
+      - app_logs:/app/logs
+      - app_data:/app/data
+    networks:
+      - blacklist-network
+    ports:
+      - "32542:2542"
+    healthcheck:
+      test: ["CMD", "python", "/app/health_check.py"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    labels:
+      - "com.blacklist.service=app"
+      - "com.blacklist.version=error-fix"
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  app_logs:
+    driver: local
+  app_data:
+    driver: local
+
+networks:
+  blacklist-network:
+    external: true
