@@ -9,6 +9,7 @@ services:
       - POSTGRES_DB=blacklist
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - TZ=Asia/Seoul
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -28,6 +29,8 @@ services:
     image: registry.jclee.me/blacklist-redis:latest
     container_name: blacklist-redis
     restart: unless-stopped
+    environment:
+      - TZ=Asia/Seoul
     volumes:
       - redis_data:/data
     networks:
@@ -62,6 +65,7 @@ services:
       - REDIS_PORT=6379
       - FLASK_ENV=production
       - PORT=2542
+      - TZ=Asia/Seoul
     volumes:
       - app_logs:/app/logs
       - app_data:/app/data

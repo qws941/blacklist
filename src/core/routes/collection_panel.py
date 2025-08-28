@@ -7,9 +7,7 @@ from flask import Blueprint, render_template_string, jsonify, request
 import logging
 
 logger = logging.getLogger(__name__)
-simple_collection_bp = Blueprint(
-    "simple_collection", __name__, url_prefix="/collection-panel"
-)
+collection_bp = Blueprint("simple_collection", __name__, url_prefix="/collection-panel")
 
 # 간단한 통합 패널 HTML
 SIMPLE_PANEL_HTML = """
@@ -383,7 +381,17 @@ SIMPLE_PANEL_HTML = """
             showStatus('REGTECH 수집을 시작합니다...', 'info');
             document.getElementById('collection-status').textContent = 'REGTECH 수집 중...';
             
-            fetch('/api/collection/regtech/trigger', { method: 'POST' })
+            // Get credentials from form
+            const credentials = {
+                username: document.getElementById('regtech-username').value || '',
+                password: document.getElementById('regtech-password').value || ''
+            };
+            
+            fetch('/api/collection/regtech/trigger', { 
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(credentials)
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -466,13 +474,13 @@ SIMPLE_PANEL_HTML = """
 """
 
 
-@simple_collection_bp.route("/")
+@collection_bp.route("/")
 def simple_collection_panel():
     """간단한 통합 수집 관리 패널"""
     return render_template_string(SIMPLE_PANEL_HTML)
 
 
-@simple_collection_bp.route("/status")
+@collection_bp.route("/status")
 def panel_status():
     """패널 상태 정보"""
     return jsonify(
@@ -489,7 +497,7 @@ def panel_status():
     )
 
 
-@simple_collection_bp.route("/api/save-credentials", methods=["POST"])
+@collection_bp.route("/api/save-credentials", methods=["POST"])
 def save_credentials():
     """UI에서 인증정보 저장"""
     try:
@@ -509,8 +517,8 @@ def save_credentials():
         # REGTECH 인증정보 업데이트
         cur.execute(
             """
-            INSERT INTO collection_credentials (service_name, username, password, is_active)
-            VALUES ('REGTECH', %s, %s, true)
+            INSERT INTO collection_credentials (service_name, username, password)
+            VALUES ('REGTECH', %s, %s)
             ON CONFLICT (service_name) 
             DO UPDATE SET username = %s, password = %s, updated_at = CURRENT_TIMESTAMP
         """,
@@ -525,8 +533,8 @@ def save_credentials():
         # SECUDIUM 인증정보 업데이트
         cur.execute(
             """
-            INSERT INTO collection_credentials (service_name, username, password, is_active)
-            VALUES ('SECUDIUM', %s, %s, true) 
+            INSERT INTO collection_credentials (service_name, username, password)
+            VALUES ('SECUDIUM', %s, %s) 
             ON CONFLICT (service_name)
             DO UPDATE SET username = %s, password = %s, updated_at = CURRENT_TIMESTAMP
         """,
@@ -549,7 +557,7 @@ def save_credentials():
         return jsonify({"success": False, "error": str(e)})
 
 
-@simple_collection_bp.route("/api/logs")
+@collection_bp.route("/api/logs")
 def get_collection_logs():
     """수집 로그 조회"""
     try:
@@ -625,7 +633,7 @@ def get_collection_logs():
         )
 
 
-@simple_collection_bp.route("/api/real-stats")
+@collection_bp.route("/api/real-stats")
 def get_real_stats():
     """실시간 통계 데이터"""
     try:
@@ -651,12 +659,14 @@ def get_real_stats():
         cur.execute("SELECT source, COUNT(*) FROM blacklist_ips GROUP BY source")
         source_stats = dict(cur.fetchall())
 
-        # 활성 서비스 수 (source 별로 카운트)
-        cur.execute("SELECT COUNT(DISTINCT source) FROM blacklist_ips")
+        # 활성 서비스 수
+        cur.execute(
+            "SELECT COUNT(*) FROM collection_credentials WHERE is_active = true"
+        )
         active_services = cur.fetchone()[0]
 
-        # 마지막 수집 시간 (last_seen 필드 사용)
-        cur.execute("SELECT MAX(last_seen) FROM blacklist_ips")
+        # 마지막 수집 시간
+        cur.execute("SELECT MAX(created_at) FROM collections")
         last_collection_result = cur.fetchone()
         last_collection = "Never"
         if last_collection_result and last_collection_result[0]:

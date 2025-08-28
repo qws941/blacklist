@@ -27,9 +27,9 @@ if __name__ == "__main__":
         app.run(host="0.0.0.0", port=port, debug=False)
 
     except ImportError:
-        from src.core.minimal_app import create_minimal_app
+        from src.core.app import create_app
 
-        app = create_minimal_app()
+        app = create_app()
         print(f"Starting Blacklist Management System (Minimal Mode) on port {port}")
         app.run(host="0.0.0.0", port=port, debug=False)
 

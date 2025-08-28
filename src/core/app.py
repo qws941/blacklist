@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-최소한의 Flask 애플리케이션 - PostgreSQL 연결 테스트용
+Flask 애플리케이션 - PostgreSQL 연결 및 수집 관리
 """
 import os
 import psycopg2
@@ -9,16 +9,16 @@ from datetime import datetime
 from pathlib import Path
 
 
-def create_minimal_app():
-    """최소한의 Flask 애플리케이션 생성"""
+def create_app():
+    """Flask 애플리케이션 생성"""
     app = Flask(__name__)
 
     # Register collection panel blueprint
     try:
-        from src.core.routes.simple_collection_panel import simple_collection_bp
+        from src.core.routes.collection_panel import collection_bp
         from src.core.routes.collection_api import collection_api_bp
 
-        app.register_blueprint(simple_collection_bp)
+        app.register_blueprint(collection_bp)
         app.register_blueprint(collection_api_bp)
     except ImportError:
         pass  # Collection panel not available
@@ -124,6 +124,6 @@ def create_minimal_app():
 
 
 if __name__ == "__main__":
-    app = create_minimal_app()
+    app = create_app()
     port = int(os.getenv("PORT", 2542))
     app.run(host="0.0.0.0", port=port, debug=False)
