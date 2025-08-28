@@ -40,11 +40,9 @@ services:
       timeout: 5s
       retries: 5
 
-  # Main Application (simplified without DB init)
+  # Main Application
   blacklist-app:
-    build:
-      context: .
-      dockerfile: Dockerfile.simple
+    image: registry.jclee.me/blacklist-app:latest
     container_name: blacklist-app
     restart: unless-stopped
     depends_on:
