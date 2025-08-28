@@ -1,0 +1,22 @@
+[
+  {
+    "source": "regtech",
+    "start_date": "2025-08-11",
+    "end_date": "2025-08-18",
+    "collected_at": "2025-08-18T08:29:34.431145",
+    "success": false,
+    "count": 0,
+    "ips": [],
+    "error": "로그인 실패: 404"
+  },
+  {
+    "source": "regtech",
+    "start_date": "2025-08-11",
+    "end_date": "2025-08-18",
+    "collected_at": "2025-08-18T08:32:51.003738",
+    "success": false,
+    "count": 0,
+    "ips": [],
+    "error": "로그인 실패: 인증 정보 오류"
+  }
+]

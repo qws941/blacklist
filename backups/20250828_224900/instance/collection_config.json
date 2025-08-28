@@ -1,0 +1,35 @@
+{
+  "collection_enabled": false,
+  "sources": {
+    "regtech": {
+      "enabled": true,
+      "enabled_at": "2025-08-19T11:08:56.289044"
+    },
+    "secudium": {
+      "enabled": true,
+      "enabled_at": "2025-08-19T11:08:56.289046"
+    }
+  },
+  "last_enabled_at": null,
+  "last_disabled_at": "2025-08-07T11:52:35.027255",
+  "daily_collection_enabled": false,
+  "last_daily_collection": null,
+  "initial_collection_done": true,
+  "initial_collection_needed": false,
+  "force_disabled": true,
+  "protection_mode": "FORCE_DISABLE",
+  "restart_protection": {
+    "enabled": true,
+    "last_restart": "2025-08-07T11:52:35.027259",
+    "restart_count": 0,
+    "protection_active": false
+  },
+  "enabled": true,
+  "enabled_at": "2025-08-19T11:08:56.289039",
+  "enabled_reason": "Manual enable request",
+  "bypass_protection": false,
+  "updated_at": "2025-08-28T20:11:41.792120",
+  "initial_collection_completed_at": "2025-08-28T20:11:41.792115",
+  "disabled_at": "2025-08-16T15:25:59.196878",
+  "disabled_reason": "Manual disable request"
+}
