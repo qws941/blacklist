@@ -1,0 +1,207 @@
+{
+  "generated_at": "2025-08-18T08:29:34.486631",
+  "statistics": {
+    "total_collections": 1,
+    "successful_collections": 0,
+    "failed_collections": 1,
+    "total_ips_collected": 0,
+    "sources": {
+      "regtech": {
+        "total": 1,
+        "success": 0,
+        "failed": 1,
+        "total_ips": 0
+      }
+    },
+    "recent_collections": [
+      {
+        "source": "regtech",
+        "start_date": "2025-08-11",
+        "end_date": "2025-08-18",
+        "collected_at": "2025-08-18T08:29:34.431145",
+        "success": false,
+        "count": 0,
+        "ips": [],
+        "error": "\ub85c\uadf8\uc778 \uc2e4\ud328: 404"
+      }
+    ]
+  },
+  "current_month": {
+    "year": 2025,
+    "month": 8,
+    "calendar": {
+      "2025-08-01": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-02": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-03": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-04": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-05": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-06": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-07": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-08": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-09": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-10": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-11": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-12": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-13": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-14": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-15": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-16": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-17": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-18": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-19": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-20": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-21": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-22": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-23": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-24": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-25": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-26": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-27": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-28": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-29": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-30": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      },
+      "2025-08-31": {
+        "collected": false,
+        "count": 0,
+        "sources": []
+      }
+    },
+    "summary": {
+      "total_days": 31,
+      "collected_days": 0,
+      "total_ips": 0
+    }
+  },
+  "recent_collections": [
+    {
+      "source": "regtech",
+      "start_date": "2025-08-11",
+      "end_date": "2025-08-18",
+      "collected_at": "2025-08-18T08:29:34.431145",
+      "success": false,
+      "count": 0,
+      "ips": [],
+      "error": "\ub85c\uadf8\uc778 \uc2e4\ud328: 404"
+    }
+  ]
+}

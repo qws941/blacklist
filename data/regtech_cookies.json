@@ -1,0 +1,10 @@
+{
+  "cookie_string": "JSESSIONID=TEST123456; regtech-front=SAMPLE789",
+  "cookies": {
+    "JSESSIONID": "TEST123456",
+    "regtech-front": "SAMPLE789"
+  },
+  "extracted_at": "2025-08-19T10:13:17.305671",
+  "method": "manual",
+  "username": null
+}

@@ -651,14 +651,12 @@ def get_real_stats():
         cur.execute("SELECT source, COUNT(*) FROM blacklist_ips GROUP BY source")
         source_stats = dict(cur.fetchall())
 
-        # 활성 서비스 수
-        cur.execute(
-            "SELECT COUNT(*) FROM collection_credentials WHERE is_active = true"
-        )
+        # 활성 서비스 수 (source 별로 카운트)
+        cur.execute("SELECT COUNT(DISTINCT source) FROM blacklist_ips")
         active_services = cur.fetchone()[0]
 
-        # 마지막 수집 시간
-        cur.execute("SELECT MAX(created_at) FROM collections")
+        # 마지막 수집 시간 (last_seen 필드 사용)
+        cur.execute("SELECT MAX(last_seen) FROM blacklist_ips")
         last_collection_result = cur.fetchone()
         last_collection = "Never"
         if last_collection_result and last_collection_result[0]:

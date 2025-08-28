@@ -1,0 +1,23 @@
+{"timestamp": "2025-08-20T02:13:44.288038+00:00", "level": null, "name": "stats_test", "message": "Info", "context": {}}
+{"timestamp": "2025-08-20T02:13:44.288232+00:00", "level": null, "name": "stats_test", "message": "Warning", "context": {}}
+{"timestamp": "2025-08-20T02:13:44.288345+00:00", "level": null, "name": "stats_test", "message": "Error", "context": {}}
+{"timestamp": "2025-08-20T03:44:19.186098+00:00", "level": null, "name": "stats_test", "message": "Info", "context": {}}
+{"timestamp": "2025-08-20T03:44:19.186337+00:00", "level": null, "name": "stats_test", "message": "Warning", "context": {}}
+{"timestamp": "2025-08-20T03:44:19.186580+00:00", "level": null, "name": "stats_test", "message": "Error", "context": {}}
+{"timestamp": "2025-08-20T13:00:27.246307+00:00", "level": null, "name": "stats_test", "message": "Info", "context": {}}
+{"timestamp": "2025-08-20T13:00:27.246452+00:00", "level": null, "name": "stats_test", "message": "Warning", "context": {}}
+{"timestamp": "2025-08-20T13:00:27.246553+00:00", "level": null, "name": "stats_test", "message": "Error", "context": {}}
+{"timestamp": "2025-08-21T01:57:04.409757+00:00", "level": null, "name": "stats_test", "message": "Info", "context": {}}
+{"timestamp": "2025-08-21T01:57:04.410103+00:00", "level": null, "name": "stats_test", "message": "Warning", "context": {}}
+{"timestamp": "2025-08-21T01:57:04.410266+00:00", "level": null, "name": "stats_test", "message": "Error", "context": {}}
+{"timestamp": "2025-08-21T12:45:10.690303+00:00", "level": null, "name": "stats_test", "message": "Info", "context": {}}
+{"timestamp": "2025-08-21T12:45:10.690749+00:00", "level": null, "name": "stats_test", "message": "Warning", "context": {}}
+{"timestamp": "2025-08-21T12:45:10.690884+00:00", "level": null, "name": "stats_test", "message": "Error", "context": {}}
+{"timestamp": "2025-08-22T00:34:55.900117+00:00", "level": null, "name": "stats_test", "message": "Info", "context": {}}
+{"timestamp": "2025-08-22T00:34:55.900315+00:00", "level": null, "name": "stats_test", "message": "Warning", "context": {}}
+{"timestamp": "2025-08-22T00:34:55.900462+00:00", "level": null, "name": "stats_test", "message": "Error", "context": {}}
+2025-08-22 15:35:42,675 - stats_test - WARNING - Warning
+2025-08-22 15:35:42,675 - stats_test - ERROR - Error
+{"timestamp": "2025-08-27T15:01:52.188979+00:00", "level": null, "name": "stats_test", "message": "Info", "context": {}}
+{"timestamp": "2025-08-27T15:01:52.189458+00:00", "level": null, "name": "stats_test", "message": "Warning", "context": {}}
+{"timestamp": "2025-08-27T15:01:52.189708+00:00", "level": null, "name": "stats_test", "message": "Error", "context": {}}

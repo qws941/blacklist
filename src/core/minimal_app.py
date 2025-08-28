@@ -16,8 +16,10 @@ def create_minimal_app():
     # Register collection panel blueprint
     try:
         from src.core.routes.simple_collection_panel import simple_collection_bp
+        from src.core.routes.collection_api import collection_api_bp
 
         app.register_blueprint(simple_collection_bp)
+        app.register_blueprint(collection_api_bp)
     except ImportError:
         pass  # Collection panel not available
 

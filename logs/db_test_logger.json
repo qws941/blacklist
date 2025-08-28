@@ -1,0 +1,15 @@
+{"timestamp": "2025-08-20T02:13:44.270764+00:00", "level": null, "name": "db_test_logger", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-20T02:13:44.270965+00:00", "level": null, "name": "db_test_logger", "message": "Searchable error", "context": {}}
+{"timestamp": "2025-08-20T03:44:19.159996+00:00", "level": null, "name": "db_test_logger", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-20T03:44:19.160169+00:00", "level": null, "name": "db_test_logger", "message": "Searchable error", "context": {}}
+{"timestamp": "2025-08-20T13:00:27.229854+00:00", "level": null, "name": "db_test_logger", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-20T13:00:27.230032+00:00", "level": null, "name": "db_test_logger", "message": "Searchable error", "context": {}}
+{"timestamp": "2025-08-21T01:57:04.391493+00:00", "level": null, "name": "db_test_logger", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-21T01:57:04.394713+00:00", "level": null, "name": "db_test_logger", "message": "Searchable error", "context": {}}
+{"timestamp": "2025-08-21T12:45:10.682541+00:00", "level": null, "name": "db_test_logger", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-21T12:45:10.683070+00:00", "level": null, "name": "db_test_logger", "message": "Searchable error", "context": {}}
+{"timestamp": "2025-08-22T00:34:55.893696+00:00", "level": null, "name": "db_test_logger", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-22T00:34:55.893864+00:00", "level": null, "name": "db_test_logger", "message": "Searchable error", "context": {}}
+2025-08-22 15:35:42,668 - db_test_logger - ERROR - Searchable error
+{"timestamp": "2025-08-27T15:01:52.181419+00:00", "level": null, "name": "db_test_logger", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-27T15:01:52.181972+00:00", "level": null, "name": "db_test_logger", "message": "Searchable error", "context": {}}

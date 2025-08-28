@@ -1,0 +1,10 @@
+{
+  "regtech": {
+    "username": "",
+    "enabled": false
+  },
+  "secudium": {
+    "username": "",
+    "enabled": false
+  }
+}

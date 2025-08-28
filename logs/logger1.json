@@ -1,0 +1,32 @@
+{"timestamp": "2025-08-20T02:13:43.364030+00:00", "level": null, "name": "logger1", "message": "test message 1", "context": {}}
+{"timestamp": "2025-08-20T02:13:45.760176+00:00", "level": null, "name": "logger1", "message": "Info message", "context": {}}
+{"timestamp": "2025-08-20T02:13:45.760445+00:00", "level": null, "name": "logger1", "message": "Error message", "context": {}}
+{"timestamp": "2025-08-20T02:13:45.773995+00:00", "level": null, "name": "logger1", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-20T03:44:18.368629+00:00", "level": null, "name": "logger1", "message": "test message 1", "context": {}}
+{"timestamp": "2025-08-20T03:44:20.578739+00:00", "level": null, "name": "logger1", "message": "Info message", "context": {}}
+{"timestamp": "2025-08-20T03:44:20.578951+00:00", "level": null, "name": "logger1", "message": "Error message", "context": {}}
+{"timestamp": "2025-08-20T03:44:20.587527+00:00", "level": null, "name": "logger1", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-20T13:00:26.691600+00:00", "level": null, "name": "logger1", "message": "test message 1", "context": {}}
+{"timestamp": "2025-08-20T13:00:28.315548+00:00", "level": null, "name": "logger1", "message": "Info message", "context": {}}
+{"timestamp": "2025-08-20T13:00:28.315717+00:00", "level": null, "name": "logger1", "message": "Error message", "context": {}}
+{"timestamp": "2025-08-20T13:00:28.323379+00:00", "level": null, "name": "logger1", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-21T01:57:04.000914+00:00", "level": null, "name": "logger1", "message": "test message 1", "context": {}}
+{"timestamp": "2025-08-21T01:57:04.802889+00:00", "level": null, "name": "logger1", "message": "Info message", "context": {}}
+{"timestamp": "2025-08-21T01:57:04.803022+00:00", "level": null, "name": "logger1", "message": "Error message", "context": {}}
+{"timestamp": "2025-08-21T01:57:04.808126+00:00", "level": null, "name": "logger1", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-21T12:45:09.915948+00:00", "level": null, "name": "logger1", "message": "test message 1", "context": {}}
+{"timestamp": "2025-08-21T12:45:11.954717+00:00", "level": null, "name": "logger1", "message": "Info message", "context": {}}
+{"timestamp": "2025-08-21T12:45:11.954949+00:00", "level": null, "name": "logger1", "message": "Error message", "context": {}}
+{"timestamp": "2025-08-21T12:45:11.963274+00:00", "level": null, "name": "logger1", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-22T00:34:55.201894+00:00", "level": null, "name": "logger1", "message": "test message 1", "context": {}}
+{"timestamp": "2025-08-22T00:34:57.204170+00:00", "level": null, "name": "logger1", "message": "Info message", "context": {}}
+{"timestamp": "2025-08-22T00:34:57.204471+00:00", "level": null, "name": "logger1", "message": "Error message", "context": {}}
+{"timestamp": "2025-08-22T00:34:57.215407+00:00", "level": null, "name": "logger1", "message": "Searchable info", "context": {}}
+{"timestamp": "2025-08-22T05:47:15.252117+00:00", "level": null, "name": "logger1", "message": "Info message", "context": {}}
+{"timestamp": "2025-08-22T05:47:15.252853+00:00", "level": null, "name": "logger1", "message": "Error message", "context": {}}
+{"timestamp": "2025-08-22T05:47:15.264829+00:00", "level": null, "name": "logger1", "message": "Searchable info", "context": {}}
+2025-08-22 15:35:43,504 - logger1 - ERROR - Error message
+{"timestamp": "2025-08-27T15:01:51.329205+00:00", "level": null, "name": "logger1", "message": "test message 1", "context": {}}
+{"timestamp": "2025-08-27T15:01:53.226129+00:00", "level": null, "name": "logger1", "message": "Info message", "context": {}}
+{"timestamp": "2025-08-27T15:01:53.226384+00:00", "level": null, "name": "logger1", "message": "Error message", "context": {}}
+{"timestamp": "2025-08-27T15:01:53.232909+00:00", "level": null, "name": "logger1", "message": "Searchable info", "context": {}}

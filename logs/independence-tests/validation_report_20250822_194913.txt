@@ -1,0 +1,46 @@
+Docker Independence Tests Validation Report
+==========================================
+Generated: 2025. 08. 22. (금) 19:49:13 KST
+
+Scripts Validated:
+- test-docker-independence.sh      (Comprehensive test orchestrator)
+- test-blacklist-service.sh        (Main application tests)
+- test-redis-service.sh           (Cache service tests)
+- test-postgresql-service.sh      (Database service tests)
+- test-monitoring-services.sh     (Monitoring stack tests)
+- run-independence-tests.sh       (Test orchestrator)
+
+Test Capabilities:
+✅ Individual service testing
+✅ Comprehensive test suite
+✅ Parallel and sequential execution
+✅ Detailed logging and reporting
+✅ Health checks and functionality tests
+✅ Performance and resource monitoring
+✅ Integration testing
+✅ HTML and text reporting
+
+Usage Examples:
+# Run all tests
+/home/jclee/app/blacklist/scripts/run-independence-tests.sh
+
+# Test specific service
+/home/jclee/app/blacklist/scripts/test-blacklist-service.sh
+
+# Comprehensive test with parallel execution
+/home/jclee/app/blacklist/scripts/run-independence-tests.sh --parallel comprehensive
+
+# Test core services only
+/home/jclee/app/blacklist/scripts/run-independence-tests.sh core
+
+Services Tested:
+- blacklist     (Main Flask application with APIs)
+- redis         (Cache server with data operations)
+- postgresql    (Database with CRUD and advanced features)
+- watchtower    (Auto-update service)
+- prometheus    (Monitoring and metrics)
+- grafana       (Visualization and dashboards)
+
+Log Directory: /home/jclee/app/blacklist/logs/independence-tests/
+Report Files:  HTML and text reports with detailed results
+

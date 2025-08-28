@@ -1,0 +1,20 @@
+# Blacklist Project Configuration
+# 프로젝트 경로 명확화
+
+# Project Root
+export BLACKLIST_ROOT="/home/jclee/app/blacklist"
+
+# Project Commands (NOT Claude commands)
+export BLACKLIST_COMMANDS="$BLACKLIST_ROOT/commands"
+
+# Claude Commands (별도 프로젝트)
+export CLAUDE_COMMANDS="/home/jclee/.claude/commands"
+
+# Working Directory Protection
+export BLACKLIST_WORKDIR="$BLACKLIST_ROOT"
+
+# Prevent directory confusion
+if [ "$PWD" != "$BLACKLIST_ROOT" ]; then
+    echo "⚠️ Warning: Not in blacklist directory. Switching to $BLACKLIST_ROOT"
+    cd "$BLACKLIST_ROOT"
+fi

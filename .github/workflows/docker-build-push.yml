@@ -1,0 +1,139 @@
+name: 🚀 Docker Build and Push to Registry
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'src/**'
+      - 'Dockerfile'
+      - 'requirements.txt'
+      - 'main.py'
+      - '.github/workflows/docker-build-push.yml'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # 수동 실행 가능
+
+env:
+  REGISTRY: registry.jclee.me
+  IMAGE_NAME: blacklist
+  REGISTRY_USER: admin
+  REGISTRY_PASSWORD: bingogo1
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout 코드
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: 🏗️ Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: 🔐 Registry 로그인 
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ env.REGISTRY_USER }}
+        password: ${{ env.REGISTRY_PASSWORD }}
+        
+    - name: 📋 메타데이터 추출
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=raw,value=latest,enable={{is_default_branch}}
+          type=raw,value={{date 'YYYYMMDD-HHmmss'}}
+          
+    - name: 🐳 Docker 이미지 빌드 및 푸시
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        platforms: linux/amd64
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        build-args: |
+          BUILDTIME=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
+          VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+          
+    - name: ✅ 빌드 결과 출력
+      run: |
+        echo "🎉 Docker 이미지 빌드 완료!"
+        echo "📦 이미지: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+        echo "🏷️ 태그들:"
+        echo "${{ steps.meta.outputs.tags }}" | sed 's/^/  - /'
+        
+    - name: 🔍 이미지 정보 확인
+      run: |
+        docker buildx imagetools inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        
+  # 이미지 검증 작업
+  verify-image:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    
+    steps:
+    - name: 🔐 Registry 로그인
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ env.REGISTRY_USER }}
+        password: ${{ env.REGISTRY_PASSWORD }}
+        
+    - name: 🧪 이미지 검증
+      run: |
+        echo "🔍 이미지 검증 시작..."
+        
+        # 이미지 pull 및 실행 테스트
+        docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        
+        # 컨테이너 실행 테스트 (30초간)
+        docker run -d --name test-blacklist \
+          -p 8080:2542 \
+          -e POSTGRES_HOST=localhost \
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        
+        # 30초 대기 후 헬스체크
+        sleep 30
+        
+        # 헬스체크 엔드포인트 테스트
+        if curl -f http://localhost:8080/health; then
+          echo "✅ 헬스체크 성공!"
+        else
+          echo "❌ 헬스체크 실패!"
+          docker logs test-blacklist
+          exit 1
+        fi
+        
+        # 정리
+        docker stop test-blacklist
+        docker rm test-blacklist
+        
+        echo "🎉 이미지 검증 완료!"
+        
+  # 배포 알림 (선택사항)
+  notify:
+    needs: [build-and-push, verify-image]
+    runs-on: ubuntu-latest
+    if: always() && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 📢 배포 상태 알림
+      run: |
+        if [[ "${{ needs.build-and-push.result }}" == "success" && "${{ needs.verify-image.result }}" == "success" ]]; then
+          echo "🎉 Blacklist 이미지 배포 성공!"
+          echo "📦 새 이미지가 registry.jclee.me에 배포되었습니다"
+          echo "🔄 컨테이너를 재시작하여 업데이트를 적용하세요"
+        else
+          echo "❌ 배포 실패 - 로그를 확인해주세요"
+          exit 1
+        fi

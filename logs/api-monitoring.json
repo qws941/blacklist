@@ -1,0 +1,415 @@
+[]
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/collection/status",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Collection Status",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/fortigate",
+  "response_time_ms": ,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "FortiGate External Connector",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/health",
+  "response_time_ms": ,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "Detailed Health Check",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/blacklist/active",
+  "response_time_ms": ,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "Active Blacklist IPs",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/collection/secudium/trigger",
+  "response_time_ms": ,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "SECUDIUM Trigger Status",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/v2/analytics/trends",
+  "response_time_ms": ,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Analytics Trends",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/healthz",
+  "response_time_ms": ,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "K8s Health Check",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/v2/analytics/geo",
+  "response_time_ms": ,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Geographic Analysis",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/auth/profile",
+  "response_time_ms": ,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "User Profile (requires auth)",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/v2/analytics/summary",
+  "response_time_ms": ,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Analytics Summary",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/collection/regtech/trigger",
+  "response_time_ms": ,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "REGTECH Trigger Status",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/keys/verify",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "API Key Verification",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/v2/analytics/sources",
+  "response_time_ms": ,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Source Analysis",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/v2/blacklist/enhanced",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Enhanced Blacklist",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/ready",
+  "response_time_ms": ,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "K8s Readiness Check",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/v2/sources/status",
+  "response_time_ms": ,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Sources Status",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/health",
+  "response_time_ms": ,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "Health Check",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:04Z",
+  "endpoint": "/api/v2/analytics/threat-levels",
+  "response_time_ms": ,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Threat Levels",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/collection/status",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Collection Status",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/fortigate",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "FortiGate External Connector",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/health",
+  "response_time_ms": 1,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "Detailed Health Check",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/blacklist/active",
+  "response_time_ms": 1,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "Active Blacklist IPs",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/collection/secudium/trigger",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "SECUDIUM Trigger Status",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/v2/analytics/trends",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Analytics Trends",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/healthz",
+  "response_time_ms": 1,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "K8s Health Check",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/v2/analytics/geo",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Geographic Analysis",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/auth/profile",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "User Profile (requires auth)",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/v2/analytics/summary",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Analytics Summary",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/collection/regtech/trigger",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "REGTECH Trigger Status",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/keys/verify",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "API Key Verification",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/v2/analytics/sources",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Source Analysis",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/v2/blacklist/enhanced",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Enhanced Blacklist",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/ready",
+  "response_time_ms": 1,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "K8s Readiness Check",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/v2/sources/status",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Sources Status",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/health",
+  "response_time_ms": 1,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "Health Check",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T12:59:33Z",
+  "endpoint": "/api/v2/analytics/threat-levels",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Threat Levels",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T13:01:06Z",
+  "endpoint": "/api/collection/status",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Collection Status",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T13:01:06Z",
+  "endpoint": "/api/fortigate",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "FortiGate External Connector",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T13:01:06Z",
+  "endpoint": "/api/health",
+  "response_time_ms": 1,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "Detailed Health Check",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T13:01:06Z",
+  "endpoint": "/api/blacklist/active",
+  "response_time_ms": 1,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "Active Blacklist IPs",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T13:01:06Z",
+  "endpoint": "/",
+  "response_time_ms": 1,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "Root Service Info",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T13:01:06Z",
+  "endpoint": "/healthz",
+  "response_time_ms": 1,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "K8s Health Check",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T13:01:06Z",
+  "endpoint": "/api/v2/analytics/summary",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Analytics Summary",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T13:01:06Z",
+  "endpoint": "/ready",
+  "response_time_ms": 1,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "K8s Readiness Check",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T13:01:06Z",
+  "endpoint": "/api/v2/sources/status",
+  "response_time_ms": 1,
+  "status_code": 404,
+  "status_level": "WARNING",
+  "description": "Sources Status",
+  "base_url": "http://localhost:32542"
+}
+{
+  "timestamp": "2025-08-22T13:01:06Z",
+  "endpoint": "/health",
+  "response_time_ms": 1,
+  "status_code": 200,
+  "status_level": "EXCELLENT",
+  "description": "Health Check",
+  "base_url": "http://localhost:32542"
+}

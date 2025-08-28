@@ -1,0 +1,6 @@
+{
+  "global_enabled": true,
+  "concurrent_collections": 3,
+  "retry_delay": 5,
+  "collectors": {}
+}

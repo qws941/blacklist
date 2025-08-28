@@ -1,0 +1,26 @@
+[
+  {
+    "ip": "1.2.3.4",
+    "source": "REGTECH",
+    "threat_level": "high",
+    "description": "Test malicious IP - Cookie collection method",
+    "detection_date": "2025-08-19",
+    "method": "cookie_test"
+  },
+  {
+    "ip": "5.6.7.8",
+    "source": "REGTECH",
+    "threat_level": "medium",
+    "description": "Test suspicious IP - Cookie collection method",
+    "detection_date": "2025-08-19",
+    "method": "cookie_test"
+  },
+  {
+    "ip": "9.10.11.12",
+    "source": "REGTECH",
+    "threat_level": "low",
+    "description": "Test scanning IP - Cookie collection method",
+    "detection_date": "2025-08-19",
+    "method": "cookie_test"
+  }
+]

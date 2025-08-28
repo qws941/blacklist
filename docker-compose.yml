@@ -43,6 +43,7 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
 
   app:
+    build: .
     image: registry.jclee.me/blacklist-app:latest
     container_name: blacklist-app
     restart: unless-stopped

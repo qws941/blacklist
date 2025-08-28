@@ -1,0 +1,81 @@
+# Production Blacklist Application
+FROM python:3.11-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    postgresql-client \
+    redis-tools \
+    jq \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create application user
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install production WSGI server
+RUN pip install --no-cache-dir gunicorn gevent
+
+# Create directories and set permissions
+RUN mkdir -p /app/logs /app/instance /app/data && \
+    chown -R appuser:appgroup /app
+
+# Copy application files
+COPY --chown=appuser:appgroup src/ ./src/
+COPY --chown=appuser:appgroup main.py ./
+COPY --chown=appuser:appgroup gunicorn.conf.py ./
+COPY --chown=appuser:appgroup instance/ ./instance/
+
+# Production health check script
+COPY <<'EOF' /app/health_check_prod.py
+#!/usr/bin/env python3
+import requests
+import sys
+import os
+
+def health_check():
+    try:
+        port = os.getenv('PORT', '2542')
+        response = requests.get(f'http://localhost:{port}/health', timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            if data.get('status') == 'healthy':
+                print("✅ Production health check passed")
+                sys.exit(0)
+        print(f"❌ Health check failed: {response.status_code}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ Health check error: {e}")
+        sys.exit(1)
+
+if __name__ == '__main__':
+    health_check()
+EOF
+
+RUN chmod +x /app/health_check_prod.py && \
+    chown appuser:appgroup /app/health_check_prod.py
+
+# Switch to non-root user
+USER appuser
+
+# Environment variables
+ENV FLASK_ENV=production
+ENV PYTHONPATH=/app
+ENV PORT=2542
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD python /app/health_check_prod.py
+
+# Expose port
+EXPOSE 2542
+
+# Production command with Gunicorn
+CMD ["gunicorn", "--config", "gunicorn.conf.py", "main:app"]

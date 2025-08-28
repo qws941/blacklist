@@ -1,0 +1,29 @@
+{
+  "enabled": false,
+  "sources": {
+    "regtech": {
+      "enabled": false,
+      "enabled_at": "2025-08-22T10:27:59.044313",
+      "disabled_at": "2025-08-22T10:27:59.053241"
+    },
+    "secudium": {
+      "enabled": false,
+      "enabled_at": "2025-08-22T10:27:59.044317",
+      "disabled_at": "2025-08-22T10:27:59.053243"
+    }
+  },
+  "safety_settings": {
+    "max_auth_attempts": 10,
+    "restart_protection": true,
+    "auth_timeout_minutes": 30
+  },
+  "created_at": "2025-08-16T21:06:04.840276",
+  "updated_at": "2025-08-22T10:27:59.053246",
+  "enabled_at": "2025-08-22T10:27:59.044306",
+  "enabled_reason": "Manual enable request",
+  "bypass_protection": false,
+  "initial_collection_done": true,
+  "initial_collection_completed_at": "2025-08-20T23:06:15.107424",
+  "disabled_at": "2025-08-22T10:27:59.053235",
+  "disabled_reason": "Manual disable request"
+}

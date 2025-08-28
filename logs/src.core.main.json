@@ -1,0 +1,964 @@
+{"timestamp": "2025-08-22T04:43:15.781657+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:15.974624+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T04:43:15.990911+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:15.991055+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T04:43:30.437480+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:30.585476+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T04:43:30.596605+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:30.596742+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T04:43:34.155104+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.212409+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.212624+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.212739+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T04:43:34.219457+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.276401+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.276590+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.276703+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T04:43:34.287850+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.475449+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.475858+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.476098+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T04:43:34.484689+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.563569+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.563902+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.564046+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T04:43:34.583106+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.641208+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.641424+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:34.641535+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T04:43:37.131499+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:37.192453+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T04:43:37.192695+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:37.192854+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T04:43:37.196242+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:37.246530+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T04:43:37.246741+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T04:43:37.246861+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T04:45:05.359468+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T04:45:05.408550+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T04:45:05.408765+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T04:45:05.408879+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T05:39:14.842717+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:15.109996+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T05:39:15.138122+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:15.138434+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T05:39:20.406491+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.459177+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.459425+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.459550+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T05:39:20.466634+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.520860+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.521062+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.521266+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T05:39:20.533788+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.587639+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.587929+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.588060+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T05:39:20.595608+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.738622+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.738848+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.738984+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T05:39:20.761519+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.823767+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.824022+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:20.824182+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T05:39:23.286249+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:23.350896+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T05:39:23.351190+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:23.351368+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T05:39:23.355126+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:23.433720+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T05:39:23.434062+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T05:39:23.434293+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T05:40:22.095760+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T05:40:22.146366+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T05:40:22.146597+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T05:40:22.146714+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-22T05:47:34.965961+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-22T05:47:35.037178+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-22T05:47:35.044981+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-22T05:47:35.045104+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-26T00:40:10.556480+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-26T00:40:10.676287+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-26T00:40:10.689476+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-26T00:40:10.689580+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-26T00:40:20.531366+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-26T00:40:20.594732+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-26T00:40:20.600594+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-26T00:40:20.600742+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-26T04:17:30.913539+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-26T04:17:31.007520+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-26T04:17:31.013348+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-26T04:17:31.013474+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-26T05:39:16.910065+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-26T05:39:16.979784+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-26T05:39:16.987064+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-26T05:39:16.987195+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-26T05:41:33.895279+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-26T05:41:33.965690+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-26T05:41:33.973106+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-26T05:41:33.973216+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-26T05:42:28.693488+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-26T05:42:28.771302+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-26T05:42:28.777399+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-26T05:42:28.777558+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-26T05:42:53.804803+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-26T05:42:53.900813+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-26T05:42:53.906748+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-26T05:42:53.906884+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-26T09:12:53.401306+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-26T09:12:53.473394+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-26T09:12:53.478820+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-26T09:12:53.478979+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T06:23:17.335009+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:17.416705+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T06:23:17.423228+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:17.423367+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T06:23:29.651889+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:29.775898+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T06:23:29.785987+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:29.786179+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T06:23:31.973389+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.067991+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.068169+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.068310+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T06:23:32.073041+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.123980+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.124118+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.124239+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T06:23:32.133770+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.186858+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.187005+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.187107+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T06:23:32.191718+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.243259+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.243428+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.243540+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T06:23:32.255463+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.305278+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.305411+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:32.305516+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T06:23:35.428535+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:35.542543+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T06:23:35.542702+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:35.542807+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T06:23:35.544486+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:35.592644+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T06:23:35.592785+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T06:23:35.592887+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T07:18:47.099398+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T07:18:47.166891+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T07:18:47.172555+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T07:18:47.172700+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T07:19:02.701952+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T07:19:02.761057+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T07:19:02.766453+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T07:19:02.766647+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T07:19:02.768254+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T07:19:02.820944+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T07:19:02.821141+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T07:19:02.821292+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T07:36:57.795778+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T07:36:57.865924+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T07:36:57.871508+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T07:36:57.871613+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T07:37:00.794925+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.824969+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.825078+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.825150+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T07:37:00.828191+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.856379+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.856468+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.856535+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T07:37:00.863246+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.892247+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.892373+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.892495+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T07:37:00.895459+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.925888+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.925987+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.926061+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T07:37:00.931201+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.961380+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.961471+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:00.961536+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T07:37:04.153295+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:04.183172+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T07:37:04.183272+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:04.183342+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T07:37:04.184495+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:04.269958+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T07:37:04.270067+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T07:37:04.270141+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T09:51:42.978944+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T09:51:43.050340+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T09:51:43.055895+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T09:51:43.056095+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T09:52:41.469647+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T09:52:41.534677+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T09:52:41.540665+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T09:52:41.540778+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T09:52:42.739331+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T09:52:42.769974+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T09:52:42.770105+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T09:52:42.770206+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T09:52:42.771432+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T09:52:42.803448+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T09:52:42.803555+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T09:52:42.803639+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T09:52:48.263522+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T09:52:48.328719+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T09:52:48.334518+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T09:52:48.334635+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T09:55:35.914506+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T09:55:35.986415+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T09:55:35.991966+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T09:55:35.992068+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T09:55:37.315174+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T09:55:37.345856+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T09:55:37.345962+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T09:55:37.346032+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T09:55:37.347334+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T09:55:37.378289+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T09:55:37.378388+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T09:55:37.378457+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T09:55:40.961515+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T09:55:40.993953+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T09:55:40.994071+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T09:55:40.994144+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T10:27:44.187944+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:44.258519+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T10:27:44.265147+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:44.265332+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T10:27:54.012254+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:54.083813+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T10:27:54.089386+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:54.089488+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T10:27:56.272151+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.303169+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.303280+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.303350+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T10:27:56.306703+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.338229+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.338353+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.338454+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T10:27:56.345146+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.422402+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.422501+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.422565+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T10:27:56.425781+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.454251+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.454346+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.454413+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T10:27:56.460053+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.490364+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.490458+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:56.490526+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T10:27:59.648297+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:59.680177+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T10:27:59.680288+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:59.680358+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T10:27:59.681472+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:59.711414+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T10:27:59.711512+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T10:27:59.711580+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T11:58:57.862958+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T11:58:57.958282+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T11:58:57.963709+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T11:58:57.963813+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T11:59:08.684240+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:08.750382+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T11:59:08.756137+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:08.756275+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T11:59:10.682774+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.712282+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.712404+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.712502+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T11:59:10.715509+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.746377+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.746474+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.746546+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T11:59:10.752971+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.835495+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.835621+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.835711+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T11:59:10.838882+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.867747+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.867836+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.867902+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T11:59:10.873105+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.902851+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.902938+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:10.903004+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T11:59:13.935846+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:13.966280+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T11:59:13.966404+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:13.966510+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T11:59:13.967597+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:13.999150+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T11:59:13.999336+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T11:59:13.999460+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:26:50.587799+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:26:50.657598+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:26:50.663335+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:26:50.663435+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:29:23.627455+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:29:23.689048+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:29:23.694453+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:29:23.694584+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:29:23.696004+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:29:23.750503+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:29:23.750651+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:29:23.750771+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:29:25.808355+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:29:25.882147+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:29:25.887786+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:29:25.887893+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:34:49.618360+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:34:49.673804+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:34:49.679203+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:34:49.679338+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:34:49.680688+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:34:49.725847+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:34:49.725981+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:34:49.726095+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:35:01.487319+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:35:01.551804+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:35:01.558122+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:35:01.558241+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:36:07.050312+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:36:07.106285+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:36:07.111580+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:36:07.111734+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:36:07.113232+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:36:07.160663+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:36:07.160803+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:36:07.160913+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:36:28.017200+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:36:28.074004+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:36:28.079720+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:36:28.079853+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:36:28.081327+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:36:28.134276+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:36:28.134422+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:36:28.134537+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:37:23.850317+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:37:23.909865+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:37:23.914994+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:37:23.915137+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:37:23.916857+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:37:23.967064+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:37:23.967199+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:37:23.967315+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T12:46:05.389751+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T12:46:05.463258+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T12:46:05.468896+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T12:46:05.468996+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T13:08:29.431564+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T13:08:29.501775+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T13:08:29.507919+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T13:08:29.508026+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T13:54:48.824854+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T13:54:48.893521+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T13:54:48.899872+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T13:54:48.899981+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T13:56:59.678462+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T13:56:59.747963+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T13:56:59.753841+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T13:56:59.753945+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T13:57:05.433555+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.462655+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.462761+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.462830+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T13:57:05.465894+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.495978+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.496071+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.496145+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T13:57:05.502813+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.536004+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.536101+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.536180+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T13:57:05.539235+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.568920+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.569010+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.569168+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T13:57:05.574444+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.604727+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.604819+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:05.604893+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T13:57:15.405332+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:15.433586+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T13:57:15.433700+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:15.433772+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T13:57:15.434978+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:15.463485+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T13:57:15.463579+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T13:57:15.463670+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:52:05.308637+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:05.431974+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:52:05.438833+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:05.438933+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:52:12.764673+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.810400+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.810508+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.810574+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:52:12.813897+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.843660+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.843756+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.843975+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:52:12.854602+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.907343+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.907441+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.907508+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:52:12.910862+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.940778+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.940879+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.940949+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:52:12.946367+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.977316+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.977427+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:12.977502+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:52:28.053293+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:28.083119+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:52:28.083228+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:28.083298+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:52:28.084554+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:28.114107+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:52:28.114215+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:52:28.114302+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:55:20.371757+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:20.400943+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:55:20.401049+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:20.401119+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:55:25.485981+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:25.515763+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:55:25.515865+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:25.515932+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "test_name", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:55:25.517128+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:25.546394+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:55:25.546489+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:25.546556+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "test_name", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:55:25.547825+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:25.577399+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:55:25.577492+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:25.577603+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:55:25.577716+00:00", "level": null, "name": "src.core.main", "message": "Starting Blacklist API Server", "context": {"version": "2.1", "port": 5000, "environment": "testing"}}
+{"timestamp": "2025-08-27T14:55:25.577791+00:00", "level": null, "name": "src.core.main", "message": "Features enabled", "context": {"features": ["Unified Components", "Compression", "Caching", "Rate Limiting", "Authentication", "Structured Logging"]}}
+{"timestamp": "2025-08-27T14:55:26.282454+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:26.350253+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:55:26.356617+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:26.356756+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:55:32.168375+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.198384+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.198483+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.198550+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:55:32.201550+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.231216+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.231310+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.231378+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:55:32.237299+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.266951+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.267043+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.267107+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:55:32.269952+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.299596+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.299705+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.299774+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:55:32.304748+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.334476+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.334567+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:32.334643+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:55:46.173620+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:46.208797+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:55:46.208949+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:46.209103+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:55:46.210405+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:46.246429+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:55:46.246604+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:55:46.246763+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:58:38.677640+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:58:38.707048+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:58:38.707146+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:58:38.707216+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:58:43.741440+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:58:43.770583+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:58:43.770693+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:58:43.770765+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "test_name", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:58:43.771953+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:58:43.802514+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:58:43.802603+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:58:43.802684+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "test_name", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:58:43.803863+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T14:58:43.832747+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T14:58:43.832834+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T14:58:43.832900+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T14:58:43.832965+00:00", "level": null, "name": "src.core.main", "message": "Starting Blacklist API Server", "context": {"version": "2.1", "port": 5000, "environment": "testing"}}
+{"timestamp": "2025-08-27T14:58:43.833066+00:00", "level": null, "name": "src.core.main", "message": "Features enabled", "context": {"features": ["Unified Components", "Compression", "Caching", "Rate Limiting", "Authentication", "Structured Logging"]}}
+{"timestamp": "2025-08-27T15:01:07.512525+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:07.580403+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:01:07.586314+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:07.586414+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:01:13.259382+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.300881+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.300990+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.301062+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:01:13.305308+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.339572+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.339683+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.339787+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:01:13.346557+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.432212+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.432316+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.432388+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:01:13.435818+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.466941+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.467085+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.467184+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:01:13.473917+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.503927+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.504025+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:13.504106+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:01:55.596732+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:55.628916+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:01:55.629227+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:01:55.629527+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:03:28.935899+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:03:29.006354+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:03:29.012841+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:03:29.012962+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:03:34.631444+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.662380+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.662486+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.662556+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:03:34.665469+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.695584+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.695694+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.695765+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:03:34.702001+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.781504+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.781601+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.781686+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:03:34.785126+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.814152+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.814243+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.814354+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:03:34.819462+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.848634+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.848729+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:03:34.848798+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:10:07.392652+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:10:07.493353+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:10:07.508214+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:10:07.508329+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:10:22.094121+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:10:22.161203+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:10:22.167650+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:10:22.167780+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:12:12.336684+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:12.401540+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:12:12.407471+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:12.407573+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:12:18.043622+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.073744+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.073844+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.073912+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:12:18.076896+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.107904+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.108006+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.108075+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:12:18.114789+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.191759+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.191855+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.191922+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:12:18.194916+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.224515+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.224608+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.224693+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:12:18.231300+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.262044+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.262136+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:18.262204+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:12:31.974997+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:32.007078+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:12:32.007250+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:32.007363+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:12:32.008622+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:32.039814+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:12:32.039912+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:12:32.039977+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:14:20.223238+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:14:20.296507+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:14:20.303210+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:14:20.303314+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:14:25.947901+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:14:25.978618+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:14:25.978735+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:14:25.978809+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:14:25.981848+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:14:26.011436+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:14:26.011542+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:14:26.011613+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:14:26.018291+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:14:26.093196+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:14:26.093292+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:14:26.093361+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:14:26.096343+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:14:26.125253+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:14:26.125339+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:14:26.125410+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T15:14:26.131073+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T15:14:26.160545+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T15:14:26.160693+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T15:14:26.160873+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T16:12:19.177341+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T16:12:19.248842+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T16:12:19.254595+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T16:12:19.254755+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T16:15:41.433853+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T16:15:41.499406+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T16:15:41.505222+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T16:15:41.505327+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T16:15:46.393236+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.422780+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.422882+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.422958+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T16:15:46.425994+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.458035+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.458128+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.458198+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T16:15:46.464370+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.493007+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.493141+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.493235+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T16:15:46.496063+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.525208+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.525299+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.525367+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T16:15:46.576410+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.604732+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.604834+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T16:15:46.604906+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T16:16:00.310517+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T16:16:00.340470+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T16:16:00.340576+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T16:16:00.340656+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T16:16:00.341917+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T16:16:00.378329+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T16:16:00.378431+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T16:16:00.378500+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T20:57:33.952606+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T20:57:34.021624+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T20:57:34.027866+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T20:57:34.027974+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T20:57:40.129283+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T20:57:40.158496+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T20:57:40.158619+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T20:57:40.158734+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T20:57:40.162753+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T20:57:40.192604+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T20:57:40.192708+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T20:57:40.192822+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T20:57:40.200187+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T20:57:40.274549+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T20:57:40.274654+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T20:57:40.274727+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:00:20.271002+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:20.339763+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:00:20.345676+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:20.345780+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:00:26.515810+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.546494+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.546598+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.546678+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:00:26.550664+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.579305+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.579401+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.579467+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:00:26.586921+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.663723+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.663821+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.663888+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:00:26.667858+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.697437+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.697528+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.697591+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:00:26.703499+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.733038+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.733131+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:26.733198+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:00:40.489890+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:40.578927+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:00:40.579038+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:40.579110+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:00:40.581054+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:40.609320+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:00:40.609412+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:00:40.609487+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:03:48.278937+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:03:48.344720+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:03:48.350718+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:03:48.350860+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:04:01.992908+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:04:02.059577+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:04:02.065945+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:04:02.066048+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:04:06.891680+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:04:06.921999+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:04:06.922098+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:04:06.922168+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:04:06.925919+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:04:06.955273+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:04:06.955370+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:04:06.955443+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:04:20.754738+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:04:20.785484+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:04:20.785586+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:04:20.785669+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:04:20.787894+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:04:20.816568+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:04:20.816721+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:04:20.816882+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:33:10.148235+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:33:10.219485+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:33:10.225214+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:33:10.225319+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:58:14.703029+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:14.799232+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:58:14.805804+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:14.805916+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:58:20.915778+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:20.990541+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:58:20.990654+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:20.990728+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:58:20.994835+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:21.023490+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:58:21.023587+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:21.023669+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:58:21.031325+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:21.061140+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:58:21.061231+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:21.061299+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:58:21.064862+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:21.095592+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:58:21.095698+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:21.095771+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:58:21.101988+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:21.131202+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:58:21.131301+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:21.131379+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:58:35.265488+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:35.295732+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:58:35.295846+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:35.295920+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T22:58:35.297830+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:35.326893+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T22:58:35.327017+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T22:58:35.327113+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T23:00:21.104587+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T23:00:21.170360+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T23:00:21.176426+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T23:00:21.176527+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T23:00:34.809399+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T23:00:34.877197+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T23:00:34.883290+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T23:00:34.883389+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T23:00:42.862210+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T23:00:42.917803+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T23:00:42.923059+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T23:00:42.923150+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T23:00:42.924650+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T23:00:42.968915+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T23:00:42.969026+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T23:00:42.969110+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T23:15:33.637183+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T23:15:33.766782+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T23:15:33.776456+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T23:15:33.776587+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-27T23:17:27.803398+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-27T23:17:27.869824+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-27T23:17:27.875727+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-27T23:17:27.875827+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:13:03.774554+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:03.817703+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:13:03.823456+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:03.823554+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:13:09.359163+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.374801+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.374907+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.374985+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:13:09.378850+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.394323+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.394407+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.394529+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:13:09.402526+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.417527+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.417616+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.417709+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:13:09.421411+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.437454+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.437540+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.437608+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:13:09.443454+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.458439+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.458520+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:09.458582+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:13:23.353825+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:23.369892+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:13:23.369995+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:23.370067+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:13:23.371854+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:23.387691+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:13:23.387784+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:13:23.387858+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:59:04.140790+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:04.183130+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:59:04.189137+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:04.189290+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:59:18.574814+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:18.615951+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:59:18.621930+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:18.622037+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:59:24.135452+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.151863+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.151964+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.152031+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:59:24.155949+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.171457+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.171543+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.171613+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:59:24.179309+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.194952+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.195037+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.195101+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:59:24.198713+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.215286+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.215369+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.215438+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:59:24.221166+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.237545+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.237638+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:24.237712+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:59:38.238978+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:38.255826+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:59:38.255936+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:38.256008+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T00:59:38.257941+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:38.274181+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T00:59:38.274268+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T00:59:38.274334+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T01:02:46.741567+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T01:02:46.772948+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T01:02:46.778785+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T01:02:46.778903+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T04:32:58.076450+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T04:32:58.139853+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T04:32:58.149005+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T04:32:58.149108+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T04:33:11.345365+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:11.390822+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T04:33:11.397142+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:11.397251+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T04:33:17.022030+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.039405+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.039520+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.039597+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T04:33:17.043604+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.061600+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.061725+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.061801+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T04:33:17.069316+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.087450+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.087556+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.087638+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T04:33:17.091470+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.108318+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.108445+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.108524+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T04:33:17.114615+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.135375+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.135534+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:17.135621+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T04:33:31.185895+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:31.203812+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T04:33:31.203913+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:31.203986+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T04:33:31.206052+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:31.223947+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T04:33:31.224038+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T04:33:31.224118+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+2025-08-28 14:15:00,832 - src.core.main - INFO - Request logging configured successfully
+2025-08-28 14:15:00,891 - src.core.main - INFO - System stability monitoring initialized
+2025-08-28 14:15:00,915 - src.core.main - INFO - Prometheus metrics system initialized successfully
+2025-08-28 14:15:00,915 - src.core.main - INFO - Blacklist API Server initialized successfully
+2025-08-28 14:15:00,917 - src.core.main - INFO - Request logging configured successfully
+2025-08-28 14:15:00,934 - src.core.main - INFO - System stability monitoring initialized
+2025-08-28 14:15:00,942 - src.core.main - INFO - Prometheus metrics system initialized successfully
+2025-08-28 14:15:00,942 - src.core.main - INFO - Blacklist API Server initialized successfully
+{"timestamp": "2025-08-28T10:08:55.294550+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T10:08:55.364044+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T10:08:55.382306+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T10:08:55.382434+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T10:09:20.615471+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:20.682559+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T10:09:20.700161+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:20.700293+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T10:09:27.299754+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.328842+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.337912+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.338066+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T10:09:27.343554+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.372982+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.381309+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.381458+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T10:09:27.393135+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.472234+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.481170+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.481336+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T10:09:27.487119+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.515831+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.524367+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.524509+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T10:09:27.536865+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.566366+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.574781+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:27.574920+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T10:09:41.666585+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:41.695091+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T10:09:41.704030+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:41.704173+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T10:09:41.706547+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:41.735884+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T10:09:41.744438+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T10:09:41.744580+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T11:11:41.773430+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T11:11:41.818540+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T11:11:41.835433+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T11:11:41.835582+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "default", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T11:11:47.529908+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.548171+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.556839+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.556950+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T11:11:47.560870+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.578827+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.587205+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.587313+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "development", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T11:11:47.595420+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.614259+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.622500+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.622609+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T11:11:47.626871+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.645027+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.653059+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.653172+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T11:11:47.663561+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.682807+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.691283+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T11:11:47.691392+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T11:12:01.697648+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T11:12:01.715728+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T11:12:01.724554+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T11:12:01.724675+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}
+{"timestamp": "2025-08-28T11:12:01.726532+00:00", "level": null, "name": "src.core.main", "message": "Request logging configured successfully", "context": {}}
+{"timestamp": "2025-08-28T11:12:01.744740+00:00", "level": null, "name": "src.core.main", "message": "System stability monitoring initialized", "context": {}}
+{"timestamp": "2025-08-28T11:12:01.752875+00:00", "level": null, "name": "src.core.main", "message": "Prometheus metrics system initialized successfully", "context": {}}
+{"timestamp": "2025-08-28T11:12:01.752984+00:00", "level": null, "name": "src.core.main", "message": "Blacklist API Server initialized successfully", "context": {"environment": "testing", "orjson_enabled": true}}

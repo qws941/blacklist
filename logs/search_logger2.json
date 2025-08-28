@@ -1,0 +1,8 @@
+{"timestamp": "2025-08-20T02:13:43.372087+00:00", "level": null, "name": "search_logger2", "message": "error with keyword", "context": {}}
+{"timestamp": "2025-08-20T03:44:18.377094+00:00", "level": null, "name": "search_logger2", "message": "error with keyword", "context": {}}
+{"timestamp": "2025-08-20T13:00:26.698932+00:00", "level": null, "name": "search_logger2", "message": "error with keyword", "context": {}}
+{"timestamp": "2025-08-21T01:57:04.005441+00:00", "level": null, "name": "search_logger2", "message": "error with keyword", "context": {}}
+{"timestamp": "2025-08-21T12:45:09.926923+00:00", "level": null, "name": "search_logger2", "message": "error with keyword", "context": {}}
+{"timestamp": "2025-08-22T00:34:55.209627+00:00", "level": null, "name": "search_logger2", "message": "error with keyword", "context": {}}
+2025-08-22 15:35:42,117 - search_logger2 - ERROR - error with keyword
+{"timestamp": "2025-08-27T15:01:51.343057+00:00", "level": null, "name": "search_logger2", "message": "error with keyword", "context": {}}

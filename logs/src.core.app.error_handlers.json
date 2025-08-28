@@ -1,0 +1,37 @@
+2025-08-20 10:54:16,137 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 13:55:25,393 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 13:57:48,542 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 13:58:28,797 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 13:59:12,208 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 14:00:16,157 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 14:02:20,694 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 14:03:06,343 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 14:04:42,528 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 14:06:36,645 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 14:07:56,395 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 14:10:56,258 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 14:12:46,646 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 14:13:23,146 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 14:14:35,103 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 14:16:13,130 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 14:17:06,357 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-08-20 19:37:46,514 - src.core.app.error_handlers - ERROR - Internal error
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+{"timestamp": "2025-08-20T10:48:11.526655+00:00", "level": null, "name": "src.core.app.error_handlers", "message": "Internal error", "exc_info": "werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.", "context": {"status_code": 500, "request": {"method": "GET", "path": "/api/blacklist/active", "ip": "127.0.0.1", "user_agent": "curl/7.81.0"}, "request_id": "0a90f2f54ec46d28"}}

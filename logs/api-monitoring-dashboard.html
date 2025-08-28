@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Response Time Monitoring</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .endpoint-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .status-excellent { border-left: 5px solid #28a745; }
+        .status-good { border-left: 5px solid #28a745; }
+        .status-acceptable { border-left: 5px solid #ffc107; }
+        .status-poor { border-left: 5px solid #fd7e14; }
+        .status-critical { border-left: 5px solid #dc3545; }
+        .status-warning { border-left: 5px solid #ffc107; }
+        .timestamp { color: #666; font-size: 0.9em; }
+        .refresh-btn { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+        .metrics { display: flex; justify-content: space-around; margin: 20px 0; }
+        .metric { text-align: center; }
+        .metric-value { font-size: 2em; font-weight: bold; }
+        .metric-label { color: #666; }
+    </style>
+    <script>
+        function refreshPage() {
+            location.reload();
+        }
+        
+        // Auto-refresh every 5 minutes
+        setTimeout(refreshPage, 300000);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 API Response Time Monitoring</h1>
+            <p>Real-time performance metrics for Blacklist Management System</p>
+            <button class="refresh-btn" onclick="refreshPage()">🔄 Refresh</button>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-value" id="total-endpoints">-</div>
+                <div class="metric-label">Total Endpoints</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value" id="avg-response">-</div>
+                <div class="metric-label">Avg Response (ms)</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value" id="alerts-count">-</div>
+                <div class="metric-label">Alerts</div>
+            </div>
+        </div>
+        
+        <div class="status-grid" id="endpoints-grid">
+            <p>Loading monitoring data...</p>
+        </div>
+        
+        <div class="timestamp">
+            Last updated: <span id="last-updated">-</span> | 
+            Thresholds: Excellent ≤50ms | Good ≤200ms | Acceptable ≤1000ms | Poor ≤5000ms
+        </div>
+    </div>
+    
+    <script>
+        // This would be populated with real-time data in a production setup
+        document.getElementById('last-updated').textContent = new Date().toLocaleString();
+        document.getElementById('total-endpoints').textContent = Object.keys(ENDPOINTS || {}).length || '-';
+    </script>
+</body>
+</html>

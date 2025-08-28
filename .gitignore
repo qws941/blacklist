@@ -1,0 +1,7 @@
+
+# Docker volumes
+data/postgresql/
+docker/redis-data/
+test-postgresql-data/
+*.rdb
+.venv/

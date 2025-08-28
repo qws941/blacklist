@@ -28,13 +28,16 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 추가 패키지 설치 (PostgreSQL, Redis 연결용)
 RUN pip install --no-cache-dir psycopg2-binary redis python-dotenv
 
-# 애플리케이션 소스 코드 복사
+# 애플리케이션 소스 코드 복사 (전체 디렉토리 구조 유지)
 COPY src/ /app/src/
 COPY main.py /app/main.py
 COPY instance/ /app/instance/
 
 # 모니터링 대시보드 복사
 COPY monitoring-dashboard.html /app/monitoring-dashboard.html
+
+# collection_api.py가 확실히 복사되도록 명시적으로 추가
+RUN ls -la /app/src/core/routes/ || echo "Routes directory check"
 
 # 헬스체크 스크립트 추가 (단순화)
 COPY <<'EOF' /app/health_check.py
