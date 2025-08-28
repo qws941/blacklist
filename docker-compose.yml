@@ -1,10 +1,9 @@
 version: '3.8'
 
 services:
-  # PostgreSQL Database (Custom with pre-initialized schema)
-  blacklist-postgres:
+  postgres:
     image: registry.jclee.me/blacklist-postgres:latest
-    container_name: blacklist-postgres
+    container_name: postgres
     restart: unless-stopped
     environment:
       - POSTGRES_DB=blacklist
@@ -22,41 +21,43 @@ services:
       timeout: 10s
       start_period: 60s
       retries: 3
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
-  # Redis Cache
-  blacklist-redis:
-    image: registry.jclee.me/blacklist-redis:latest
-    container_name: blacklist-redis
+  redis:
+    image: redis:alpine
+    container_name: redis
     restart: unless-stopped
     volumes:
       - redis_data:/data
     networks:
       - blacklist-network
     ports:
-      - "32544:6379"
+      - "6379:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
-  # Main Application
-  blacklist-app:
+  app:
     image: registry.jclee.me/blacklist-app:latest
-    container_name: blacklist-app
+    container_name: app
     restart: unless-stopped
     depends_on:
-      blacklist-postgres:
+      postgres:
         condition: service_healthy
-      blacklist-redis:
+      redis:
         condition: service_healthy
     environment:
-      - POSTGRES_HOST=blacklist-postgres
+      - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
       - POSTGRES_DB=blacklist
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - REDIS_HOST=blacklist-redis
+      - REDIS_HOST=redis
       - REDIS_PORT=6379
       - FLASK_ENV=production
       - PORT=2542
@@ -66,7 +67,7 @@ services:
     networks:
       - blacklist-network
     ports:
-      - "32542:2542"
+      - "2542:2542"
     healthcheck:
       test: ["CMD", "python", "/app/health_check.py"]
       interval: 30s
@@ -74,18 +75,13 @@ services:
       start_period: 60s
       retries: 3
     labels:
-      - "com.blacklist.service=app"
-      - "com.blacklist.version=error-fix"
+      - "com.centurylinklabs.watchtower.enable=true"
 
 volumes:
   postgres_data:
-    driver: local
   redis_data:
-    driver: local
   app_logs:
-    driver: local
   app_data:
-    driver: local
 
 networks:
   blacklist-network:
