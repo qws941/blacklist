@@ -33,8 +33,8 @@ COPY src/ /app/src/
 COPY main.py /app/main.py
 COPY instance/ /app/instance/
 
-# 모니터링 대시보드 복사
-COPY monitoring-dashboard.html /app/monitoring-dashboard.html
+# 모니터링 대시보드 복사 (파일이 없으면 스킵)
+# COPY monitoring-dashboard.html /app/monitoring-dashboard.html
 
 # collection_api.py가 확실히 복사되도록 명시적으로 추가
 RUN ls -la /app/src/core/routes/ || echo "Routes directory check"
