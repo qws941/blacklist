@@ -15,45 +15,79 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Caching Layer**: Redis integration for performance optimization
 - **Persistent Storage**: PostgreSQL for advanced data operations and analytics
 
-## Development Environment Setup
+## Development Commands
 
-### Python Environment
+### Docker Development (Primary Method)
 ```bash
-# Create and activate virtual environment
-python3 -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-# .venv\Scripts\activate     # Windows
+# Start all services (PostgreSQL, Redis, Flask app)
+docker-compose up -d
 
-# Install dependencies from virtual environment
-# Note: No requirements.txt found - dependencies managed through .venv/
-pip install flask pytest requests  # Common dependencies based on codebase analysis
+# Stop all services
+docker-compose down
+
+# View logs
+docker-compose logs -f blacklist-app
+docker-compose logs --tail=50 blacklist-postgres
+
+# Rebuild application after code changes
+docker-compose up -d --build blacklist-app
+
+# Check container health status
+docker-compose ps
 ```
 
-### Environment Configuration
-- Use existing `.env` file or create from template
-- Key environment variables:
-  - `REGTECH_USERNAME`, `REGTECH_PASSWORD`: External API credentials
-  - `SECUDIUM_USERNAME`, `SECUDIUM_PASSWORD`: External API credentials  
-  - `SECRET_KEY`: Flask application secret
-  - `JWT_SECRET_KEY`: JWT token encryption key
-
-### Application Startup
+### Local Development
 ```bash
-# The application appears to run as Python modules
-# Entry points are in src/ but no main runner script found
-# Likely runs through Flask development server or WSGI
-export FLASK_APP=src
-export FLASK_ENV=development
-flask run
+# Install dependencies
+pip install -r requirements.txt
+
+# Run application locally (requires PostgreSQL and Redis)
+python main.py
+
+# Run with gunicorn (production)
+gunicorn --config gunicorn.conf.py main:app
 ```
 
-### Database Setup
+### Testing & Health Checks
 ```bash
-# Initialize SQLite databases (if needed)
-# Databases are auto-created in instance/ directory:
-# - blacklist.db: Main threat intelligence data
-# - api_keys.db: API key management
-# - monitoring.db: System monitoring data
+# Test health endpoint
+curl http://localhost:32542/health | jq
+
+# Test main endpoint  
+curl http://localhost:32542/ | jq
+
+# Run tests
+python -m pytest tests/
+```
+
+### Database Management
+```bash
+# Connect to PostgreSQL
+docker exec -it blacklist-postgres psql -U postgres -d blacklist
+
+# View tables
+\dt
+
+# Check blacklist entries
+SELECT * FROM blacklist_ips;
+```
+
+### Environment Variables
+```bash
+# Database
+POSTGRES_HOST=blacklist-postgres  # or localhost for local dev
+POSTGRES_PORT=5432
+POSTGRES_DB=blacklist
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+
+# Redis
+REDIS_HOST=blacklist-redis  # or localhost for local dev
+REDIS_PORT=6379
+
+# Application
+FLASK_ENV=production
+PORT=2542
 ```
 
 ## Application Architecture
@@ -90,20 +124,39 @@ src/
 - `data/`: Raw data storage and exports
 - `logs/`: Application and system logs with structured JSON format
 
-## Container Environment
+## Container Architecture
 
 ### Docker Services
-The application runs with multiple containerized services:
+The application uses a microservices architecture with three main components:
 
-```bash
-# Container monitoring (docker-compose.monitor.yml)
-docker-compose -f docker-compose.monitor.yml up -d
+1. **PostgreSQL Database** (`blacklist-postgres`)
+   - Custom image with pre-initialized schema (`postgres.Dockerfile`)
+   - 7 core tables: blacklist_ips, system_logs, monitoring_data, api_keys, collection_history, user_activities, notification_settings
+   - Runs on port 5432
 
-# Main services (implied from container monitor config):
-# - blacklist-app: Main Flask application
-# - blacklist-postgres: PostgreSQL database  
-# - blacklist-redis: Redis cache server
+2. **Redis Cache** (`blacklist-redis`)
+   - Session and data caching
+   - Runs on port 32544 (mapped from 6379)
+
+3. **Flask Application** (`blacklist-app`)
+   - Main entry: `main.py` with fallback logic (full → minimal → emergency mode)
+   - Custom Docker image built from `Dockerfile.simple`
+   - Runs on port 32542 (mapped from 2542)
+
+### Application Entry Flow
 ```
+main.py
+├── Try: src.core.main.create_app() [Full Mode]
+├── Except: src.core.minimal_app.create_minimal_app() [Minimal Mode]
+└── Fallback: Emergency Flask app with /health endpoint only
+```
+
+### Network Configuration
+- All services communicate through `blacklist-network` (Docker bridge network)
+- External access ports:
+  - Application: 32542 → 2542
+  - PostgreSQL: 5432 → 5432
+  - Redis: 32544 → 6379
 
 ### Container Error Monitoring
 - Automated monitoring script: `scripts/container-error-monitor.py`
@@ -236,45 +289,35 @@ pytest -k "test_name"    # Run specific test pattern
 - Request/response logging and monitoring
 - Error handling with structured responses
 
-## Deployment and Operations
+## Production Deployment
 
-### Container Deployment
+### Building Images
 ```bash
-# Start container monitoring stack
-docker-compose -f docker-compose.monitor.yml up -d
-
-# Check container status
-docker ps | grep blacklist
-
-# View container logs
-docker logs blacklist-app
-docker logs blacklist-postgres  
-docker logs blacklist-redis
+# Build and push to registry
+docker build -f Dockerfile.simple -t registry.jclee.me/blacklist-app:latest .
+docker build -f postgres.Dockerfile -t registry.jclee.me/blacklist-postgres:latest .
+docker push registry.jclee.me/blacklist-app:latest
+docker push registry.jclee.me/blacklist-postgres:latest
 ```
 
-### System Monitoring
-```bash
-# Monitor error monitoring service
-python3 scripts/container-error-monitor.py
+### Production Configuration Files
+- `docker-compose.production.yml`: Production docker-compose configuration
+- `.env.production`: Production environment variables
+- `gunicorn.conf.py`: Gunicorn WSGI server configuration
+- `monitoring-dashboard.html`: Real-time monitoring dashboard
 
-# View real-time logs
-tail -f logs/*.json
-tail -f logs/*_errors.log
+### Common Issues & Solutions
 
-# Check automated component status
-ls -la logs/ | grep -E "(json|log)$"
-```
+#### Container Won't Start
+- Check if using correct Dockerfile (`Dockerfile.simple`, not bare `python:3.11-slim`)
+- Ensure all required source files are present
+- Verify PostgreSQL and Redis are healthy before app starts
 
-### Operational Tasks
-```bash
-# Collection management through configuration
-# Edit instance/collection_config.json to enable/disable sources
+#### Database Connection Failed
+- Ensure PostgreSQL container is running and healthy
+- Check network connectivity between containers
+- Verify environment variables are correctly set
 
-# Database maintenance
-# SQLite databases auto-managed in instance/
-# PostgreSQL managed through container
-
-# Security management
-# API keys stored in instance/api_keys.db
-# Encrypted credentials in instance/credentials.enc
-```
+#### Port Already in Use
+- Default ports: 32542 (app), 5432 (postgres), 32544 (redis)
+- Modify port mappings in docker-compose.yml if needed
