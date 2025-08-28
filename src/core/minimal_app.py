@@ -13,6 +13,14 @@ def create_minimal_app():
     """최소한의 Flask 애플리케이션 생성"""
     app = Flask(__name__)
 
+    # Register collection panel blueprint
+    try:
+        from src.core.routes.simple_collection_panel import simple_collection_bp
+
+        app.register_blueprint(simple_collection_bp)
+    except ImportError:
+        pass  # Collection panel not available
+
     @app.route("/health")
     def health_check():
         """헬스체크 엔드포인트"""
