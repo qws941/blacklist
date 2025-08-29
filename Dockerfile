@@ -36,7 +36,7 @@ COPY --from=builder /root/.local /home/appuser/.local
 
 # Copy application code
 COPY src/ ./src/
-COPY main.py .
+COPY src/main.py .
 COPY gunicorn.conf.py .
 
 # Create necessary directories
