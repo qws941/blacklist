@@ -59,6 +59,42 @@ SIMPLE_PANEL_HTML = """
             margin-bottom: 30px;
         }
         
+        .header-logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nextrade-logo {
+            height: 40px;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .nextrade-logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        
+        [data-theme="dark"] .nextrade-logo {
+            filter: brightness(1.1) drop-shadow(0 2px 4px rgba(255,255,255,0.1));
+        }
+        
+        .logo-fallback {
+            font-weight: 600;
+            color: #4facfe;
+            font-size: 1.2rem;
+            gap: 8px;
+        }
+        
+        [data-theme="dark"] .logo-fallback {
+            color: #63b3ed;
+        }
+        
+        .shield-icon {
+            font-size: 1.5rem;
+        }
+        
         .theme-toggle {
             background: none;
             border: 2px solid #4facfe;
@@ -429,7 +465,11 @@ SIMPLE_PANEL_HTML = """
 <body>
     <div class="container">
         <div class="header-controls">
-            <h1>🔄 통합 수집 관리 패널</h1>
+            <div class="header-logo-section">
+                <img src="https://www.nextrade.co.kr/images/main/header_logo_color.svg" alt="Nextrade" class="nextrade-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                <span class="logo-fallback" style="display: none; align-items: center;"><i class="shield-icon">🛡️</i> Nextrade Black List</span>
+                <h1>🔄 통합 수집 관리 패널</h1>
+            </div>
             <div>
                 <button class="theme-toggle" onclick="toggleTheme()">🌙 다크모드</button>
                 <button class="btn btn-info" onclick="toggleAutoRefresh()" id="auto-refresh-btn">🔄 자동새로고침 OFF</button>
