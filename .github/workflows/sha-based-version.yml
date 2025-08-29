@@ -1,0 +1,356 @@
+name: 🔄 SHA-based Dynamic Version Management
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'src/**'
+      - 'Dockerfile*'
+      - 'docker-compose*.yml'
+      - 'requirements.txt'
+      - '.github/workflows/**'
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+
+env:
+  REGISTRY: registry.jclee.me
+  REGISTRY_USERNAME: admin
+
+jobs:
+  sha-version:
+    name: 🏷️ SHA-based Version Calculation
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.sha-version.outputs.version }}
+      short-sha: ${{ steps.sha-version.outputs.short-sha }}
+      semantic-version: ${{ steps.sha-version.outputs.semantic-version }}
+      build-number: ${{ steps.sha-version.outputs.build-number }}
+      should-build: ${{ steps.changes.outputs.should-build }}
+      
+    steps:
+      - name: 🛎️ Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Full history for accurate version calculation
+          
+      - name: 🔍 Detect Changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            source:
+              - 'src/**'
+              - 'requirements.txt'
+              - 'main.py'
+              - 'gunicorn.conf.py'
+            docker:
+              - 'Dockerfile*'
+              - 'docker-compose*.yml'
+            all:
+              - 'src/**'
+              - 'Dockerfile*'
+              - 'docker-compose*.yml'
+              - 'requirements.txt'
+              - '.github/workflows/**'
+
+      - name: 🏷️ Calculate SHA-based Version
+        id: sha-version
+        run: |
+          # Get basic Git info
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          FULL_SHA=$(git rev-parse HEAD)
+          BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          BUILD_NUMBER=${{ github.run_number }}
+          TIMESTAMP=$(date -u +%Y%m%d-%H%M%S)
+          
+          # Read current semantic version
+          if [[ -f "VERSION" ]]; then
+            CURRENT_SEMANTIC=$(cat VERSION)
+          else
+            CURRENT_SEMANTIC="1.0.0"
+          fi
+          
+          # Determine semantic version bump based on commit messages
+          if [[ "${{ github.event.inputs.version_type }}" != "auto" ]]; then
+            # Manual version bump
+            case "${{ github.event.inputs.version_type }}" in
+              patch)
+                SEMANTIC_VERSION=$(echo $CURRENT_SEMANTIC | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+                ;;
+              minor)
+                SEMANTIC_VERSION=$(echo $CURRENT_SEMANTIC | awk -F. '{$(NF-1) = $(NF-1) + 1; $NF = 0;} 1' | sed 's/ /./g')
+                ;;
+              major)
+                SEMANTIC_VERSION=$(echo $CURRENT_SEMANTIC | awk -F. '{$1 = $1 + 1; $2 = 0; $3 = 0;} 1' | sed 's/ /./g')
+                ;;
+            esac
+          else
+            # Automatic semantic version based on commit messages
+            COMMIT_MSGS=$(git log --oneline -10 --format=%s)
+            
+            if echo "$COMMIT_MSGS" | grep -qE "(BREAKING CHANGE|!:|feat!:|fix!:)"; then
+              # Major version bump
+              SEMANTIC_VERSION=$(echo $CURRENT_SEMANTIC | awk -F. '{$1 = $1 + 1; $2 = 0; $3 = 0;} 1' | sed 's/ /./g')
+            elif echo "$COMMIT_MSGS" | grep -qE "(^feat:|^feat\(|add |implement |feature:)"; then
+              # Minor version bump  
+              SEMANTIC_VERSION=$(echo $CURRENT_SEMANTIC | awk -F. '{$(NF-1) = $(NF-1) + 1; $NF = 0;} 1' | sed 's/ /./g')
+            else
+              # Patch version bump
+              SEMANTIC_VERSION=$(echo $CURRENT_SEMANTIC | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+            fi
+          fi
+          
+          # Create comprehensive SHA-based version
+          # Format: {semantic}-{build}-{sha}-{timestamp}
+          SHA_VERSION="${SEMANTIC_VERSION}-build${BUILD_NUMBER}-${SHORT_SHA}-${TIMESTAMP}"
+          
+          # Determine if we should build
+          SHOULD_BUILD="false"
+          if [[ "${{ steps.changes.outputs.all }}" == "true" ]] || [[ "${{ github.event.inputs.version_type }}" != "auto" ]]; then
+            SHOULD_BUILD="true"
+          fi
+          
+          # Output all variables
+          echo "version=${SHA_VERSION}" >> $GITHUB_OUTPUT
+          echo "short-sha=${SHORT_SHA}" >> $GITHUB_OUTPUT
+          echo "semantic-version=${SEMANTIC_VERSION}" >> $GITHUB_OUTPUT
+          echo "build-number=${BUILD_NUMBER}" >> $GITHUB_OUTPUT
+          echo "should-build=${SHOULD_BUILD}" >> $GITHUB_OUTPUT
+          
+          # Create version info JSON without committing
+          cat > version-info.json <<EOF
+          {
+            "version": "${SHA_VERSION}",
+            "semantic_version": "${SEMANTIC_VERSION}",
+            "build_number": ${BUILD_NUMBER},
+            "sha": {
+              "short": "${SHORT_SHA}",
+              "full": "${FULL_SHA}"
+            },
+            "git": {
+              "branch": "${BRANCH}",
+              "commit_count": $(git rev-list --count HEAD),
+              "timestamp": "$(git log -1 --format=%cI)",
+              "last_commit_message": $(git log -1 --format=%s | jq -R .)
+            },
+            "build": {
+              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+              "runner": "github-actions",
+              "workflow": "${{ github.workflow }}",
+              "run_id": "${{ github.run_id }}"
+            }
+          }
+          EOF
+          
+          echo "📋 Version Information:"
+          echo "  🏷️ SHA Version: ${SHA_VERSION}"
+          echo "  📦 Semantic: ${SEMANTIC_VERSION}"
+          echo "  🏗️ Build: ${BUILD_NUMBER}"
+          echo "  📝 SHA: ${SHORT_SHA}"
+          echo "  🔄 Should Build: ${SHOULD_BUILD}"
+          
+          # Update VERSION file locally (no commit)
+          echo "${SEMANTIC_VERSION}" > VERSION
+
+      - name: 📤 Upload Version Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-info
+          path: |
+            version-info.json
+            VERSION
+          retention-days: 30
+
+  build-with-sha-version:
+    name: 🐳 Build with SHA Version (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    needs: sha-version
+    if: needs.sha-version.outputs.should-build == 'true'
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: app
+            dockerfile: Dockerfile
+            context: .
+          - name: postgres  
+            dockerfile: postgres.Dockerfile
+            context: .
+          - name: redis
+            dockerfile: redis.Dockerfile
+            context: .
+
+    steps:
+      - name: 🛎️ Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📥 Download Version Info
+        uses: actions/download-artifact@v4
+        with:
+          name: version-info
+
+      - name: 🏗️ Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🔐 Login to Private Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ env.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: 📋 Extract Version Metadata
+        id: meta
+        run: |
+          VERSION="${{ needs.sha-version.outputs.version }}"
+          SEMANTIC="${{ needs.sha-version.outputs.semantic-version }}"
+          SHORT_SHA="${{ needs.sha-version.outputs.short-sha }}"
+          BUILD_NUM="${{ needs.sha-version.outputs.build-number }}"
+          
+          # Create comprehensive tag list
+          TAGS="${{ env.REGISTRY }}/blacklist-${{ matrix.name }}:latest"
+          TAGS="$TAGS,${{ env.REGISTRY }}/blacklist-${{ matrix.name }}:${SEMANTIC}"
+          TAGS="$TAGS,${{ env.REGISTRY }}/blacklist-${{ matrix.name }}:${SEMANTIC}-${SHORT_SHA}"
+          TAGS="$TAGS,${{ env.REGISTRY }}/blacklist-${{ matrix.name }}:build-${BUILD_NUM}"
+          TAGS="$TAGS,${{ env.REGISTRY }}/blacklist-${{ matrix.name }}:${VERSION}"
+          
+          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          
+          echo "🏷️ Generated tags for ${{ matrix.name }}:"
+          echo "${TAGS}" | tr ',' '\n' | sed 's/^/  - /'
+
+      - name: 🐳 Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          build-args: |
+            VERSION=${{ needs.sha-version.outputs.version }}
+            BUILD_DATE=${{ github.event.head_commit.timestamp }}
+            VCS_REF=${{ github.sha }}
+            BUILD_NUMBER=${{ needs.sha-version.outputs.build-number }}
+          labels: |
+            org.opencontainers.image.version=${{ needs.sha-version.outputs.semantic-version }}
+            org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.title=Blacklist ${{ matrix.name }} Service
+            org.opencontainers.image.description=SHA-based versioned container for blacklist-${{ matrix.name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: ✅ Build Success Summary
+        run: |
+          echo "🎉 Successfully built and pushed:"
+          echo "  📦 Service: ${{ matrix.name }}"
+          echo "  🏷️ Version: ${{ needs.sha-version.outputs.version }}"
+          echo "  📝 SHA: ${{ needs.sha-version.outputs.short-sha }}"
+          echo "  🏗️ Build: ${{ needs.sha-version.outputs.build-number }}"
+
+  create-sha-release:
+    name: 🚀 Create SHA-based Release
+    runs-on: ubuntu-latest
+    needs: [sha-version, build-with-sha-version]
+    if: needs.sha-version.outputs.should-build == 'true' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: 🛎️ Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📥 Download Version Info
+        uses: actions/download-artifact@v4
+        with:
+          name: version-info
+
+      - name: 📝 Generate Release Notes
+        id: release-notes
+        run: |
+          VERSION="${{ needs.sha-version.outputs.version }}"
+          SEMANTIC="${{ needs.sha-version.outputs.semantic-version }}"
+          SHORT_SHA="${{ needs.sha-version.outputs.short-sha }}"
+          
+          cat > release-notes.md <<EOF
+          # 🚀 SHA-based Release ${SEMANTIC}
+          
+          **Version:** \`${VERSION}\`  
+          **Build:** #${{ needs.sha-version.outputs.build-number }}  
+          **SHA:** \`${SHORT_SHA}\`  
+          **Build Time:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          
+          ## 📋 Recent Changes
+          
+          EOF
+          
+          # Get recent commits
+          git log --oneline --no-merges -10 | sed 's/^/- /' >> release-notes.md
+          
+          cat >> release-notes.md <<EOF
+          
+          ## 🐳 Docker Images
+          
+          All images are tagged with multiple versions for flexibility:
+          
+          - **Latest:** \`registry.jclee.me/blacklist-{service}:latest\`
+          - **Semantic:** \`registry.jclee.me/blacklist-{service}:${SEMANTIC}\`
+          - **SHA-based:** \`registry.jclee.me/blacklist-{service}:${VERSION}\`
+          - **Build-specific:** \`registry.jclee.me/blacklist-{service}:build-${{ needs.sha-version.outputs.build-number }}\`
+          
+          ### Available Services:
+          - \`blacklist-app\` - Main Flask application
+          - \`blacklist-postgres\` - PostgreSQL database with schema
+          - \`blacklist-redis\` - Redis cache service
+          
+          ## 📊 Build Information
+          
+          - **GitHub Run:** [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          - **Commit:** \`${{ github.sha }}\`
+          - **Branch:** \`${{ github.ref_name }}\`
+          - **Workflow:** ${{ github.workflow }}
+          
+          EOF
+
+      - name: 🏷️ Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ needs.sha-version.outputs.semantic-version }}-${{ needs.sha-version.outputs.short-sha }}
+          release_name: 🚀 SHA Release ${{ needs.sha-version.outputs.semantic-version }} (${{ needs.sha-version.outputs.short-sha }})
+          body_path: release-notes.md
+          draft: false
+          prerelease: false
+
+  notify-sha-success:
+    name: 📢 SHA Version Success Notification
+    runs-on: ubuntu-latest
+    needs: [sha-version, build-with-sha-version]
+    if: always() && needs.sha-version.outputs.should-build == 'true'
+    
+    steps:
+      - name: 🎉 Success Summary
+        run: |
+          echo "🎉 SHA-based Dynamic Version Management Completed!"
+          echo "================================================="
+          echo "🏷️ SHA Version: ${{ needs.sha-version.outputs.version }}"
+          echo "📦 Semantic Version: ${{ needs.sha-version.outputs.semantic-version }}"
+          echo "📝 Short SHA: ${{ needs.sha-version.outputs.short-sha }}"
+          echo "🏗️ Build Number: ${{ needs.sha-version.outputs.build-number }}"
+          echo "🚀 All images successfully built and pushed!"
+          echo "📅 Completed: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
