@@ -1,0 +1,322 @@
+name: 🔄 Dynamic Version Management
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'src/**'
+      - 'Dockerfile*'
+      - 'docker-compose*.yml'
+      - 'requirements.txt'
+      - 'VERSION'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'Dockerfile*'
+      - 'VERSION'
+  workflow_dispatch:
+    inputs:
+      force_version_update:
+        description: 'Force version update'
+        required: false
+        default: false
+        type: boolean
+      version_type:
+        description: 'Version bump type'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+
+env:
+  REGISTRY: registry.jclee.me
+  REGISTRY_USERNAME: admin
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  analyze-changes:
+    name: 📊 Analyze Changes & Calculate Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.dynamic-version.outputs.version }}
+      previous-version: ${{ steps.dynamic-version.outputs.previous-version }}
+      bump-type: ${{ steps.dynamic-version.outputs.bump-type }}
+      should-build: ${{ steps.changes.outputs.should-build }}
+      metadata-path: ${{ steps.metadata.outputs.path }}
+      
+    steps:
+      - name: 🛎️ Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch full history for version calculation
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 🔍 Detect File Changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            source:
+              - 'src/**'
+              - 'requirements.txt'
+              - 'main.py'
+              - 'gunicorn.conf.py'
+            docker:
+              - 'Dockerfile*'
+              - 'docker-compose*.yml'
+            config:
+              - 'VERSION'
+              - '.github/workflows/**'
+              - 'scripts/**'
+            all:
+              - 'src/**'
+              - 'Dockerfile*'
+              - 'docker-compose*.yml'
+              - 'requirements.txt'
+              - 'VERSION'
+              - '.github/workflows/**'
+
+      - name: 📊 Calculate Dynamic Version
+        id: dynamic-version
+        run: |
+          # Make version script executable
+          chmod +x scripts/version/dynamic-version.py
+          
+          # Calculate version based on git history
+          if [[ "${{ github.event.inputs.version_type }}" != "auto" ]]; then
+            # Manual version bump
+            current_version=$(cat VERSION)
+            case "${{ github.event.inputs.version_type }}" in
+              patch)
+                new_version=$(echo $current_version | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+                ;;
+              minor)
+                new_version=$(echo $current_version | awk -F. '{$(NF-1) = $(NF-1) + 1; $NF = 0;} 1' | sed 's/ /./g')
+                ;;
+              major)
+                new_version=$(echo $current_version | awk -F. '{$1 = $1 + 1; $2 = 0; $3 = 0;} 1' | sed 's/ /./g')
+                ;;
+            esac
+            bump_type="${{ github.event.inputs.version_type }}"
+          else
+            # Automatic version calculation
+            version_info=$(python3 scripts/version/dynamic-version.py --get-version --output-format json)
+            new_version=$(echo "$version_info" | jq -r '.version')
+            bump_type=$(echo "$version_info" | jq -r '.metadata.bump_type // "patch"')
+            current_version=$(cat VERSION)
+          fi
+          
+          echo "version=${new_version}" >> $GITHUB_OUTPUT
+          echo "previous-version=${current_version}" >> $GITHUB_OUTPUT
+          echo "bump-type=${bump_type}" >> $GITHUB_OUTPUT
+          
+          # Determine if we should build
+          should_build="false"
+          if [[ "${{ steps.changes.outputs.all }}" == "true" ]] || [[ "${{ github.event.inputs.force_version_update }}" == "true" ]] || [[ "${new_version}" != "${current_version}" ]]; then
+            should_build="true"
+          fi
+          echo "should-build=${should_build}" >> $GITHUB_OUTPUT
+          
+          echo "🔢 Current Version: ${current_version}"
+          echo "🆕 New Version: ${new_version}"
+          echo "📈 Bump Type: ${bump_type}"
+          echo "🏗️ Should Build: ${should_build}"
+
+      - name: 🏗️ Generate Build Metadata
+        id: metadata
+        if: steps.dynamic-version.outputs.should-build == 'true'
+        run: |
+          chmod +x scripts/version/generate-build-metadata.sh
+          
+          # Set version in VERSION file
+          echo "${{ steps.dynamic-version.outputs.version }}" > VERSION
+          
+          # Generate comprehensive metadata
+          ./scripts/version/generate-build-metadata.sh
+          
+          echo "path=build/metadata" >> $GITHUB_OUTPUT
+          
+          # Display metadata summary
+          if [[ -f "build/metadata/build-summary.txt" ]]; then
+            echo "📋 Build Summary:"
+            cat build/metadata/build-summary.txt
+          fi
+
+      - name: 📤 Upload Build Metadata
+        if: steps.dynamic-version.outputs.should-build == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-metadata
+          path: build/metadata/
+          retention-days: 30
+
+      - name: 💾 Commit Version Update
+        if: steps.dynamic-version.outputs.should-build == 'true' && steps.dynamic-version.outputs.version != steps.dynamic-version.outputs.previous-version
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Update VERSION file
+          echo "${{ steps.dynamic-version.outputs.version }}" > VERSION
+          
+          # Create version info file
+          python3 scripts/version/dynamic-version.py --create-info
+          
+          # Commit changes
+          git add VERSION version-info.json
+          git commit -m "🔖 chore: bump version to ${{ steps.dynamic-version.outputs.version }} (${{ steps.dynamic-version.outputs.bump-type }})"
+          
+          # Push changes
+          git push
+
+  update-docker-compose:
+    name: 🐳 Update Docker Compose with Dynamic Version
+    runs-on: ubuntu-latest
+    needs: analyze-changes
+    if: needs.analyze-changes.outputs.should-build == 'true'
+    
+    steps:
+      - name: 🛎️ Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🔄 Update Docker Compose Files
+        run: |
+          version="${{ needs.analyze-changes.outputs.version }}"
+          
+          # Update all docker-compose files with new version
+          for compose_file in docker-compose*.yml; do
+            if [[ -f "$compose_file" ]]; then
+              echo "📝 Updating $compose_file with version $version"
+              
+              # Replace image tags with new version
+              sed -i "s|registry\.jclee\.me/blacklist-[^:]*:\([^[:space:]]*\)|registry.jclee.me/blacklist-\1:$version|g" "$compose_file"
+              
+              # Also update any version variables
+              sed -i "s/VERSION=.*/VERSION=$version/g" "$compose_file"
+            fi
+          done
+          
+          # Update .env files
+          for env_file in .env*; do
+            if [[ -f "$env_file" ]]; then
+              echo "📝 Updating $env_file with version $version"
+              sed -i "s/VERSION=.*/VERSION=$version/g" "$env_file"
+              sed -i "s/APP_VERSION=.*/APP_VERSION=$version/g" "$env_file"
+            fi
+          done
+
+      - name: 💾 Commit Docker Compose Updates
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add docker-compose*.yml .env* || true
+            git commit -m "🐳 chore: update Docker Compose files to version ${{ needs.analyze-changes.outputs.version }}"
+            git push
+          else
+            echo "ℹ️ No Docker Compose changes to commit"
+          fi
+
+  create-release:
+    name: 🚀 Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: analyze-changes
+    if: needs.analyze-changes.outputs.should-build == 'true' && needs.analyze-changes.outputs.version != needs.analyze-changes.outputs.previous-version && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: 🛎️ Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📥 Download Build Metadata
+        uses: actions/download-artifact@v4
+        with:
+          name: build-metadata
+          path: build/metadata/
+
+      - name: 📝 Generate Release Notes
+        id: release-notes
+        run: |
+          version="${{ needs.analyze-changes.outputs.version }}"
+          previous_version="${{ needs.analyze-changes.outputs.previous-version }}"
+          
+          # Generate changelog
+          cat > release-notes.md <<EOF
+          # 🚀 Release $version
+          
+          **Previous Version:** $previous_version
+          **Bump Type:** ${{ needs.analyze-changes.outputs.bump-type }}
+          **Build Time:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          
+          ## 📋 Changes Since $previous_version
+          
+          EOF
+          
+          # Get commit messages since last version
+          if git rev-parse $previous_version >/dev/null 2>&1; then
+            git log $previous_version..HEAD --oneline --no-merges | sed 's/^/- /' >> release-notes.md
+          else
+            git log --oneline --no-merges -10 | sed 's/^/- /' >> release-notes.md
+          fi
+          
+          cat >> release-notes.md <<EOF
+          
+          ## 🐳 Docker Images
+          
+          - \`registry.jclee.me/blacklist-app:$version\`
+          - \`registry.jclee.me/blacklist-postgres:$version\`
+          - \`registry.jclee.me/blacklist-redis:$version\`
+          
+          ## 📊 Build Information
+          
+          - **Git Commit:** \`$(git rev-parse --short HEAD)\`
+          - **Build ID:** ${{ github.run_id }}
+          - **Workflow:** ${{ github.workflow }}
+          
+          EOF
+          
+          if [[ -f "build/metadata/build-summary.txt" ]]; then
+            echo -e "\n## 📦 Build Summary\n\n\`\`\`" >> release-notes.md
+            cat build/metadata/build-summary.txt >> release-notes.md
+            echo -e "\`\`\`" >> release-notes.md
+          fi
+
+      - name: 🏷️ Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ needs.analyze-changes.outputs.version }}
+          release_name: 🚀 Release ${{ needs.analyze-changes.outputs.version }}
+          body_path: release-notes.md
+          draft: false
+          prerelease: false
+
+  notify-success:
+    name: 📢 Notify Success
+    runs-on: ubuntu-latest
+    needs: [analyze-changes, update-docker-compose, create-release]
+    if: always() && needs.analyze-changes.outputs.should-build == 'true'
+    
+    steps:
+      - name: 🎉 Success Notification
+        run: |
+          echo "🎉 Dynamic Version Management completed successfully!"
+          echo "🔢 Version: ${{ needs.analyze-changes.outputs.version }}"
+          echo "📈 Bump Type: ${{ needs.analyze-changes.outputs.bump-type }}"
+          echo "🚀 Workflow completed at: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
