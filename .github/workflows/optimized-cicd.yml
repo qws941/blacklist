@@ -358,10 +358,10 @@ jobs:
         cache-from: type=gha,scope=${{ matrix.name }}
         cache-to: type=gha,mode=max,scope=${{ matrix.name }}
         build-args: |
-          BUILDTIME=${{ github.event.head_commit.timestamp }}
           VERSION=${{ steps.meta.outputs.sha-version }}
           BUILD_NUMBER=${{ needs.analyze-and-version.outputs.build-number }}
           VCS_REF=${{ github.sha }}
+          BUILDTIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           
     - name: ✅ 빌드 결과 출력
       if: steps.should-build-image.outputs.should-build == 'true'

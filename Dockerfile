@@ -19,6 +19,18 @@ RUN pip install --no-cache-dir --user -r requirements.txt
 # Production stage
 FROM python:3.11-slim
 
+# Build arguments for version information
+ARG VERSION
+ARG BUILD_NUMBER
+ARG VCS_REF
+ARG BUILDTIME
+
+# Set version environment variables
+ENV VERSION=${VERSION}
+ENV BUILD_NUMBER=${BUILD_NUMBER}
+ENV VCS_REF=${VCS_REF}
+ENV BUILDTIME=${BUILDTIME}
+
 # Create non-root user for security
 RUN groupadd -g 999 appuser && \
     useradd -r -u 999 -g appuser appuser

@@ -23,6 +23,22 @@ def create_app():
     except ImportError:
         pass  # Collection panel not available
 
+    # Register NextTrade dashboard
+    try:
+        from src.core.simple_dashboard import dashboard_bp
+
+        app.register_blueprint(dashboard_bp)
+    except ImportError:
+        pass  # Dashboard not available
+
+    # Register unified API routes
+    try:
+        from src.core.routes.unified_api import unified_api_bp
+
+        app.register_blueprint(unified_api_bp)
+    except ImportError:
+        pass  # Unified API not available
+
     @app.route("/health")
     def health_check():
         """헬스체크 엔드포인트"""

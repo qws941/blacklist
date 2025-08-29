@@ -13,144 +13,129 @@ RUN mkdir -p /docker-entrypoint-initdb.d
 
 # Copy initialization scripts
 COPY --chown=postgres:postgres <<EOF /docker-entrypoint-initdb.d/01-init-schema.sql
--- Blacklist Management System Database Schema
-
--- Create blacklist_ips table
-CREATE TABLE IF NOT EXISTS blacklist_ips (
-    id SERIAL PRIMARY KEY,
-    ip_address INET NOT NULL UNIQUE,
-    source VARCHAR(50) NOT NULL,
-    reason TEXT,
-    threat_level VARCHAR(20) DEFAULT 'MEDIUM',
-    first_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    is_active BOOLEAN DEFAULT TRUE,
-    metadata JSONB DEFAULT '{}'
-);
-
--- Create system_logs table
-CREATE TABLE IF NOT EXISTS system_logs (
-    id SERIAL PRIMARY KEY,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    level VARCHAR(20) NOT NULL,
-    component VARCHAR(100) NOT NULL,
-    message TEXT NOT NULL,
-    metadata JSONB DEFAULT '{}'
-);
-
--- Create monitoring_data table
-CREATE TABLE IF NOT EXISTS monitoring_data (
-    id SERIAL PRIMARY KEY,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    metric_name VARCHAR(100) NOT NULL,
-    metric_value NUMERIC NOT NULL,
-    unit VARCHAR(20),
-    tags JSONB DEFAULT '{}',
-    source VARCHAR(50) NOT NULL
-);
+-- Blacklist Management System Database Schema (Data-free Schema Only)
 
 -- Create api_keys table
-CREATE TABLE IF NOT EXISTS api_keys (
+CREATE TABLE public.api_keys (
     id SERIAL PRIMARY KEY,
-    key_name VARCHAR(100) NOT NULL UNIQUE,
-    key_value TEXT NOT NULL,
-    source VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_used TIMESTAMP,
-    is_active BOOLEAN DEFAULT TRUE,
-    permissions JSONB DEFAULT '{}'
+    key_name character varying(100) NOT NULL UNIQUE,
+    key_hash character varying(255) NOT NULL,
+    is_active boolean DEFAULT true,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    last_used timestamp without time zone,
+    permissions jsonb,
+    rate_limit integer DEFAULT 1000,
+    expires_at timestamp without time zone
+);
+
+-- Create blacklist_ips table
+CREATE TABLE public.blacklist_ips (
+    id SERIAL PRIMARY KEY,
+    ip_address inet NOT NULL UNIQUE,
+    reason text,
+    is_active boolean DEFAULT true,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    source character varying(100) DEFAULT 'manual'::character varying,
+    confidence_level integer DEFAULT 5,
+    category character varying(50) DEFAULT 'unknown'::character varying,
+    last_seen timestamp without time zone,
+    detection_count integer DEFAULT 1
+);
+
+-- Create collection_credentials table
+CREATE TABLE public.collection_credentials (
+    id SERIAL PRIMARY KEY,
+    service_name character varying(50) NOT NULL UNIQUE,
+    username character varying(100),
+    password character varying(255),
+    api_key character varying(255),
+    additional_data json,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create collection_history table
-CREATE TABLE IF NOT EXISTS collection_history (
+CREATE TABLE public.collection_history (
     id SERIAL PRIMARY KEY,
-    source VARCHAR(50) NOT NULL,
-    collection_type VARCHAR(50) NOT NULL,
-    start_time TIMESTAMP NOT NULL,
-    end_time TIMESTAMP,
-    status VARCHAR(20) DEFAULT 'RUNNING',
-    records_collected INTEGER DEFAULT 0,
-    errors_count INTEGER DEFAULT 0,
-    metadata JSONB DEFAULT '{}'
+    source_name character varying(100) NOT NULL,
+    collection_type character varying(50),
+    items_collected integer DEFAULT 0,
+    success boolean DEFAULT true,
+    error_message text,
+    "timestamp" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    execution_time_ms integer,
+    data_quality_score numeric,
+    next_collection timestamp without time zone
 );
 
--- Create user_activities table
-CREATE TABLE IF NOT EXISTS user_activities (
+-- Create monitoring_data table
+CREATE TABLE public.monitoring_data (
     id SERIAL PRIMARY KEY,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    user_id VARCHAR(100),
-    action VARCHAR(100) NOT NULL,
-    resource VARCHAR(200),
-    ip_address INET,
-    user_agent TEXT,
-    metadata JSONB DEFAULT '{}'
+    metric_name character varying(100) NOT NULL,
+    metric_value text,
+    "timestamp" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    tags jsonb,
+    numeric_value numeric,
+    unit character varying(20),
+    alert_threshold numeric
 );
 
 -- Create notification_settings table
-CREATE TABLE IF NOT EXISTS notification_settings (
+CREATE TABLE public.notification_settings (
     id SERIAL PRIMARY KEY,
-    setting_name VARCHAR(100) NOT NULL UNIQUE,
-    setting_value JSONB NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    user_id character varying(100),
+    notification_type character varying(50) NOT NULL,
+    enabled boolean DEFAULT true,
+    settings jsonb,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create system_logs table
+CREATE TABLE public.system_logs (
+    id SERIAL PRIMARY KEY,
+    level character varying(20) NOT NULL,
+    message text NOT NULL,
+    "timestamp" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    source character varying(100),
+    context jsonb,
+    request_id character varying(50),
+    user_agent text,
+    ip_address inet
+);
+
+-- Create user_activities table
+CREATE TABLE public.user_activities (
+    id SERIAL PRIMARY KEY,
+    user_id character varying(100),
+    action character varying(100) NOT NULL,
+    resource_type character varying(50),
+    resource_id character varying(100),
+    "timestamp" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    ip_address inet,
+    user_agent text,
+    success boolean DEFAULT true
 );
 
 -- Create indexes for better performance
-CREATE INDEX IF NOT EXISTS idx_blacklist_ips_source ON blacklist_ips(source);
-CREATE INDEX IF NOT EXISTS idx_blacklist_ips_threat_level ON blacklist_ips(threat_level);
-CREATE INDEX IF NOT EXISTS idx_blacklist_ips_is_active ON blacklist_ips(is_active);
-CREATE INDEX IF NOT EXISTS idx_blacklist_ips_first_seen ON blacklist_ips(first_seen);
+CREATE INDEX idx_activities_action ON public.user_activities USING btree (action);
+CREATE INDEX idx_activities_timestamp ON public.user_activities USING btree ("timestamp");
+CREATE INDEX idx_activities_user ON public.user_activities USING btree (user_id);
+CREATE INDEX idx_blacklist_ips_active ON public.blacklist_ips USING btree (is_active);
+CREATE INDEX idx_blacklist_ips_category ON public.blacklist_ips USING btree (category);
+CREATE INDEX idx_blacklist_ips_created ON public.blacklist_ips USING btree (created_at);
+CREATE INDEX idx_blacklist_ips_source ON public.blacklist_ips USING btree (source);
+CREATE INDEX idx_collection_source ON public.collection_history USING btree (source_name);
+CREATE INDEX idx_collection_success ON public.collection_history USING btree (success);
+CREATE INDEX idx_collection_timestamp ON public.collection_history USING btree ("timestamp");
+CREATE INDEX idx_monitoring_metric ON public.monitoring_data USING btree (metric_name);
+CREATE INDEX idx_monitoring_timestamp ON public.monitoring_data USING btree ("timestamp");
+CREATE INDEX idx_system_logs_level ON public.system_logs USING btree (level);
+CREATE INDEX idx_system_logs_source ON public.system_logs USING btree (source);
+CREATE INDEX idx_system_logs_timestamp ON public.system_logs USING btree ("timestamp");
 
-CREATE INDEX IF NOT EXISTS idx_system_logs_timestamp ON system_logs(timestamp);
-CREATE INDEX IF NOT EXISTS idx_system_logs_level ON system_logs(level);
-CREATE INDEX IF NOT EXISTS idx_system_logs_component ON system_logs(component);
-
-CREATE INDEX IF NOT EXISTS idx_monitoring_data_timestamp ON monitoring_data(timestamp);
-CREATE INDEX IF NOT EXISTS idx_monitoring_data_metric_name ON monitoring_data(metric_name);
-CREATE INDEX IF NOT EXISTS idx_monitoring_data_source ON monitoring_data(source);
-
-CREATE INDEX IF NOT EXISTS idx_collection_history_source ON collection_history(source);
-CREATE INDEX IF NOT EXISTS idx_collection_history_status ON collection_history(status);
-CREATE INDEX IF NOT EXISTS idx_collection_history_start_time ON collection_history(start_time);
-
-CREATE INDEX IF NOT EXISTS idx_user_activities_timestamp ON user_activities(timestamp);
-CREATE INDEX IF NOT EXISTS idx_user_activities_action ON user_activities(action);
-
--- Insert default notification settings
-INSERT INTO notification_settings (setting_name, setting_value) VALUES
-('email_alerts', '{"enabled": true, "recipients": ["admin@example.com"], "threshold": "HIGH"}'),
-('slack_webhook', '{"enabled": false, "webhook_url": "", "channel": "#security"}'),
-('sms_alerts', '{"enabled": false, "phone_numbers": [], "threshold": "CRITICAL"}')
-ON CONFLICT (setting_name) DO NOTHING;
-
--- Create function to update last_updated timestamp
-CREATE OR REPLACE FUNCTION update_last_updated_column()
-RETURNS TRIGGER AS \$\$
-BEGIN
-    NEW.last_updated = CURRENT_TIMESTAMP;
-    RETURN NEW;
-END;
-\$\$ language 'plpgsql';
-
--- Create trigger for blacklist_ips table
-CREATE TRIGGER update_blacklist_ips_last_updated 
-    BEFORE UPDATE ON blacklist_ips 
-    FOR EACH ROW 
-    EXECUTE FUNCTION update_last_updated_column();
-
--- Create trigger for notification_settings table
-CREATE OR REPLACE FUNCTION update_notification_settings_updated_at()
-RETURNS TRIGGER AS \$\$
-BEGIN
-    NEW.updated_at = CURRENT_TIMESTAMP;
-    RETURN NEW;
-END;
-\$\$ language 'plpgsql';
-
-CREATE TRIGGER update_notification_settings_updated_at 
-    BEFORE UPDATE ON notification_settings 
-    FOR EACH ROW 
-    EXECUTE FUNCTION update_notification_settings_updated_at();
+-- NO DATA INSERTION - Schema only for clean deployment
 EOF
 
 # Health check

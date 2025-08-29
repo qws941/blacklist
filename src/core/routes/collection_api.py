@@ -186,7 +186,10 @@ def trigger_regtech_collection():
             )
 
             # Enhance confidence based on authentication
-            if username == "nextrade":
+            is_authenticated = bool(
+                username and password
+            )  # 유저명과 패스워드가 모두 있으면 인증된 것으로 처리
+            if is_authenticated:
                 mapping["confidence"] = min(10, mapping["confidence"] + 1)
                 logger.info(f"🔐 Enhanced confidence for authenticated user: {username}")
 
@@ -216,7 +219,8 @@ def trigger_regtech_collection():
         cursor.close()
         conn.close()
 
-        auth_status = "authenticated" if username == "nextrade" else "demo"
+        is_authenticated = bool(username and password)  # 유저명과 패스워드가 모두 있으면 인증된 것으로 처리
+        auth_status = "authenticated" if is_authenticated else "demo"
         logger.info(
             f"REGTECH collection completed ({auth_status}). Processed {processed_count} real records"
         )
@@ -226,9 +230,10 @@ def trigger_regtech_collection():
                 "success": True,
                 "message": f"REGTECH collection completed with real data ({auth_status} mode)",
                 "collected": processed_count,
-                "authenticated": username == "nextrade",
+                "authenticated": is_authenticated,
                 "data_source": "real_regtech_data",
-                "enhanced_confidence": username == "nextrade",
+                "enhanced_confidence": is_authenticated,
+                "username": username if is_authenticated else None,
                 "timestamp": datetime.now().isoformat(),
             }
         )
