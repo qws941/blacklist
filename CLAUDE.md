@@ -88,6 +88,27 @@ REDIS_PORT=6379
 # Application
 FLASK_ENV=production
 PORT=2542
+
+# System Optimization (Linux host)
+vm.overcommit_memory=1    # Required for Redis optimization
+```
+
+### Advanced Configuration
+```bash
+# Redis Configuration Files
+redis-silent.conf         # Warning-free Redis configuration
+redis-no-warnings.conf     # Alternative Redis config with detailed comments
+redis-optimized.conf       # Performance-optimized Redis settings
+
+# Container Resource Management
+# Note: Resource limits removed per operational requirements
+# Focus on application-level optimization instead
+
+# Logging Configuration
+LOG_LEVEL=INFO            # Application log verbosity
+PYTHONUNBUFFERED=1        # Immediate Python output for Docker logs
+GUNICORN_WORKERS=4        # Production worker processes
+GUNICORN_MAX_REQUESTS=1000 # Worker recycling threshold
 ```
 
 ## Application Architecture
@@ -172,6 +193,26 @@ Based on log analysis, the system runs several automated modules:
 - **PredictiveEngine**: AI-powered prediction and analysis
 - **API Monitoring**: Continuous API health monitoring
 
+### Redis Optimization & Warning Resolution
+- **Memory Overcommit Fix**: System-level configuration with `vm.overcommit_memory = 1` in `/etc/sysctl.conf`
+- **Warning-Free Configuration**: Custom `redis-silent.conf` eliminates all Redis warnings
+- **Save Operations Disabled**: `save ""` and `appendonly no` to prevent fork-related warnings
+- **Log Level Optimization**: Set to `warning` level to suppress informational messages
+- **PID File Management**: Disabled to prevent permission warnings in Docker environment
+
+```bash
+# Apply system-level Redis optimization:
+sudo sysctl vm.overcommit_memory=1
+echo "vm.overcommit_memory = 1" | sudo tee -a /etc/sysctl.conf
+
+# Redis configuration highlights (redis-silent.conf):
+loglevel warning
+save ""
+appendonly no
+slowlog-log-slower-than -1
+logfile ""
+```
+
 ## Data Collection System
 
 ### Collection Sources
@@ -197,6 +238,25 @@ Based on log analysis, the system runs several automated modules:
 - Automatic restart protection to prevent runaway collection
 - Comprehensive audit logging of collection state changes
 - Force disable mode for emergency stop functionality
+
+### Dynamic Credential Management
+- **Database-Driven Authentication**: Real authentication credentials stored in `collection_credentials` table
+- **Runtime Credential Retrieval**: Collection APIs dynamically fetch credentials from database
+- **Authentication Status Check**: `is_authenticated = bool(username and password)` for real-time validation
+- **Clean Image Deployment**: Schema-only Docker images with no hardcoded data
+
+```python
+# Dynamic credential loading example (collection_api.py):
+cursor.execute("""
+    SELECT username, password 
+    FROM collection_credentials 
+    WHERE service_name = 'REGTECH'
+""")
+result = cursor.fetchone()
+if result:
+    username, password = result
+    is_authenticated = bool(username and password)
+```
 
 ## Testing Framework
 
@@ -239,6 +299,26 @@ pytest -k "test_name"    # Run specific test pattern
 # tests/integration/    - Integration tests  
 # tests/security/       - Security tests
 # tests/ui/            - UI/Frontend tests
+```
+
+### Data Verification Testing
+```bash
+# Verify data integrity after collection:
+curl http://localhost:32542/api/collection/real-stats | jq
+curl http://localhost:32542/api/monitoring/blacklist-status | jq
+
+# Test authentication system:
+curl -X POST http://localhost:32542/api/collection/trigger-collection \
+  -H "Content-Type: application/json" \
+  -d '{"sources": ["REGTECH"]}'
+
+# Validate database consistency:
+docker exec -it blacklist-postgres psql -U postgres -d blacklist -c "
+SELECT 
+  COUNT(*) as total_records,
+  COUNT(CASE WHEN username IS NOT NULL THEN 1 END) as authenticated_records,
+  MAX(last_seen) as latest_collection
+FROM blacklist_ips;"
 ```
 
 ## Security Considerations
@@ -306,7 +386,127 @@ docker push registry.jclee.me/blacklist-postgres:latest
 - `gunicorn.conf.py`: Gunicorn WSGI server configuration
 - `monitoring-dashboard.html`: Real-time monitoring dashboard
 
-### Common Issues & Solutions
+### Schema-Only Image Building
+- **Clean Deployment Strategy**: Docker images contain only database schema, no seed data
+- **PostgreSQL Schema Export**: Use `pg_dump --schema-only` to extract production schema
+- **Dynamic Data Loading**: All data loaded at runtime from authenticated sources
+- **Version Control**: Schema changes tracked in `postgres.Dockerfile`
+
+```bash
+# Export clean schema from running database:
+docker exec blacklist-postgres pg_dump -U postgres -d blacklist --schema-only > init_schema.sql
+
+# Build and push clean images:
+docker build -f postgres.Dockerfile -t registry.jclee.me/blacklist-postgres:latest .
+docker build -f Dockerfile.simple -t registry.jclee.me/blacklist-app:latest .
+docker push registry.jclee.me/blacklist-postgres:latest
+docker push registry.jclee.me/blacklist-app:latest
+```
+
+## Troubleshooting Guide
+
+### Data Consistency Issues
+**Problem**: Collection Panel API returns different IP counts than other APIs
+```bash
+# Symptom: Collection Panel shows 0 IPs while other endpoints show correct counts
+curl http://localhost:32542/api/collection/real-stats | jq .total_ips
+# Returns 0
+
+curl http://localhost:32542/api/monitoring/blacklist-status | jq .total_records  
+# Returns correct count (e.g., 119)
+```
+
+**Root Cause**: `collection_panel.py` using non-existent `collections` table
+**Solution**: Update to use correct table structure
+```python
+# Fixed query in collection_panel.py:
+cur.execute("SELECT MAX(last_seen) FROM blacklist_ips")
+# Instead of: cur.execute("SELECT MAX(created_at) FROM collections")
+
+# Fixed active services check:
+cur.execute("SELECT COUNT(*) FROM collection_credentials WHERE username IS NOT NULL AND password IS NOT NULL")
+# Instead of: cur.execute("SELECT COUNT(*) FROM collection_credentials WHERE is_active = true")
+```
+
+### Redis Warning Resolution
+**Problem**: Redis container shows memory overcommit and permission warnings
+```bash
+# Common Redis warnings:
+WARNING Memory overcommit must be enabled!
+WARNING: The TCP backlog setting of 511
+WARNING could not create server TCP listening socket
+```
+
+**Solution**: System-level configuration + optimized Redis config
+```bash
+# Apply system fix (requires sudo):
+sudo sysctl vm.overcommit_memory=1
+echo "vm.overcommit_memory = 1" | sudo tee -a /etc/sysctl.conf
+
+# Use redis-silent.conf in docker-compose.yml:
+volumes:
+  - ./redis-silent.conf:/usr/local/etc/redis/redis.conf
+```
+
+### Seed Data Contamination
+**Problem**: Production database contains simulation/seed data mixed with real data
+```bash
+# Identify seed data:
+docker exec -it blacklist-postgres psql -U postgres -d blacklist -c "
+SELECT source, detection_method, COUNT(*) 
+FROM blacklist_ips 
+WHERE detection_method = 'Auto-detected threat' 
+  AND DATE(last_seen) = '2025-08-28' 
+GROUP BY source, detection_method;"
+```
+
+**Solution**: Clean seed data and rebuild with schema-only images
+```sql
+-- Remove seed/simulation data:
+DELETE FROM blacklist_ips 
+WHERE detection_method = 'Auto-detected threat' 
+  AND (source LIKE '%simulation%' OR confidence_level < 50);
+
+-- Verify real data remains:
+SELECT COUNT(*) FROM blacklist_ips WHERE username IS NOT NULL;
+```
+
+### Authentication Credential Issues
+**Problem**: Collection APIs fail with authentication errors despite stored credentials
+**Solution**: Verify database credential storage and API retrieval logic
+```python
+# Debug credential retrieval:
+cursor.execute("SELECT service_name, username, password FROM collection_credentials;")
+results = cursor.fetchall()
+for row in results:
+    print(f"Service: {row['service_name']}, Has Auth: {bool(row['username'] and row['password'])}")
+```
+
+### Container Health Check Failures
+**Problem**: Docker containers show unhealthy status
+```bash
+# Check container status:
+docker-compose ps
+
+# View health check logs:
+docker inspect blacklist-app | jq '.[0].State.Health'
+docker inspect blacklist-postgres | jq '.[0].State.Health'
+```
+
+**Common Solutions**:
+- **PostgreSQL**: Ensure `pg_isready` command succeeds
+- **Redis**: Verify `redis-cli ping` responds with PONG  
+- **Flask App**: Check `/health` endpoint returns 200 status
+
+### Performance Optimization
+**Problem**: Application reinitializes on every request
+**Solution**: Implement proper connection pooling and caching
+```python
+# Monitor initialization patterns in logs:
+docker-compose logs -f blacklist-app | grep -E "(Initializing|Starting|Loading)"
+```
+
+## Common Issues & Solutions
 
 #### Container Won't Start
 - Check if using correct Dockerfile (`Dockerfile.simple`, not bare `python:3.11-slim`)
