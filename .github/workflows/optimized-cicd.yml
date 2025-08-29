@@ -1,0 +1,571 @@
+name: 🚀 Optimized CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'src/**'
+      - 'Dockerfile*'
+      - 'docker-compose*.yml'
+      - 'requirements.txt'
+      - 'main.py'
+      - 'gunicorn.conf.py'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      force_build:
+        description: 'Force build all images'
+        required: false
+        default: 'false'
+        type: boolean
+      target_images:
+        description: 'Target images (comma-separated: app,postgres,redis)'
+        required: false
+        default: 'all'
+      version_type:
+        description: 'Version bump type'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+
+env:
+  REGISTRY: registry.jclee.me
+  REGISTRY_USER: admin
+  PROJECT_NAME: blacklist
+
+jobs:
+  # 통합 변경사항 분석 및 SHA 기반 버전 관리
+  analyze-and-version:
+    name: 📊 Analysis & SHA Version Management
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.sha-version.outputs.version }}
+      semantic-version: ${{ steps.sha-version.outputs.semantic-version }}
+      short-sha: ${{ steps.sha-version.outputs.short-sha }}
+      build-number: ${{ steps.sha-version.outputs.build-number }}
+      should-build: ${{ steps.decision.outputs.should-build }}
+      build-app: ${{ steps.changes.outputs.app }}
+      build-postgres: ${{ steps.changes.outputs.postgres }}
+      build-redis: ${{ steps.changes.outputs.redis }}
+      
+    steps:
+    - name: 🛎️ Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Full history for accurate version calculation
+        
+    - name: 🔍 변경사항 감지
+      uses: dorny/paths-filter@v3
+      id: changes
+      with:
+        filters: |
+          app:
+            - 'src/**'
+            - 'main.py'
+            - 'Dockerfile'
+            - 'requirements.txt'
+            - 'gunicorn.conf.py'
+          postgres:
+            - 'postgres.Dockerfile'
+            - 'src/core/database/**'
+            - 'instance/**'
+          redis:
+            - 'redis.Dockerfile'
+            - 'config/redis/**'
+          any:
+            - 'src/**'
+            - 'Dockerfile*'
+            - 'docker-compose*.yml'
+            - 'requirements.txt'
+            - '.github/workflows/**'
+            
+    - name: 🏷️ SHA 기반 동적 버전 계산
+      id: sha-version
+      run: |
+        # 기본 Git 정보 수집
+        SHORT_SHA=$(git rev-parse --short HEAD)
+        FULL_SHA=$(git rev-parse HEAD)
+        BRANCH=$(git rev-parse --abbrev-ref HEAD)
+        BUILD_NUMBER=${{ github.run_number }}
+        TIMESTAMP=$(date -u +%Y%m%d-%H%M%S)
+        
+        # 현재 시맨틱 버전 읽기
+        if [[ -f "VERSION" ]]; then
+          CURRENT_SEMANTIC=$(cat VERSION)
+        else
+          CURRENT_SEMANTIC="1.0.0"
+        fi
+        
+        # 버전 범프 결정 (수동 vs 자동)
+        if [[ "${{ github.event.inputs.version_type }}" != "auto" ]] && [[ "${{ github.event.inputs.version_type }}" != "" ]]; then
+          # 수동 버전 범프
+          case "${{ github.event.inputs.version_type }}" in
+            patch)
+              SEMANTIC_VERSION=$(echo $CURRENT_SEMANTIC | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+              BUMP_TYPE="patch"
+              ;;
+            minor)
+              SEMANTIC_VERSION=$(echo $CURRENT_SEMANTIC | awk -F. '{$(NF-1) = $(NF-1) + 1; $NF = 0;} 1' | sed 's/ /./g')
+              BUMP_TYPE="minor"
+              ;;
+            major)
+              SEMANTIC_VERSION=$(echo $CURRENT_SEMANTIC | awk -F. '{$1 = $1 + 1; $2 = 0; $3 = 0;} 1' | sed 's/ /./g')
+              BUMP_TYPE="major"
+              ;;
+          esac
+        else
+          # 커밋 메시지 기반 자동 버전 계산
+          COMMIT_MSGS=$(git log --oneline -5 --format=%s)
+          
+          if echo "$COMMIT_MSGS" | grep -qE "(BREAKING|breaking|!:|feat!:|fix!:)"; then
+            SEMANTIC_VERSION=$(echo $CURRENT_SEMANTIC | awk -F. '{$1 = $1 + 1; $2 = 0; $3 = 0;} 1' | sed 's/ /./g')
+            BUMP_TYPE="major"
+          elif echo "$COMMIT_MSGS" | grep -qE "(^feat:|^feat\(|feature:|add |implement )"; then
+            SEMANTIC_VERSION=$(echo $CURRENT_SEMANTIC | awk -F. '{$(NF-1) = $(NF-1) + 1; $NF = 0;} 1' | sed 's/ /./g')
+            BUMP_TYPE="minor"
+          else
+            SEMANTIC_VERSION=$(echo $CURRENT_SEMANTIC | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+            BUMP_TYPE="patch"
+          fi
+        fi
+        
+        # 포괄적 SHA 기반 버전 생성
+        # 형식: {semantic}-build{build}-{sha}-{timestamp}
+        SHA_VERSION="${SEMANTIC_VERSION}-build${BUILD_NUMBER}-${SHORT_SHA}-${TIMESTAMP}"
+        
+        # 출력 변수 설정
+        echo "version=${SHA_VERSION}" >> $GITHUB_OUTPUT
+        echo "semantic-version=${SEMANTIC_VERSION}" >> $GITHUB_OUTPUT
+        echo "short-sha=${SHORT_SHA}" >> $GITHUB_OUTPUT
+        echo "build-number=${BUILD_NUMBER}" >> $GITHUB_OUTPUT
+        echo "bump-type=${BUMP_TYPE}" >> $GITHUB_OUTPUT
+        
+        # 상세한 버전 정보 JSON 생성
+        cat > version-info.json <<EOF
+        {
+          "version": "${SHA_VERSION}",
+          "semantic_version": "${SEMANTIC_VERSION}",
+          "build_number": ${BUILD_NUMBER},
+          "bump_type": "${BUMP_TYPE}",
+          "sha": {
+            "short": "${SHORT_SHA}",
+            "full": "${FULL_SHA}"
+          },
+          "git": {
+            "branch": "${BRANCH}",
+            "commit_count": $(git rev-list --count HEAD),
+            "timestamp": "$(git log -1 --format=%cI)",
+            "last_commit_message": $(git log -1 --format=%s | jq -R .)
+          },
+          "build": {
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "runner": "github-actions",
+            "workflow": "${{ github.workflow }}",
+            "run_id": "${{ github.run_id }}"
+          }
+        }
+        EOF
+        
+        echo "📋 Version Information:"
+        echo "  🏷️ SHA Version: ${SHA_VERSION}"
+        echo "  📦 Semantic: ${SEMANTIC_VERSION} (${BUMP_TYPE} bump)"
+        echo "  🏗️ Build: ${BUILD_NUMBER}"
+        echo "  📝 SHA: ${SHORT_SHA}"
+        
+        # VERSION 파일 업데이트 (커밋 없이)
+        echo "${SEMANTIC_VERSION}" > VERSION
+        
+    - name: 🎯 빌드 결정
+      id: decision
+      run: |
+        FORCE_BUILD="${{ github.event.inputs.force_build }}"
+        TARGET_IMAGES="${{ github.event.inputs.target_images }}"
+        
+        # PR인 경우 빌드하지 않음
+        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+          echo "should-build=false" >> $GITHUB_OUTPUT
+          echo "📝 PR 이벤트 - 빌드 스킵"
+          exit 0
+        fi
+        
+        # 강제 빌드인 경우
+        if [[ "$FORCE_BUILD" == "true" ]]; then
+          echo "should-build=true" >> $GITHUB_OUTPUT
+          echo "🔨 강제 빌드 실행"
+          exit 0
+        fi
+        
+        # 수동 버전 지정인 경우
+        if [[ "${{ github.event.inputs.version_type }}" != "auto" ]] && [[ "${{ github.event.inputs.version_type }}" != "" ]]; then
+          echo "should-build=true" >> $GITHUB_OUTPUT
+          echo "🏷️ 수동 버전 지정 - 빌드 실행"
+          exit 0
+        fi
+        
+        # 변경사항 기반 빌드
+        if [[ "${{ steps.changes.outputs.any }}" == "true" ]]; then
+          echo "should-build=true" >> $GITHUB_OUTPUT
+          echo "✅ 변경사항 감지 - 빌드 실행"
+        else
+          echo "should-build=false" >> $GITHUB_OUTPUT
+          echo "📭 변경사항 없음 - 빌드 스킵"
+        fi
+        
+    - name: 📤 버전 아티팩트 업로드
+      uses: actions/upload-artifact@v4
+      with:
+        name: version-info
+        path: |
+          version-info.json
+          VERSION
+        retention-days: 30
+
+  # 최적화된 멀티 이미지 빌드
+  build-and-push:
+    name: 🐳 Build & Push (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    needs: analyze-and-version
+    if: needs.analyze-and-version.outputs.should-build == 'true'
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: app
+            dockerfile: Dockerfile
+            context: .
+            build_condition: ${{ needs.analyze-and-version.outputs.build-app }}
+          - name: postgres  
+            dockerfile: postgres.Dockerfile
+            context: .
+            build_condition: ${{ needs.analyze-and-version.outputs.build-postgres }}
+          - name: redis
+            dockerfile: redis.Dockerfile
+            context: .
+            build_condition: ${{ needs.analyze-and-version.outputs.build-redis }}
+            
+    steps:
+    - name: ⏭️ 이미지 빌드 조건 확인
+      id: should-build-image
+      run: |
+        FORCE_BUILD="${{ github.event.inputs.force_build }}"
+        TARGET_IMAGES="${{ github.event.inputs.target_images }}"
+        IMAGE_NAME="${{ matrix.name }}"
+        BUILD_CONDITION="${{ matrix.build_condition }}"
+        VERSION_TYPE="${{ github.event.inputs.version_type }}"
+        
+        # 강제 빌드 또는 전체 타겟인 경우
+        if [[ "$FORCE_BUILD" == "true" ]] || [[ "$TARGET_IMAGES" == "all" ]] || [[ -z "$TARGET_IMAGES" ]]; then
+          echo "should-build=true" >> $GITHUB_OUTPUT
+          echo "🔨 $IMAGE_NAME 이미지 빌드 예정 (강제/전체)"
+          exit 0
+        fi
+        
+        # 수동 버전 지정인 경우
+        if [[ "$VERSION_TYPE" != "auto" ]] && [[ "$VERSION_TYPE" != "" ]]; then
+          echo "should-build=true" >> $GITHUB_OUTPUT
+          echo "🏷️ $IMAGE_NAME 이미지 빌드 예정 (수동 버전)"
+          exit 0
+        fi
+        
+        # 특정 타겟 지정된 경우
+        if [[ "$TARGET_IMAGES" == *"$IMAGE_NAME"* ]]; then
+          echo "should-build=true" >> $GITHUB_OUTPUT
+          echo "🎯 $IMAGE_NAME 이미지 빌드 예정 (타겟 지정)"
+          exit 0
+        fi
+        
+        # 변경사항 기반 빌드
+        if [[ "$BUILD_CONDITION" == "true" ]]; then
+          echo "should-build=true" >> $GITHUB_OUTPUT
+          echo "📝 $IMAGE_NAME 이미지 빌드 예정 (변경사항)"
+        else
+          echo "should-build=false" >> $GITHUB_OUTPUT
+          echo "⏭️ $IMAGE_NAME 이미지 빌드 스킵"
+        fi
+        
+    - name: 📥 Checkout Repository
+      if: steps.should-build-image.outputs.should-build == 'true'
+      uses: actions/checkout@v4
+      
+    - name: 📥 버전 정보 다운로드
+      if: steps.should-build-image.outputs.should-build == 'true'
+      uses: actions/download-artifact@v4
+      with:
+        name: version-info
+      
+    - name: 🏗️ Docker Buildx 설정
+      if: steps.should-build-image.outputs.should-build == 'true'
+      uses: docker/setup-buildx-action@v3
+      
+    - name: 🔐 프라이빗 레지스트리 로그인
+      if: steps.should-build-image.outputs.should-build == 'true'
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ env.REGISTRY_USER }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+        
+    - name: 📋 메타데이터 및 태그 생성
+      if: steps.should-build-image.outputs.should-build == 'true'
+      id: meta
+      run: |
+        SHA_VERSION="${{ needs.analyze-and-version.outputs.version }}"
+        SEMANTIC="${{ needs.analyze-and-version.outputs.semantic-version }}"
+        SHORT_SHA="${{ needs.analyze-and-version.outputs.short-sha }}"
+        BUILD_NUM="${{ needs.analyze-and-version.outputs.build-number }}"
+        IMAGE_NAME="${{ matrix.name }}"
+        
+        # 포괄적 태그 목록 생성
+        TAGS="${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-${IMAGE_NAME}:latest"
+        TAGS="$TAGS,${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-${IMAGE_NAME}:${SEMANTIC}"
+        TAGS="$TAGS,${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-${IMAGE_NAME}:${SEMANTIC}-${SHORT_SHA}"
+        TAGS="$TAGS,${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-${IMAGE_NAME}:build-${BUILD_NUM}"
+        TAGS="$TAGS,${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-${IMAGE_NAME}:${SHA_VERSION}"
+        
+        # 메타데이터 라벨
+        LABELS="org.opencontainers.image.title=${{ env.PROJECT_NAME }}-${IMAGE_NAME}"
+        LABELS="$LABELS,org.opencontainers.image.description=Blacklist Management System - ${IMAGE_NAME}"
+        LABELS="$LABELS,org.opencontainers.image.version=${SEMANTIC}"
+        LABELS="$LABELS,org.opencontainers.image.vendor=jclee"
+        LABELS="$LABELS,org.opencontainers.image.revision=${{ github.sha }}"
+        LABELS="$LABELS,org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}"
+        
+        echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+        echo "labels=${LABELS}" >> $GITHUB_OUTPUT
+        echo "sha-version=${SHA_VERSION}" >> $GITHUB_OUTPUT
+        
+        echo "🏷️ Generated tags for ${IMAGE_NAME}:"
+        echo "${TAGS}" | tr ',' '\n' | sed 's/^/  - /'
+        
+    - name: 🐳 Docker 이미지 빌드 및 푸시
+      if: steps.should-build-image.outputs.should-build == 'true'
+      uses: docker/build-push-action@v5
+      with:
+        context: ${{ matrix.context }}
+        file: ${{ matrix.dockerfile }}
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha,scope=${{ matrix.name }}
+        cache-to: type=gha,mode=max,scope=${{ matrix.name }}
+        build-args: |
+          BUILDTIME=${{ github.event.head_commit.timestamp }}
+          VERSION=${{ steps.meta.outputs.sha-version }}
+          BUILD_NUMBER=${{ needs.analyze-and-version.outputs.build-number }}
+          VCS_REF=${{ github.sha }}
+          
+    - name: ✅ 빌드 결과 출력
+      if: steps.should-build-image.outputs.should-build == 'true'
+      run: |
+        echo "🎉 ${{ matrix.name }} 이미지 빌드 완료!"
+        echo "📦 이미지: ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-${{ matrix.name }}"
+        echo "🏷️ SHA 버전: ${{ steps.meta.outputs.sha-version }}"
+        echo "📦 시맨틱 버전: ${{ needs.analyze-and-version.outputs.semantic-version }}"
+        echo "📝 Short SHA: ${{ needs.analyze-and-version.outputs.short-sha }}"
+        echo "🏗️ 빌드 번호: ${{ needs.analyze-and-version.outputs.build-number }}"
+
+  # 보안 스캔 (선택적)
+  security-scan:
+    name: 🛡️ Security Scan (${{ matrix.image }})
+    runs-on: ubuntu-latest
+    needs: [analyze-and-version, build-and-push]
+    if: needs.analyze-and-version.outputs.should-build == 'true' && github.ref == 'refs/heads/main'
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        image: [app, postgres, redis]
+        
+    steps:
+    - name: 🔐 레지스트리 로그인
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ env.REGISTRY_USER }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+        
+    - name: 🛡️ Trivy 보안 스캔
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-${{ matrix.image }}:${{ needs.analyze-and-version.outputs.semantic-version }}
+        format: 'sarif'
+        output: 'trivy-results-${{ matrix.image }}.sarif'
+        
+    - name: 📊 보안 스캔 결과 업로드
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: 'trivy-results-${{ matrix.image }}.sarif'
+
+  # GitHub Release 생성
+  create-release:
+    name: 🚀 Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [analyze-and-version, build-and-push]
+    if: needs.analyze-and-version.outputs.should-build == 'true' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 🛎️ Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: 📥 버전 정보 다운로드
+      uses: actions/download-artifact@v4
+      with:
+        name: version-info
+        
+    - name: 📝 릴리즈 노트 생성
+      run: |
+        SHA_VERSION="${{ needs.analyze-and-version.outputs.version }}"
+        SEMANTIC="${{ needs.analyze-and-version.outputs.semantic-version }}"
+        SHORT_SHA="${{ needs.analyze-and-version.outputs.short-sha }}"
+        BUILD_NUM="${{ needs.analyze-and-version.outputs.build-number }}"
+        
+        cat > release-notes.md <<EOF
+        # 🚀 Blacklist Management System ${SEMANTIC}
+        
+        **SHA Version:** \`${SHA_VERSION}\`  
+        **Build:** #${BUILD_NUM}  
+        **SHA:** \`${SHORT_SHA}\`  
+        **Build Time:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+        
+        ## 📦 Docker Images
+        
+        모든 이미지는 다양한 태그로 제공됩니다:
+        
+        - **Latest:** \`${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-{service}:latest\`
+        - **Semantic:** \`${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-{service}:${SEMANTIC}\`
+        - **SHA-based:** \`${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-{service}:${SHA_VERSION}\`
+        - **Build-specific:** \`${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-{service}:build-${BUILD_NUM}\`
+        
+        ### Available Services:
+        - \`blacklist-app\` - Main Flask application
+        - \`blacklist-postgres\` - PostgreSQL database with schema
+        - \`blacklist-redis\` - Redis cache service
+        
+        ## 🔄 업데이트 방법
+        \`\`\`bash
+        # 모든 서비스 이미지 다운로드
+        docker pull ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-app:${SEMANTIC}
+        docker pull ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-postgres:${SEMANTIC}
+        docker pull ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-redis:${SEMANTIC}
+        
+        # 또는 최신 태그 사용
+        docker-compose pull && docker-compose up -d
+        \`\`\`
+        
+        ## 📋 변경사항
+        - **앱**: ${{ needs.analyze-and-version.outputs.build-app == 'true' && '✅ 변경됨' || '❌ 변경없음' }}
+        - **PostgreSQL**: ${{ needs.analyze-and-version.outputs.build-postgres == 'true' && '✅ 변경됨' || '❌ 변경없음' }}  
+        - **Redis**: ${{ needs.analyze-and-version.outputs.build-redis == 'true' && '✅ 변경됨' || '❌ 변경없음' }}
+        
+        ## 📊 최근 커밋
+        
+        EOF
+        
+        # 최근 커밋 목록 추가
+        git log --oneline --no-merges -10 | sed 's/^/- /' >> release-notes.md
+        
+        cat >> release-notes.md <<EOF
+        
+        ## 🔗 추가 정보
+        - **GitHub Run:** [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+        - **Commit:** \`${{ github.sha }}\`
+        - **Branch:** \`${{ github.ref_name }}\`
+        
+        ---
+        
+        *🤖 이 릴리즈는 SHA 기반 동적 버전 관리를 통해 자동 생성되었습니다.*
+        EOF
+        
+    - name: 🏷️ GitHub Release 생성
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ needs.analyze-and-version.outputs.semantic-version }}-${{ needs.analyze-and-version.outputs.short-sha }}
+        release_name: 🚀 Release ${{ needs.analyze-and-version.outputs.semantic-version }} (${{ needs.analyze-and-version.outputs.short-sha }})
+        body_path: release-notes.md
+        draft: false
+        prerelease: false
+
+  # 최종 요약 및 알림
+  pipeline-summary:
+    name: 📊 Pipeline Summary
+    runs-on: ubuntu-latest
+    needs: [analyze-and-version, build-and-push, security-scan, create-release]
+    if: always()
+    
+    steps:
+    - name: 📋 전체 파이프라인 요약
+      run: |
+        echo "## 🚀 최적화된 CI/CD 파이프라인 실행 결과" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        echo "### 📋 기본 정보" >> $GITHUB_STEP_SUMMARY
+        echo "- **이벤트**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **브랜치**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **커밋**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+        
+        if [[ "${{ needs.analyze-and-version.outputs.should-build }}" == "true" ]]; then
+          echo "- **SHA 버전**: ${{ needs.analyze-and-version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **시맨틱 버전**: ${{ needs.analyze-and-version.outputs.semantic-version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **빌드 번호**: ${{ needs.analyze-and-version.outputs.build-number }}" >> $GITHUB_STEP_SUMMARY
+        fi
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        echo "### 🔄 변경사항 분석" >> $GITHUB_STEP_SUMMARY
+        if [[ "${{ needs.analyze-and-version.outputs.should-build }}" == "true" ]]; then
+          echo "- **앱**: ${{ needs.analyze-and-version.outputs.build-app == 'true' && '✅ 변경됨' || '❌ 변경없음' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **PostgreSQL**: ${{ needs.analyze-and-version.outputs.build-postgres == 'true' && '✅ 변경됨' || '❌ 변경없음' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Redis**: ${{ needs.analyze-and-version.outputs.build-redis == 'true' && '✅ 변경됨' || '❌ 변경없음' }}" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "- **빌드**: ⏭️ 스킵됨 (변경사항 없음)" >> $GITHUB_STEP_SUMMARY
+        fi
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        echo "### 📦 실행 결과" >> $GITHUB_STEP_SUMMARY
+        echo "- **분석 & 버전**: ${{ needs.analyze-and-version.result == 'success' && '✅ 성공' || '❌ 실패' }}" >> $GITHUB_STEP_SUMMARY
+        
+        if [[ "${{ needs.analyze-and-version.outputs.should-build }}" == "true" ]]; then
+          echo "- **빌드 & 푸시**: ${{ needs.build-and-push.result == 'success' && '✅ 성공' || '❌ 실패' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **보안 스캔**: ${{ needs.security-scan.result == 'success' && '✅ 완료' || needs.security-scan.result == 'skipped' && '⏭️ 스킵' || '❌ 실패' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **릴리즈**: ${{ needs.create-release.result == 'success' && '✅ 완료' || needs.create-release.result == 'skipped' && '⏭️ 스킵' || '❌ 실패' }}" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        if [[ "${{ needs.analyze-and-version.outputs.should-build }}" == "true" ]]; then
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📱 이미지 정보" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "# 최신 이미지 다운로드" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-app:${{ needs.analyze-and-version.outputs.semantic-version }}" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-postgres:${{ needs.analyze-and-version.outputs.semantic-version }}" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-redis:${{ needs.analyze-and-version.outputs.semantic-version }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "*🤖 최적화된 단일 파이프라인으로 통합 완료 - SHA 기반 동적 버전 관리 + 스마트 빌드 조건*" >> $GITHUB_STEP_SUMMARY
+        
+    - name: 🎉 파이프라인 완료
+      run: |
+        if [[ "${{ needs.analyze-and-version.outputs.should-build }}" == "true" ]]; then
+          echo "🎉 최적화된 CI/CD 파이프라인 실행 완료!"
+          echo "🏷️ SHA 버전: ${{ needs.analyze-and-version.outputs.version }}"
+          echo "📦 시맨틱 버전: ${{ needs.analyze-and-version.outputs.semantic-version }}"
+          echo "🚀 모든 이미지가 성공적으로 빌드되어 프라이빗 레지스트리에 푸시되었습니다."
+        else
+          echo "📭 변경사항이 없어서 빌드를 스킵했습니다."
+          echo "⚡ 최적화된 파이프라인이 불필요한 빌드를 방지했습니다!"
+        fi
+        echo "📅 완료 시간: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
