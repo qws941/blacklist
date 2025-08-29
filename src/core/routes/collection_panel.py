@@ -17,33 +17,94 @@ SIMPLE_PANEL_HTML = """
     <title>🔄 통합 수집 관리 패널</title>
     <meta charset="utf-8">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body { 
-            font-family: Arial, sans-serif; 
-            margin: 20px;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #333;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        
+        [data-theme="dark"] {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: #f7fafc;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        [data-theme="dark"] .container {
+            background: rgba(26, 32, 44, 0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: 2px solid #4facfe;
+            color: #4facfe;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: #4facfe;
+            color: white;
         }
         h1 { 
             color: #4facfe; 
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 0;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+        
+        [data-theme="dark"] h1 {
+            color: #63b3ed;
         }
         .section {
             margin: 30px 0;
-            padding: 20px;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            background: #f8f9fa;
+            padding: 25px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 15px;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        [data-theme="dark"] .section {
+            background: rgba(45, 55, 72, 0.7);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .section h2 {
             color: #495057;
@@ -53,21 +114,116 @@ SIMPLE_PANEL_HTML = """
         }
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin: 20px 0;
         }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 15px;
+            }
+            
+            .container {
+                margin: 10px;
+                padding: 20px;
+                border-radius: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .header-controls {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .section {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                margin: 5px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .collection-controls {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .btn {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
         .stat-box {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px 20px;
+            border-radius: 12px;
             text-align: center;
             border: 2px solid #4facfe;
-            transition: transform 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
+        
         .stat-box:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.3);
+            border-color: #3b82f6;
+        }
+        
+        [data-theme="dark"] .stat-box {
+            background: rgba(45, 55, 72, 0.8);
+            border-color: #63b3ed;
+        }
+        
+        .stat-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4facfe, transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .stat-box:hover::before {
+            left: 100%;
+        }
+        
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         .stat-number {
             font-size: 2em;
@@ -83,22 +239,147 @@ SIMPLE_PANEL_HTML = """
             padding: 12px 24px;
             margin: 8px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
+            font-size: 14px;
+            letter-spacing: 0.025em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
         }
-        .btn-primary { background: #4facfe; color: white; }
-        .btn-success { background: #28a745; color: white; }
-        .btn-danger { background: #dc3545; color: white; }
-        .btn-info { background: #17a2b8; color: white; }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .btn-primary { 
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+        }
+        .btn-success { 
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%); 
+            color: white;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+        .btn-danger { 
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%); 
+            color: white;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+        .btn-info { 
+            background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); 
+            color: white;
+            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+        }
+        
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+            transition: transform 0.1s ease;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
         }
         .form-group {
             margin: 15px 0;
         }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        [data-theme="dark"] .form-group label {
+            color: #e2e8f0;
+        }
+        
+        select, input {
+            padding: 10px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            color: #2d3748;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+        
+        [data-theme="dark"] select, [data-theme="dark"] input {
+            background: #2d3748;
+            border-color: #4a5568;
+            color: #f7fafc;
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-left: 4px solid #4facfe;
+            border-radius: 8px;
+            padding: 16px 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            max-width: 400px;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success { border-left-color: #28a745; }
+        .toast.error { border-left-color: #dc3545; }
+        .toast.warning { border-left-color: #ffc107; }
+        
+        [data-theme="dark"] .toast {
+            background: #2d3748;
+            color: #f7fafc;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-indicator.online { background: #28a745; }
+        .status-indicator.offline { background: #dc3545; }
+        .status-indicator.loading { background: #ffc107; }
         .form-group label {
             display: block;
             margin-bottom: 5px;
@@ -147,7 +428,13 @@ SIMPLE_PANEL_HTML = """
 </head>
 <body>
     <div class="container">
-        <h1>🔄 통합 수집 관리 패널</h1>
+        <div class="header-controls">
+            <h1>🔄 통합 수집 관리 패널</h1>
+            <div>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙 다크모드</button>
+                <button class="btn btn-info" onclick="toggleAutoRefresh()" id="auto-refresh-btn">🔄 자동새로고침 OFF</button>
+            </div>
+        </div>
         
         <div class="section">
             <h2>📊 시스템 대시보드</h2>
@@ -240,12 +527,80 @@ SIMPLE_PANEL_HTML = """
     </div>
 
     <script>
-        function showStatus(message, type = 'info') {
-            const statusDiv = document.getElementById('status-message');
-            statusDiv.className = `status ${type}`;
-            statusDiv.textContent = message;
-            setTimeout(() => statusDiv.textContent = '', 5000);
+        // 테마 관리
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const toggleBtn = document.querySelector('.theme-toggle');
+            toggleBtn.textContent = newTheme === 'dark' ? '☀️ 라이트모드' : '🌙 다크모드';
         }
+        
+        // 자동 새로고침 관리
+        let autoRefreshInterval = null;
+        function toggleAutoRefresh() {
+            const btn = document.getElementById('auto-refresh-btn');
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+                btn.textContent = '🔄 자동새로고침 OFF';
+                btn.classList.remove('btn-success');
+                btn.classList.add('btn-info');
+            } else {
+                autoRefreshInterval = setInterval(refreshData, 30000); // 30초마다
+                btn.textContent = '⏸️ 자동새로고침 ON';
+                btn.classList.remove('btn-info');
+                btn.classList.add('btn-success');
+                showStatus('자동 새로고침이 30초마다 실행됩니다', 'success');
+            }
+        }
+
+        function showStatus(message, type = 'info') {
+            // 토스트 알림 생성
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                    <span class="status-indicator ${type === 'success' ? 'online' : type === 'error' ? 'offline' : 'loading'}"></span>
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // 애니메이션 시작
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            // 자동 제거
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 4000);
+        }
+        
+        // 향상된 로딩 상태 관리
+        function setLoading(elementId, isLoading = true) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            if (isLoading) {
+                element.classList.add('loading-skeleton', 'pulse-animation');
+                element.textContent = '로딩중...';
+            } else {
+                element.classList.remove('loading-skeleton', 'pulse-animation');
+            }
+        }
+        
+        // 페이지 로드 시 저장된 테마 적용
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const toggleBtn = document.querySelector('.theme-toggle');
+            toggleBtn.textContent = savedTheme === 'dark' ? '☀️ 라이트모드' : '🌙 다크모드';
+        });
 
         let collectionChart = null;
 
