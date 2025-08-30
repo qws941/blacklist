@@ -373,7 +373,7 @@ jobs:
         echo "📝 Short SHA: ${{ needs.analyze-and-version.outputs.short-sha }}"
         echo "🏗️ 빌드 번호: ${{ needs.analyze-and-version.outputs.build-number }}"
 
-  # 보안 스캔 (선택적)
+  # 보안 스캔 (선택적) - 권한 문제로 SARIF 업로드 제거
   security-scan:
     name: 🛡️ Security Scan (${{ matrix.image }})
     runs-on: ubuntu-latest
@@ -397,113 +397,66 @@ jobs:
       uses: aquasecurity/trivy-action@master
       with:
         image-ref: ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-${{ matrix.image }}:${{ needs.analyze-and-version.outputs.semantic-version }}
-        format: 'sarif'
-        output: 'trivy-results-${{ matrix.image }}.sarif'
+        format: 'table'
         
-    - name: 📊 보안 스캔 결과 업로드
-      uses: github/codeql-action/upload-sarif@v3
-      if: always()
-      with:
-        sarif_file: 'trivy-results-${{ matrix.image }}.sarif'
+    - name: 📊 보안 스캔 완료
+      run: |
+        echo "🛡️ ${{ matrix.image }} 이미지 보안 스캔 완료"
+        echo "✅ Trivy 스캔이 성공적으로 실행되었습니다"
 
-  # GitHub Release 생성
-  create-release:
-    name: 🚀 Create GitHub Release
+  # GitHub Release 생성 - 권한 문제로 제거하고 요약으로 대체
+  create-deployment-summary:
+    name: 📋 Deployment Summary
     runs-on: ubuntu-latest
     needs: [analyze-and-version, build-and-push]
     if: needs.analyze-and-version.outputs.should-build == 'true' && github.ref == 'refs/heads/main'
     
     steps:
-    - name: 🛎️ Checkout Repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        
     - name: 📥 버전 정보 다운로드
       uses: actions/download-artifact@v4
       with:
         name: version-info
         
-    - name: 📝 릴리즈 노트 생성
+    - name: 📋 배포 요약 생성
       run: |
         SHA_VERSION="${{ needs.analyze-and-version.outputs.version }}"
         SEMANTIC="${{ needs.analyze-and-version.outputs.semantic-version }}"
         SHORT_SHA="${{ needs.analyze-and-version.outputs.short-sha }}"
         BUILD_NUM="${{ needs.analyze-and-version.outputs.build-number }}"
         
-        cat > release-notes.md <<EOF
-        # 🚀 Blacklist Management System ${SEMANTIC}
+        echo "## 🚀 배포 완료 요약" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**SHA Version:** \`${SHA_VERSION}\`" >> $GITHUB_STEP_SUMMARY
+        echo "**시맨틱 버전:** \`${SEMANTIC}\`" >> $GITHUB_STEP_SUMMARY
+        echo "**빌드 번호:** #${BUILD_NUM}" >> $GITHUB_STEP_SUMMARY
+        echo "**SHA:** \`${SHORT_SHA}\`" >> $GITHUB_STEP_SUMMARY
+        echo "**배포 시간:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
         
-        **SHA Version:** \`${SHA_VERSION}\`  
-        **Build:** #${BUILD_NUM}  
-        **SHA:** \`${SHORT_SHA}\`  
-        **Build Time:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+        echo "### 📦 빌드된 이미지들" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+        echo "# 최신 이미지 다운로드 명령어" >> $GITHUB_STEP_SUMMARY
+        echo "docker pull ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-app:${SEMANTIC}" >> $GITHUB_STEP_SUMMARY
+        echo "docker pull ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-postgres:${SEMANTIC}" >> $GITHUB_STEP_SUMMARY
+        echo "docker pull ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-redis:${SEMANTIC}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "# 또는 latest 태그 사용" >> $GITHUB_STEP_SUMMARY
+        echo "docker-compose pull && docker-compose up -d" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
         
-        ## 📦 Docker Images
+        echo "### 📋 변경사항" >> $GITHUB_STEP_SUMMARY
+        echo "- **앱**: ${{ needs.analyze-and-version.outputs.build-app == 'true' && '✅ 변경됨' || '❌ 변경없음' }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **PostgreSQL**: ${{ needs.analyze-and-version.outputs.build-postgres == 'true' && '✅ 변경됨' || '❌ 변경없음' }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Redis**: ${{ needs.analyze-and-version.outputs.build-redis == 'true' && '✅ 변경됨' || '❌ 변경없음' }}" >> $GITHUB_STEP_SUMMARY
         
-        모든 이미지는 다양한 태그로 제공됩니다:
-        
-        - **Latest:** \`${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-{service}:latest\`
-        - **Semantic:** \`${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-{service}:${SEMANTIC}\`
-        - **SHA-based:** \`${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-{service}:${SHA_VERSION}\`
-        - **Build-specific:** \`${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-{service}:build-${BUILD_NUM}\`
-        
-        ### Available Services:
-        - \`blacklist-app\` - Main Flask application
-        - \`blacklist-postgres\` - PostgreSQL database with schema
-        - \`blacklist-redis\` - Redis cache service
-        
-        ## 🔄 업데이트 방법
-        \`\`\`bash
-        # 모든 서비스 이미지 다운로드
-        docker pull ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-app:${SEMANTIC}
-        docker pull ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-postgres:${SEMANTIC}
-        docker pull ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-redis:${SEMANTIC}
-        
-        # 또는 최신 태그 사용
-        docker-compose pull && docker-compose up -d
-        \`\`\`
-        
-        ## 📋 변경사항
-        - **앱**: ${{ needs.analyze-and-version.outputs.build-app == 'true' && '✅ 변경됨' || '❌ 변경없음' }}
-        - **PostgreSQL**: ${{ needs.analyze-and-version.outputs.build-postgres == 'true' && '✅ 변경됨' || '❌ 변경없음' }}  
-        - **Redis**: ${{ needs.analyze-and-version.outputs.build-redis == 'true' && '✅ 변경됨' || '❌ 변경없음' }}
-        
-        ## 📊 최근 커밋
-        
-        EOF
-        
-        # 최근 커밋 목록 추가
-        git log --oneline --no-merges -10 | sed 's/^/- /' >> release-notes.md
-        
-        cat >> release-notes.md <<EOF
-        
-        ## 🔗 추가 정보
-        - **GitHub Run:** [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-        - **Commit:** \`${{ github.sha }}\`
-        - **Branch:** \`${{ github.ref_name }}\`
-        
-        ---
-        
-        *🤖 이 릴리즈는 SHA 기반 동적 버전 관리를 통해 자동 생성되었습니다.*
-        EOF
-        
-    - name: 🏷️ GitHub Release 생성
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v${{ needs.analyze-and-version.outputs.semantic-version }}-${{ needs.analyze-and-version.outputs.short-sha }}
-        release_name: 🚀 Release ${{ needs.analyze-and-version.outputs.semantic-version }} (${{ needs.analyze-and-version.outputs.short-sha }})
-        body_path: release-notes.md
-        draft: false
-        prerelease: false
+        echo "🎉 모든 이미지가 성공적으로 빌드되고 ${{ env.REGISTRY }}에 푸시되었습니다!"
 
   # 최종 요약 및 알림
   pipeline-summary:
     name: 📊 Pipeline Summary
     runs-on: ubuntu-latest
-    needs: [analyze-and-version, build-and-push, security-scan, create-release]
+    needs: [analyze-and-version, build-and-push, security-scan, create-deployment-summary]
     if: always()
     
     steps:
@@ -540,7 +493,7 @@ jobs:
         if [[ "${{ needs.analyze-and-version.outputs.should-build }}" == "true" ]]; then
           echo "- **빌드 & 푸시**: ${{ needs.build-and-push.result == 'success' && '✅ 성공' || '❌ 실패' }}" >> $GITHUB_STEP_SUMMARY
           echo "- **보안 스캔**: ${{ needs.security-scan.result == 'success' && '✅ 완료' || needs.security-scan.result == 'skipped' && '⏭️ 스킵' || '❌ 실패' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **릴리즈**: ${{ needs.create-release.result == 'success' && '✅ 완료' || needs.create-release.result == 'skipped' && '⏭️ 스킵' || '❌ 실패' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **배포 요약**: ${{ needs.create-deployment-summary.result == 'success' && '✅ 완료' || needs.create-deployment-summary.result == 'skipped' && '⏭️ 스킵' || '❌ 실패' }}" >> $GITHUB_STEP_SUMMARY
         fi
         
         if [[ "${{ needs.analyze-and-version.outputs.should-build }}" == "true" ]]; then
