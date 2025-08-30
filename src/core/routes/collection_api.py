@@ -49,7 +49,7 @@ def collection_status():
         )
         source_stats = cursor.fetchall()
 
-        # Generate chart data for demonstration
+        # Generate chart data from actual database
         now = datetime.now()
         labels = []
         regtech_data = []
@@ -57,9 +57,32 @@ def collection_status():
 
         for i in range(7):
             date = (now - timedelta(days=6 - i)).strftime("%m/%d")
+            date_str = (now - timedelta(days=6 - i)).strftime("%Y-%m-%d")
             labels.append(date)
-            regtech_data.append(random.randint(100, 500))
-            secudium_data.append(random.randint(80, 400))
+
+            # Get actual counts from database for each date
+            cursor.execute(
+                """
+                SELECT source, COUNT(*) as count
+                FROM blacklist_ips 
+                WHERE DATE(last_seen) = %s
+                GROUP BY source
+            """,
+                (date_str,),
+            )
+
+            daily_stats = cursor.fetchall()
+            regtech_count = 0
+            secudium_count = 0
+
+            for stat in daily_stats:
+                if stat["source"] == "REGTECH":
+                    regtech_count = stat["count"]
+                elif stat["source"] == "SECUDIUM":
+                    secudium_count = stat["count"]
+
+            regtech_data.append(regtech_count)
+            secudium_data.append(secudium_count)
 
         cursor.close()
         conn.close()
@@ -269,21 +292,84 @@ def trigger_regtech_collection():
 
 @collection_api_bp.route("/secudium/trigger", methods=["POST"])
 def trigger_secudium_collection():
-    """Trigger SECUDIUM collection"""
+    """Trigger SECUDIUM collection with real data"""
     try:
         logger.info("Starting SECUDIUM collection...")
 
-        # Simulate collection process
+        # Use actual SECUDIUM collector
+        try:
+            from ..collectors.secudium_collector import SecudiumCollector
+            from ..collectors.unified_collector import CollectionConfig
+
+            config = CollectionConfig()
+            collector = SecudiumCollector(config)
+
+            logger.info("✅ SECUDIUM collector 초기화 완료")
+
+            # 실제 데이터 수집 실행
+            result = collector.collect_from_web()
+
+            if result.get("success", False):
+                secudium_data = result.get("data", [])
+                logger.info(f"📡 SECUDIUM API에서 {len(secudium_data)}개 실제 위협 정보 수집완료")
+            else:
+                logger.error(
+                    f"❌ SECUDIUM 수집 실패: {result.get('error', 'Unknown error')}"
+                )
+                return (
+                    jsonify(
+                        {
+                            "success": False,
+                            "error": f"SECUDIUM 수집 실패: {result.get('error', 'Unknown error')}",
+                        }
+                    ),
+                    500,
+                )
+
+        except ImportError as e:
+            logger.warning(f"SECUDIUM collector 모듈 import 실패: {e}")
+            # 실제 서비스에서는 에러를 반환
+            return (
+                jsonify({"success": False, "error": "SECUDIUM collector가 구현되지 않았습니다"}),
+                501,
+            )
+        except Exception as e:
+            logger.error(f"SECUDIUM collector 실행 실패: {e}")
+            return (
+                jsonify(
+                    {"success": False, "error": f"SECUDIUM collector 실행 실패: {str(e)}"}
+                ),
+                500,
+            )
+
+        # Process real SECUDIUM data
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # Add sample IPs for demonstration
-        sample_ips = [
-            f"10.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(1,255)}"
-            for _ in range(random.randint(3, 10))
-        ]
+        processed_count = 0
+        for record in secudium_data:
+            ip = record.get("ip")
+            if not ip:
+                logger.warning("IP 정보가 없는 레코드 스킵")
+                continue
 
-        for ip in sample_ips:
+            threat_level = record.get("threat_level", "medium")
+            description = record.get("description", "SECUDIUM detected threat")
+            detection_date = record.get(
+                "detection_date", datetime.now().strftime("%Y-%m-%d")
+            )
+
+            # Map threat level to confidence and category
+            threat_mapping = {
+                "high": {"confidence": 9, "category": "phishing"},
+                "medium": {"confidence": 7, "category": "suspicious"},
+                "low": {"confidence": 5, "category": "scanning"},
+            }
+
+            mapping = threat_mapping.get(
+                threat_level, {"confidence": 6, "category": "unknown"}
+            )
+
             cursor.execute(
                 """
                 INSERT INTO blacklist_ips (ip_address, reason, source, category, confidence_level, is_active, last_seen)
@@ -296,26 +382,30 @@ def trigger_secudium_collection():
             """,
                 (
                     ip,
-                    "Security threat detected",
+                    f"SECUDIUM Real Data: {description}",
                     "SECUDIUM",
-                    "phishing",
-                    random.randint(5, 9),
+                    mapping["category"],
+                    mapping["confidence"],
                     True,
                     datetime.now(),
                 ),
             )
+            processed_count += 1
 
         conn.commit()
         cursor.close()
         conn.close()
 
-        logger.info(f"SECUDIUM collection completed. Added {len(sample_ips)} IPs")
+        logger.info(
+            f"SECUDIUM collection completed. Processed {processed_count} real records"
+        )
 
         return jsonify(
             {
                 "success": True,
-                "message": "SECUDIUM collection started successfully",
-                "collected": len(sample_ips),
+                "message": "SECUDIUM collection completed with real data",
+                "collected": processed_count,
+                "data_source": "real_secudium_data",
                 "timestamp": datetime.now().isoformat(),
             }
         )
@@ -327,82 +417,78 @@ def trigger_secudium_collection():
 
 @collection_api_bp.route("/trigger-all", methods=["POST"])
 def trigger_all_collections():
-    """Trigger all collections"""
+    """Trigger all collections with real collectors"""
     try:
         logger.info("Starting all collections...")
 
         results = {"regtech": False, "secudium": False, "total_collected": 0}
 
-        # Trigger REGTECH
-        conn = get_db_connection()
-        cursor = conn.cursor()
+        # Trigger REGTECH Collection
+        try:
+            from ..collectors.regtech_collector_core import RegtechCollector
+            from ..collectors.unified_collector import CollectionConfig
 
-        # Add sample IPs from both sources
-        regtech_ips = [
-            f"192.168.{random.randint(1,255)}.{random.randint(1,255)}"
-            for _ in range(random.randint(5, 15))
-        ]
+            config = CollectionConfig()
+            regtech_collector = RegtechCollector(config)
 
-        secudium_ips = [
-            f"10.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(1,255)}"
-            for _ in range(random.randint(3, 10))
-        ]
+            # Get credentials from database
+            conn = get_db_connection()
+            cursor = conn.cursor()
 
-        # Insert REGTECH IPs
-        for ip in regtech_ips:
-            cursor.execute(
+            try:
+                cursor.execute(
+                    """
+                    SELECT username, password 
+                    FROM collection_credentials 
+                    WHERE service_name = 'REGTECH'
                 """
-                INSERT INTO blacklist_ips (ip_address, reason, source, category, confidence_level, is_active, last_seen)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-                ON CONFLICT (ip_address) DO UPDATE
-                SET last_seen = EXCLUDED.last_seen,
-                    confidence_level = EXCLUDED.confidence_level,
-                    is_active = EXCLUDED.is_active,
-                    detection_count = blacklist_ips.detection_count + 1
-            """,
-                (
-                    ip,
-                    "Bulk threat detection",
-                    "REGTECH",
-                    "malware",
-                    random.randint(6, 10),
-                    True,
-                    datetime.now(),
-                ),
-            )
+                )
+                result = cursor.fetchone()
+                if result:
+                    regtech_collector.username = result["username"] or ""
+                    regtech_collector.password = result["password"] or ""
+            except Exception as e:
+                logger.warning(f"Failed to get REGTECH credentials: {e}")
+            finally:
+                cursor.close()
+                conn.close()
 
-        results["regtech"] = True
-        results["total_collected"] += len(regtech_ips)
+            # Collect from REGTECH
+            regtech_result = regtech_collector.collect_from_web()
+            if regtech_result.get("success", False):
+                regtech_count = len(regtech_result.get("data", []))
+                results["regtech"] = True
+                results["total_collected"] += regtech_count
+                logger.info(f"✅ REGTECH: {regtech_count}개 수집 완료")
+            else:
+                logger.error(
+                    f"❌ REGTECH collection failed: {regtech_result.get('error')}"
+                )
 
-        # Insert SECUDIUM IPs
-        for ip in secudium_ips:
-            cursor.execute(
-                """
-                INSERT INTO blacklist_ips (ip_address, reason, source, category, confidence_level, is_active, last_seen)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-                ON CONFLICT (ip_address) DO UPDATE
-                SET last_seen = EXCLUDED.last_seen,
-                    confidence_level = EXCLUDED.confidence_level,
-                    is_active = EXCLUDED.is_active,
-                    detection_count = blacklist_ips.detection_count + 1
-            """,
-                (
-                    ip,
-                    "Bulk security threat",
-                    "SECUDIUM",
-                    "phishing",
-                    random.randint(5, 9),
-                    True,
-                    datetime.now(),
-                ),
-            )
+        except Exception as e:
+            logger.error(f"REGTECH collection error: {e}")
 
-        results["secudium"] = True
-        results["total_collected"] += len(secudium_ips)
+        # Trigger SECUDIUM Collection
+        try:
+            from ..collectors.secudium_collector import SecudiumCollector
 
-        conn.commit()
-        cursor.close()
-        conn.close()
+            secudium_collector = SecudiumCollector(config)
+            secudium_result = secudium_collector.collect_from_web()
+
+            if secudium_result.get("success", False):
+                secudium_count = len(secudium_result.get("data", []))
+                results["secudium"] = True
+                results["total_collected"] += secudium_count
+                logger.info(f"✅ SECUDIUM: {secudium_count}개 수집 완료")
+            else:
+                logger.error(
+                    f"❌ SECUDIUM collection failed: {secudium_result.get('error')}"
+                )
+
+        except ImportError:
+            logger.warning("SECUDIUM collector not implemented")
+        except Exception as e:
+            logger.error(f"SECUDIUM collection error: {e}")
 
         logger.info(
             f"All collections completed. Total: {results['total_collected']} IPs"
@@ -411,8 +497,9 @@ def trigger_all_collections():
         return jsonify(
             {
                 "success": True,
-                "message": "All collections started successfully",
+                "message": "All collections completed with real data",
                 "results": results,
+                "data_source": "real_collectors",
                 "timestamp": datetime.now().isoformat(),
             }
         )
