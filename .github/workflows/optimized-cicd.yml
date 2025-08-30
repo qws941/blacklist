@@ -5,7 +5,7 @@ on:
     branches: [ main, develop ]
     paths:
       - 'src/**'
-      - 'Dockerfile*'
+      - 'services/*/Dockerfile'
       - 'docker-compose*.yml'
       - 'requirements.txt'
       - 'main.py'
@@ -69,19 +69,19 @@ jobs:
           app:
             - 'src/**'
             - 'main.py'
-            - 'Dockerfile'
+            - 'services/app/Dockerfile'
             - 'requirements.txt'
             - 'gunicorn.conf.py'
           postgres:
-            - 'postgres.Dockerfile'
+            - 'services/postgres/Dockerfile'
             - 'src/core/database/**'
             - 'instance/**'
           redis:
-            - 'redis.Dockerfile'
+            - 'services/redis/Dockerfile'
             - 'config/redis/**'
           any:
             - 'src/**'
-            - 'Dockerfile*'
+            - 'services/*/Dockerfile'
             - 'docker-compose*.yml'
             - 'requirements.txt'
             - '.github/workflows/**'
@@ -239,15 +239,15 @@ jobs:
       matrix:
         include:
           - name: app
-            dockerfile: Dockerfile
+            dockerfile: services/app/Dockerfile
             context: .
             build_condition: ${{ needs.analyze-and-version.outputs.build-app }}
           - name: postgres  
-            dockerfile: postgres.Dockerfile
+            dockerfile: services/postgres/Dockerfile
             context: .
             build_condition: ${{ needs.analyze-and-version.outputs.build-postgres }}
           - name: redis
-            dockerfile: redis.Dockerfile
+            dockerfile: services/redis/Dockerfile
             context: .
             build_condition: ${{ needs.analyze-and-version.outputs.build-redis }}
             
