@@ -1,0 +1,189 @@
+# Self-contained Redis with Enhanced Configuration and Monitoring
+FROM redis:7-alpine
+
+# Install additional monitoring tools
+RUN apk add --no-cache curl netcat-openbsd
+
+# Use existing redis user (already exists in redis:7-alpine)
+
+# Create configuration and data directories
+RUN mkdir -p /usr/local/etc/redis /data /var/run/redis /var/log/redis && \
+    chown -R redis:redis /usr/local/etc/redis /data /var/run/redis /var/log/redis
+
+# Create enhanced Redis configuration
+COPY <<'EOF' /usr/local/etc/redis/redis.conf
+# Redis Configuration for Blacklist System - Independent Mode
+# Optimized for standalone operation with health monitoring
+
+# Network Configuration
+bind 0.0.0.0
+port 6379
+tcp-backlog 511
+timeout 300
+tcp-keepalive 300
+
+# General Configuration
+daemonize no
+supervised no
+pidfile /var/run/redis/redis.pid
+loglevel notice
+logfile /var/log/redis/redis.log
+databases 16
+
+# Memory Management
+maxmemory 512mb
+maxmemory-policy allkeys-lru
+maxmemory-samples 5
+
+# Persistence Configuration (Optimized for reliability)
+save 900 1
+save 300 10  
+save 60 10000
+stop-writes-on-bgsave-error yes
+rdbcompression yes
+rdbchecksum yes
+dbfilename blacklist-dump.rdb
+dir /data
+
+# Replication Settings
+replica-serve-stale-data yes
+replica-read-only yes
+repl-diskless-sync no
+repl-diskless-sync-delay 5
+repl-ping-replica-period 10
+repl-timeout 60
+repl-disable-tcp-nodelay no
+repl-backlog-size 1mb
+repl-backlog-ttl 3600
+
+# Security Configuration
+requirepass ""
+# Disable dangerous commands for production
+rename-command FLUSHDB ""
+rename-command FLUSHALL ""
+rename-command KEYS ""
+rename-command CONFIG ""
+rename-command EVAL ""
+rename-command DEBUG ""
+
+# Client Configuration
+maxclients 1000
+client-output-buffer-limit normal 0 0 0
+client-output-buffer-limit replica 256mb 64mb 60
+client-output-buffer-limit pubsub 32mb 8mb 60
+client-query-buffer-limit 1gb
+proto-max-bulk-len 512mb
+
+# Performance Tuning
+hash-max-ziplist-entries 512
+hash-max-ziplist-value 64
+list-max-ziplist-size -2
+list-compress-depth 0
+set-max-intset-entries 512
+zset-max-ziplist-entries 128
+zset-max-ziplist-value 64
+hll-sparse-max-bytes 3000
+stream-node-max-bytes 4096
+stream-node-max-entries 100
+activerehashing yes
+
+# Monitoring Configuration
+slowlog-log-slower-than 10000
+slowlog-max-len 128
+latency-monitor-threshold 100
+notify-keyspace-events ""
+
+# System Tuning
+hz 10
+dynamic-hz yes
+aof-rewrite-incremental-fsync yes
+rdb-save-incremental-fsync yes
+EOF
+
+# Add Redis health monitoring script
+COPY <<'EOF' /usr/local/bin/redis-health-check
+#!/bin/sh
+set -e
+
+# Enhanced Redis health check
+# Verifies server status, memory usage, and key operations
+
+REDIS_HOST=${REDIS_HOST:-127.0.0.1}
+REDIS_PORT=${REDIS_PORT:-6379}
+
+# Basic connectivity test
+if ! redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" ping > /dev/null 2>&1; then
+    echo "Redis server not responding to PING"
+    exit 1
+fi
+
+# Check Redis info and memory usage
+INFO_OUTPUT=$(redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" INFO memory 2>/dev/null || echo "")
+
+if [ -z "$INFO_OUTPUT" ]; then
+    echo "Failed to retrieve Redis INFO"
+    exit 1
+fi
+
+# Extract memory usage
+USED_MEMORY=$(echo "$INFO_OUTPUT" | grep "used_memory:" | cut -d: -f2 | tr -d '\r')
+MAX_MEMORY=$(echo "$INFO_OUTPUT" | grep "maxmemory:" | cut -d: -f2 | tr -d '\r')
+
+# Test basic operations
+TEST_KEY="health_check_$(date +%s)"
+
+# SET test
+if ! redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" SET "$TEST_KEY" "test_value" EX 10 > /dev/null 2>&1; then
+    echo "Redis SET operation failed"
+    exit 1
+fi
+
+# GET test
+GET_RESULT=$(redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" GET "$TEST_KEY" 2>/dev/null || echo "")
+if [ "$GET_RESULT" != "test_value" ]; then
+    echo "Redis GET operation failed"
+    exit 1
+fi
+
+# Cleanup test key
+redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" DEL "$TEST_KEY" > /dev/null 2>&1 || true
+
+echo "Redis health check passed"
+echo "Memory used: ${USED_MEMORY:-unknown}"
+exit 0
+EOF
+
+# Add Redis startup script with monitoring
+COPY <<'EOF' /usr/local/bin/redis-smart-start
+#!/bin/sh
+set -e
+
+echo "🚀 Starting Redis with enhanced monitoring"
+echo "Configuration: /usr/local/etc/redis/redis.conf"
+
+# Ensure log directory exists and has proper permissions
+mkdir -p /var/log/redis
+chown redis:redis /var/log/redis
+
+# Ensure data directory has proper permissions
+chown -R redis:redis /data /var/run/redis
+
+# Log startup information
+echo "$(date): Redis startup initiated" >> /var/log/redis/startup.log
+
+# Start Redis server
+exec redis-server /usr/local/etc/redis/redis.conf
+EOF
+
+# Make scripts executable
+RUN chmod +x /usr/local/bin/redis-health-check /usr/local/bin/redis-smart-start
+
+# Enhanced health check using our custom script
+HEALTHCHECK --interval=10s --timeout=5s --start-period=15s --retries=5 \
+    CMD /usr/local/bin/redis-health-check
+
+# Expose port
+EXPOSE 6379
+
+# Use smart startup script
+CMD ["/usr/local/bin/redis-smart-start"]

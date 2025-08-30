@@ -1,4 +1,3 @@
-# 프로덕션 환경 Docker Compose - 무중단 배포 및 오케스트레이션 지원
 version: '3.8'
 
 services:
@@ -22,7 +21,7 @@ services:
       test: ["CMD-SHELL", "pg_isready -U postgres -d blacklist"]
       interval: 15s
       timeout: 5s
-      start_period: 120s  # PostgreSQL 완전 초기화 대기
+      start_period: 120s
       retries: 5
     deploy:
       resources:
@@ -32,14 +31,6 @@ services:
         reservations:
           cpus: '0.5'
           memory: 512M
-      restart_policy:
-        condition: on-failure
-        delay: 10s
-        max_attempts: 3
-        window: 60s
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-      - "com.centurylinklabs.watchtower.lifecycle.pre-update=docker exec blacklist-postgres pg_dump -U postgres blacklist > /backup/pre-update.sql"
 
   redis:
     image: registry.jclee.me/blacklist-redis:latest  
@@ -75,24 +66,12 @@ services:
         reservations:
           cpus: '0.25'
           memory: 128M
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 30s
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-      - "com.centurylinklabs.watchtower.lifecycle.pre-update=docker exec blacklist-redis redis-cli BGSAVE"
 
   app:
     image: registry.jclee.me/blacklist-app:latest
     container_name: blacklist-app
     restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+    # No depends_on - service manages its own dependencies
     environment:
       - POSTGRES_HOST=blacklist-postgres
       - POSTGRES_PORT=5432
@@ -107,7 +86,7 @@ services:
       - LOG_LEVEL=INFO
       - PYTHONUNBUFFERED=1
       # 프로덕션 최적화 설정
-      - GUNICORN_WORKERS=2
+      - GUNICORN_WORKERS=3
       - GUNICORN_MAX_REQUESTS=1000
       - GUNICORN_TIMEOUT=60
       - GUNICORN_KEEPALIVE=5
@@ -120,6 +99,12 @@ services:
       # 헬스체크 설정
       - HEALTH_CHECK_TIMEOUT=30
       - STARTUP_PROBE_DELAY=60
+      # Built-in dependency management (updated)
+      - DEPENDENCY_WAIT_MAX_ATTEMPTS=40
+      - DEPENDENCY_WAIT_INTERVAL=3
+      - SKIP_DEPENDENCY_WAIT=false
+      # New feature toggle
+      - ENABLE_ADVANCED_LOGGING=true
     volumes:
       - app_logs:/app/logs
       - app_data:/app/data
@@ -134,7 +119,7 @@ services:
       test: ["CMD-SHELL", "curl -f http://localhost:2542/health --max-time 15 || exit 1"]
       interval: 30s
       timeout: 15s
-      start_period: 180s  # 충분한 앱 시작 시간 확보
+      start_period: 180s
       retries: 5
     deploy:
       resources:
@@ -144,59 +129,6 @@ services:
         reservations:
           cpus: '0.5'
           memory: 256M
-      restart_policy:
-        condition: on-failure
-        delay: 15s
-        max_attempts: 3
-        window: 120s
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-      - "com.centurylinklabs.watchtower.lifecycle.pre-update=curl -f http://localhost:2542/health"
-      - "com.centurylinklabs.watchtower.lifecycle.post-update=curl -f http://localhost:2542/health"
-
-  # Watchtower for automated updates
-  watchtower:
-    image: containrrr/watchtower:latest
-    container_name: blacklist-watchtower
-    restart: unless-stopped
-    environment:
-      - WATCHTOWER_CLEANUP=true
-      - WATCHTOWER_POLL_INTERVAL=300  # 5분마다 체크
-      - WATCHTOWER_ROLLING_RESTART=true
-      - WATCHTOWER_INCLUDE_STOPPED=false
-      - WATCHTOWER_REVIVE_STOPPED=false
-      - WATCHTOWER_LIFECYCLE_HOOKS=true
-      - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_TOKEN}
-      - WATCHTOWER_HTTP_API_UPDATE=true
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - watchtower_data:/tmp
-    networks:
-      - blacklist-network
-    ports:
-      - "8080:8080"  # API 포트
-    labels:
-      - "com.centurylinklabs.watchtower.enable=false"  # 자기 자신은 제외
-
-  # 모니터링 및 헬스체크
-  health-monitor:
-    image: registry.jclee.me/blacklist-app:latest
-    container_name: blacklist-health-monitor
-    restart: unless-stopped
-    command: python /app/scripts/health_monitor.py
-    depends_on:
-      - app
-    environment:
-      - MONITOR_INTERVAL=30
-      - HEALTH_ENDPOINT=http://blacklist-app:2542/health
-      - ALERT_WEBHOOK=${SLACK_WEBHOOK_URL}
-    volumes:
-      - app_logs:/app/logs
-      - monitoring_data:/app/monitoring
-    networks:
-      - blacklist-network
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
 
 volumes:
   postgres_data:
@@ -230,19 +162,6 @@ volumes:
       type: none
       o: bind
       device: /opt/blacklist/app-backup
-  redis_backup:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /opt/blacklist/redis-backup
-  watchtower_data:
-  monitoring_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /opt/blacklist/monitoring
 
 networks:
   blacklist-network:

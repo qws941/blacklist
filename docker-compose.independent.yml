@@ -1,0 +1,179 @@
+version: '3.8'
+
+# Independent Architecture - Each service manages its own dependencies
+# No external depends_on configuration needed
+
+services:
+  postgres:
+    build: 
+      context: .
+      dockerfile: postgres.Dockerfile.independent
+    image: registry.jclee.me/blacklist-postgres:independent
+    container_name: blacklist-postgres-independent
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=blacklist
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - TZ=Asia/Seoul
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_logs:/var/log/postgresql
+    networks:
+      - blacklist-independent
+    ports:
+      - "5432:5432"
+    # Built-in health check from Dockerfile
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  redis:
+    build:
+      context: .
+      dockerfile: redis.Dockerfile.independent  
+    image: registry.jclee.me/blacklist-redis:independent
+    container_name: blacklist-redis-independent
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Seoul
+      - REDIS_HOST=127.0.0.1
+      - REDIS_PORT=6379
+    volumes:
+      - redis_data:/data
+      - redis_logs:/var/log/redis
+      - redis_run:/var/run/redis
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    networks:
+      - blacklist-independent
+    ports:
+      - "32544:6379"
+    # Built-in health check from Dockerfile
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.independent
+    image: registry.jclee.me/blacklist-app:independent
+    container_name: blacklist-app-independent
+    restart: unless-stopped
+    # No external depends_on - service handles its own dependencies
+    environment:
+      # Database configuration
+      - POSTGRES_HOST=blacklist-postgres-independent
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=blacklist
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      # Redis configuration
+      - REDIS_HOST=blacklist-redis-independent
+      - REDIS_PORT=6379
+      # Application settings
+      - FLASK_ENV=production
+      - PORT=2542
+      - TZ=Asia/Seoul
+      - LOG_LEVEL=INFO
+      - PYTHONUNBUFFERED=1
+      # Gunicorn settings
+      - GUNICORN_WORKERS=2
+      - GUNICORN_MAX_REQUESTS=1000
+      - GUNICORN_TIMEOUT=60
+      - GUNICORN_KEEPALIVE=5
+      - GUNICORN_PRELOAD_APP=true
+      # Database connection settings
+      - DB_RETRY_COUNT=5
+      - DB_RETRY_DELAY=10
+      - DB_POOL_SIZE=10
+      - DB_MAX_OVERFLOW=20
+      # Built-in dependency management
+      - DEPENDENCY_WAIT_MAX_ATTEMPTS=30
+      - DEPENDENCY_WAIT_INTERVAL=2
+      - SKIP_DEPENDENCY_WAIT=false  # Enable built-in dependency waiting
+      # Health check settings
+      - HEALTH_CHECK_TIMEOUT=30
+      - STARTUP_PROBE_DELAY=60
+    volumes:
+      - app_logs:/app/logs
+      - app_data:/app/data
+      - app_backup:/app/backup
+    tmpfs:
+      - /tmp:noexec,nosuid,size=200m
+    networks:
+      - blacklist-independent
+    ports:
+      - "2542:2542"
+    # Built-in health check from Dockerfile - no need for external configuration
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    labels:
+      - "service.type=independent"
+      - "dependency.management=built-in"
+
+volumes:
+  postgres_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/blacklist/postgres-data
+  postgres_logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/blacklist/postgres-logs
+  redis_data:
+    driver: local
+    driver_opts:
+      type: none  
+      o: bind
+      device: /opt/blacklist/redis-data
+  redis_logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/blacklist/redis-logs
+  redis_run:
+  app_logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/blacklist/app-logs
+  app_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/blacklist/app-data
+  app_backup:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/blacklist/app-backup
+
+networks:
+  blacklist-independent:
+    driver: bridge

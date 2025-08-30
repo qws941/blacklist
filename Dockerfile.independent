@@ -1,4 +1,4 @@
-# Multi-stage build for production optimization
+# Self-contained Application with Built-in Dependency Management
 FROM python:3.11-slim as builder
 
 # Install build dependencies
@@ -7,35 +7,29 @@ RUN apt-get update && apt-get install -y \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Set work directory
 WORKDIR /app
-
-# Copy requirements first for better caching
 COPY src/requirements.txt .
-
-# Install Python dependencies
 RUN pip install --no-cache-dir --user -r requirements.txt
 
-# Production stage
+# Production stage with dependency management
 FROM python:3.11-slim
 
-# Build arguments for version information
+# Build arguments
 ARG VERSION
 ARG BUILD_NUMBER
 ARG VCS_REF
 ARG BUILDTIME
 
-# Set version environment variables
 ENV VERSION=${VERSION}
 ENV BUILD_NUMBER=${BUILD_NUMBER}
 ENV VCS_REF=${VCS_REF}
 ENV BUILDTIME=${BUILDTIME}
 
-# Create non-root user for security
+# Create non-root user
 RUN groupadd -g 999 appuser && \
     useradd -r -u 999 -g appuser appuser
 
-# Install runtime dependencies + dependency management tools
+# Install runtime dependencies + network tools for dependency checking
 RUN apt-get update && apt-get install -y \
     curl \
     netcat-traditional \
@@ -43,10 +37,9 @@ RUN apt-get update && apt-get install -y \
     redis-tools \
     && rm -rf /var/lib/apt/lists/*
 
-# Set work directory
 WORKDIR /app
 
-# Copy Python dependencies from builder
+# Copy Python dependencies
 COPY --from=builder /root/.local /home/appuser/.local
 
 # Copy application code
@@ -54,7 +47,7 @@ COPY src/ ./src/
 COPY src/main.py .
 COPY gunicorn.conf.py .
 
-# Add dependency wait script for independent operation
+# Add dependency wait script
 COPY <<'EOF' ./wait-for-services.sh
 #!/bin/bash
 set -e
@@ -136,7 +129,7 @@ EOF
 # Make scripts executable
 RUN chmod +x ./wait-for-services.sh ./smart-start.sh
 
-# Create necessary directories
+# Create directories and set permissions
 RUN mkdir -p /app/instance /app/logs /app/data && \
     chown -R appuser:appuser /app
 
@@ -149,9 +142,9 @@ USER appuser
 # Expose port
 EXPOSE 2542
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:2542/health || exit 1
+# Enhanced health check with dependency verification
+HEALTHCHECK --interval=30s --timeout=15s --start-period=60s --retries=5 \
+    CMD curl -f http://localhost:2542/health --max-time 10 || exit 1
 
-# Use smart startup script for independent operation
+# Use smart startup script
 CMD ["./smart-start.sh"]

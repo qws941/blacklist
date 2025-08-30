@@ -1,0 +1,190 @@
+# Self-contained PostgreSQL with Enhanced Readiness Signaling
+FROM postgres:15-alpine
+
+# Install additional tools
+RUN apk add --no-cache curl netcat-openbsd
+
+# Environment setup
+ENV POSTGRES_DB=blacklist
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+ENV POSTGRES_INITDB_ARGS="--auth-host=scram-sha-256"
+
+# Create init script directory
+RUN mkdir -p /docker-entrypoint-initdb.d
+
+# Enhanced database schema with dependency tables
+COPY <<'EOF' /docker-entrypoint-initdb.d/01-init-schema.sql
+-- Blacklist System Database Schema
+-- Generated for independent PostgreSQL deployment
+
+-- Enable necessary extensions
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Core tables
+CREATE TABLE IF NOT EXISTS blacklist_ips (
+    id SERIAL PRIMARY KEY,
+    ip_address INET NOT NULL UNIQUE,
+    source VARCHAR(50) NOT NULL DEFAULT 'unknown',
+    threat_type VARCHAR(100),
+    confidence_score INTEGER DEFAULT 0,
+    first_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT true,
+    description TEXT,
+    metadata JSONB DEFAULT '{}',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS system_logs (
+    id SERIAL PRIMARY KEY,
+    level VARCHAR(20) NOT NULL,
+    message TEXT NOT NULL,
+    component VARCHAR(100),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    metadata JSONB DEFAULT '{}'
+);
+
+CREATE TABLE IF NOT EXISTS monitoring_data (
+    id SERIAL PRIMARY KEY,
+    metric_name VARCHAR(100) NOT NULL,
+    metric_value NUMERIC,
+    metric_type VARCHAR(50),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    tags JSONB DEFAULT '{}'
+);
+
+CREATE TABLE IF NOT EXISTS api_keys (
+    id SERIAL PRIMARY KEY,
+    key_name VARCHAR(100) NOT NULL UNIQUE,
+    api_key VARCHAR(255) NOT NULL,
+    permissions JSONB DEFAULT '{}',
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_used TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS collection_history (
+    id SERIAL PRIMARY KEY,
+    source VARCHAR(50) NOT NULL,
+    collection_type VARCHAR(100),
+    items_collected INTEGER DEFAULT 0,
+    success BOOLEAN DEFAULT true,
+    error_message TEXT,
+    started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP,
+    duration_seconds INTEGER,
+    metadata JSONB DEFAULT '{}'
+);
+
+CREATE TABLE IF NOT EXISTS user_activities (
+    id SERIAL PRIMARY KEY,
+    user_id VARCHAR(100),
+    action VARCHAR(100) NOT NULL,
+    resource VARCHAR(100),
+    details JSONB DEFAULT '{}',
+    ip_address INET,
+    user_agent TEXT,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS notification_settings (
+    id SERIAL PRIMARY KEY,
+    notification_type VARCHAR(100) NOT NULL,
+    is_enabled BOOLEAN DEFAULT true,
+    settings JSONB DEFAULT '{}',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS collection_credentials (
+    id SERIAL PRIMARY KEY,
+    service_name VARCHAR(100) NOT NULL UNIQUE,
+    encrypted_credentials TEXT NOT NULL,
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create indexes for performance
+CREATE INDEX IF NOT EXISTS idx_blacklist_ips_source ON blacklist_ips(source);
+CREATE INDEX IF NOT EXISTS idx_blacklist_ips_active ON blacklist_ips(is_active);
+CREATE INDEX IF NOT EXISTS idx_blacklist_ips_last_seen ON blacklist_ips(last_seen);
+CREATE INDEX IF NOT EXISTS idx_system_logs_level ON system_logs(level);
+CREATE INDEX IF NOT EXISTS idx_system_logs_timestamp ON system_logs(timestamp);
+CREATE INDEX IF NOT EXISTS idx_monitoring_data_metric ON monitoring_data(metric_name);
+CREATE INDEX IF NOT EXISTS idx_monitoring_data_timestamp ON monitoring_data(timestamp);
+CREATE INDEX IF NOT EXISTS idx_collection_history_source ON collection_history(source);
+CREATE INDEX IF NOT EXISTS idx_user_activities_action ON user_activities(action);
+
+-- Insert initial configuration
+INSERT INTO notification_settings (notification_type, is_enabled, settings) VALUES
+('email_alerts', true, '{"recipients": [], "threshold": "high"}'),
+('slack_notifications', false, '{"webhook_url": "", "channel": "#alerts"}'),
+('system_health', true, '{"check_interval": 300, "alert_threshold": 0.8}')
+ON CONFLICT (notification_type) DO NOTHING;
+
+-- Create database readiness indicator
+CREATE TABLE IF NOT EXISTS db_readiness (
+    id SERIAL PRIMARY KEY,
+    status VARCHAR(20) DEFAULT 'ready',
+    initialized_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    schema_version VARCHAR(20) DEFAULT '1.0'
+);
+
+INSERT INTO db_readiness (status) VALUES ('ready');
+
+-- Log successful initialization
+INSERT INTO system_logs (level, message, component) VALUES 
+('INFO', 'Database schema initialized successfully', 'postgresql-init');
+
+NOTIFY db_ready, 'Database initialization complete';
+EOF
+
+# Add enhanced readiness check script
+COPY <<'EOF' /usr/local/bin/enhanced-pg-ready
+#!/bin/sh
+set -e
+
+# Enhanced PostgreSQL readiness check
+# Checks both server readiness and schema initialization
+
+DB_NAME=${POSTGRES_DB:-blacklist}
+DB_USER=${POSTGRES_USER:-postgres}
+
+# Basic server readiness
+if ! pg_isready -U "$DB_USER" -d "$DB_NAME" > /dev/null 2>&1; then
+    echo "PostgreSQL server not ready"
+    exit 1
+fi
+
+# Schema readiness check
+SCHEMA_CHECK=$(psql -U "$DB_USER" -d "$DB_NAME" -t -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_name = 'db_readiness';" 2>/dev/null || echo "0")
+
+if [ "$SCHEMA_CHECK" -ge "1" ]; then
+    # Check if initialization is complete
+    READY_STATUS=$(psql -U "$DB_USER" -d "$DB_NAME" -t -c "SELECT status FROM db_readiness ORDER BY id DESC LIMIT 1;" 2>/dev/null | xargs || echo "")
+    
+    if [ "$READY_STATUS" = "ready" ]; then
+        echo "PostgreSQL fully ready with schema"
+        exit 0
+    fi
+fi
+
+echo "PostgreSQL server ready but schema not initialized"
+exit 1
+EOF
+
+# Make readiness script executable
+RUN chmod +x /usr/local/bin/enhanced-pg-ready
+
+# Enhanced health check that verifies schema readiness
+HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=5 \
+    CMD /usr/local/bin/enhanced-pg-ready
+
+# Expose port
+EXPOSE 5432
+
+# Use default PostgreSQL entrypoint with our enhancements
+CMD ["postgres"]
