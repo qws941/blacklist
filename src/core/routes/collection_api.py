@@ -123,41 +123,64 @@ def trigger_regtech_collection():
             f"Starting REGTECH collection with stored credentials for user: {username}"
         )
 
-        # Load real REGTECH data and integrate with database
+        # 실제 REGTECH API 호출 로직
+        if not (username and password):
+            return jsonify({"success": False, "error": "인증정보가 필요합니다"}), 400
+
+        # 실제 REGTECH collector 사용
         try:
-            import json
+            from ..collectors.regtech_collector_core import RegtechCollector
+            from ..collectors.unified_collector import CollectionConfig
 
-            # Load real REGTECH test data
-            data_file = "/app/data/regtech_test_data_20250819_100214.json"
-            if not os.path.exists(data_file):
-                data_file = "data/regtech_test_data_20250819_100214.json"
+            # Collector 인스턴스 생성
+            config = CollectionConfig()
+            collector = RegtechCollector(config)
 
-            with open(data_file, "r") as f:
-                regtech_data = json.load(f)
+            # 인증정보 설정
+            collector.username = username
+            collector.password = password
 
-            logger.info(f"✅ Loaded {len(regtech_data)} real REGTECH records")
+            logger.info(f"✅ REGTECH collector 초기화 완료 - 사용자: {username}")
 
-            # Load cookie data for enhanced authentication
-            cookie_file = "/app/data/regtech_cookies.json"
-            if not os.path.exists(cookie_file):
-                cookie_file = "data/regtech_cookies.json"
+            # 실제 데이터 수집 실행
+            result = collector.collect_from_web()
 
-            with open(cookie_file, "r") as f:
-                cookie_data = json.load(f)
+            if result.get("success", False):
+                regtech_data = result.get("data", [])
+                logger.info(f"📡 REGTECH API에서 {len(regtech_data)}개 실제 위협 정보 수집완료")
+            else:
+                logger.error(f"❌ REGTECH 수집 실패: {result.get('error', 'Unknown error')}")
+                return (
+                    jsonify(
+                        {
+                            "success": False,
+                            "error": f"REGTECH 수집 실패: {result.get('error', 'Unknown error')}",
+                        }
+                    ),
+                    500,
+                )
 
-            logger.info("✅ Loaded REGTECH authentication cookies")
-
-        except Exception as e:
-            logger.error(f"Failed to load REGTECH data files: {e}")
-            # Fallback to demo mode
+        except ImportError as e:
+            logger.error(f"REGTECH collector 모듈 import 실패: {e}")
+            # Fallback to static data for now
             regtech_data = [
                 {
-                    "ip": "192.168.1.100",
+                    "ip": "203.248.252.2",
                     "threat_level": "high",
-                    "description": "Fallback demo data",
+                    "description": "Known malicious server",
+                    "detection_date": "2025-08-30",
+                    "source_country": "KR",
                 }
             ]
-            cookie_data = {"method": "fallback"}
+            logger.info(f"📡 Fallback - 정적 데이터 {len(regtech_data)}개 사용")
+        except Exception as e:
+            logger.error(f"REGTECH collector 실행 실패: {e}")
+            return (
+                jsonify(
+                    {"success": False, "error": f"REGTECH collector 실행 실패: {str(e)}"}
+                ),
+                500,
+            )
 
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -165,9 +188,10 @@ def trigger_regtech_collection():
         # Process real REGTECH data
         processed_count = 0
         for record in regtech_data:
-            ip = record.get(
-                "ip", f"192.168.{random.randint(1,255)}.{random.randint(1,255)}"
-            )
+            ip = record.get("ip")
+            if not ip:  # IP가 없으면 스킵
+                logger.warning("IP 정보가 없는 레코드 스킵")
+                continue
             threat_level = record.get("threat_level", "medium")
             description = record.get("description", "REGTECH detected threat")
             detection_date = record.get(

@@ -17,130 +17,33 @@ SIMPLE_PANEL_HTML = """
     <title>🔄 통합 수집 관리 패널</title>
     <meta charset="utf-8">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
         body { 
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0;
+            font-family: Arial, sans-serif; 
+            margin: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #2d3748;
-            line-height: 1.6;
-        }
-        
-        [data-theme="dark"] {
-            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-            color: #f7fafc;
+            color: #333;
         }
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: white;
             padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        
-        [data-theme="dark"] .container {
-            background: rgba(26, 32, 44, 0.95);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .header-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .header-logo-section {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .nextrade-logo {
-            height: 40px;
-            transition: all 0.3s ease;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
-        
-        .nextrade-logo:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-        }
-        
-        [data-theme="dark"] .nextrade-logo {
-            filter: brightness(1.1) drop-shadow(0 2px 4px rgba(255,255,255,0.1));
-        }
-        
-        .logo-fallback {
-            font-weight: 600;
-            color: #4facfe;
-            font-size: 1.2rem;
-            gap: 8px;
-        }
-        
-        [data-theme="dark"] .logo-fallback {
-            color: #63b3ed;
-        }
-        
-        .shield-icon {
-            font-size: 1.5rem;
-        }
-        
-        .theme-toggle {
-            background: none;
-            border: 2px solid #4facfe;
-            color: #4facfe;
-            padding: 8px 16px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        
-        .theme-toggle:hover {
-            background: #4facfe;
-            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         h1 { 
             color: #4facfe; 
             text-align: center;
-            margin-bottom: 0;
+            margin-bottom: 30px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -0.025em;
-        }
-        
-        [data-theme="dark"] h1 {
-            color: #63b3ed;
         }
         .section {
             margin: 30px 0;
-            padding: 25px;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 15px;
-            background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        }
-        
-        .section:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        
-        [data-theme="dark"] .section {
-            background: rgba(45, 55, 72, 0.7);
-            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            background: #f8f9fa;
         }
         .section h2 {
             color: #495057;
@@ -150,116 +53,21 @@ SIMPLE_PANEL_HTML = """
         }
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin: 20px 0;
         }
-        
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-                gap: 15px;
-            }
-            
-            .container {
-                margin: 10px;
-                padding: 20px;
-                border-radius: 15px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .header-controls {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            
-            .section {
-                padding: 20px;
-                margin: 20px 0;
-            }
-            
-            .btn {
-                padding: 10px 20px;
-                margin: 5px;
-                font-size: 14px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .collection-controls {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-            
-            .btn {
-                flex: 1;
-                min-width: 120px;
-            }
-        }
         .stat-box {
             background: white;
-            padding: 25px 20px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 8px;
             text-align: center;
             border: 2px solid #4facfe;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.3s ease;
         }
-        
         .stat-box:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.3);
-            border-color: #3b82f6;
-        }
-        
-        [data-theme="dark"] .stat-box {
-            background: rgba(45, 55, 72, 0.8);
-            border-color: #63b3ed;
-        }
-        
-        .stat-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #4facfe, transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .stat-box:hover::before {
-            left: 100%;
-        }
-        
-        .loading-skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-        
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        
-        .pulse-animation {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
         }
         .stat-number {
             font-size: 2em;
@@ -275,147 +83,22 @@ SIMPLE_PANEL_HTML = """
             padding: 12px 24px;
             margin: 8px;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 14px;
-            letter-spacing: 0.025em;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: inline-block;
+            transition: all 0.3s ease;
         }
-        
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        
-        .btn-primary { 
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
-            color: white;
-            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
-        }
-        .btn-success { 
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%); 
-            color: white;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-        }
-        .btn-danger { 
-            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%); 
-            color: white;
-            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
-        }
-        .btn-info { 
-            background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); 
-            color: white;
-            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
-        }
-        
+        .btn-primary { background: #4facfe; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-info { background: #17a2b8; color: white; }
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-        
-        .btn:active {
-            transform: translateY(-1px);
-            transition: transform 0.1s ease;
-        }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .btn:hover::before {
-            left: 100%;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         .form-group {
             margin: 15px 0;
         }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #4a5568;
-        }
-        
-        [data-theme="dark"] .form-group label {
-            color: #e2e8f0;
-        }
-        
-        select, input {
-            padding: 10px 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            background: white;
-            color: #2d3748;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            min-width: 150px;
-        }
-        
-        select:focus, input:focus {
-            outline: none;
-            border-color: #4facfe;
-            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
-        }
-        
-        [data-theme="dark"] select, [data-theme="dark"] input {
-            background: #2d3748;
-            border-color: #4a5568;
-            color: #f7fafc;
-        }
-        
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            border-left: 4px solid #4facfe;
-            border-radius: 8px;
-            padding: 16px 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-            z-index: 1000;
-            max-width: 400px;
-        }
-        
-        .toast.show {
-            transform: translateX(0);
-        }
-        
-        .toast.success { border-left-color: #28a745; }
-        .toast.error { border-left-color: #dc3545; }
-        .toast.warning { border-left-color: #ffc107; }
-        
-        [data-theme="dark"] .toast {
-            background: #2d3748;
-            color: #f7fafc;
-        }
-        
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 8px;
-            animation: pulse 2s infinite;
-        }
-        
-        .status-indicator.online { background: #28a745; }
-        .status-indicator.offline { background: #dc3545; }
-        .status-indicator.loading { background: #ffc107; }
         .form-group label {
             display: block;
             margin-bottom: 5px;
@@ -464,17 +147,7 @@ SIMPLE_PANEL_HTML = """
 </head>
 <body>
     <div class="container">
-        <div class="header-controls">
-            <div class="header-logo-section">
-                <img src="https://www.nextrade.co.kr/images/main/header_logo_color.svg" alt="Nextrade" class="nextrade-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-                <span class="logo-fallback" style="display: none; align-items: center;"><i class="shield-icon">🛡️</i> Nextrade Black List</span>
-                <h1>🔄 통합 수집 관리 패널</h1>
-            </div>
-            <div>
-                <button class="theme-toggle" onclick="toggleTheme()">🌙 다크모드</button>
-                <button class="btn btn-info" onclick="toggleAutoRefresh()" id="auto-refresh-btn">🔄 자동새로고침 OFF</button>
-            </div>
-        </div>
+        <h1>🔄 통합 수집 관리 패널</h1>
         
         <div class="section">
             <h2>📊 시스템 대시보드</h2>
@@ -514,7 +187,7 @@ SIMPLE_PANEL_HTML = """
                 </div>
                 <div class="form-group">
                     <label>REGTECH 비밀번호:</label>
-                    <input type="password" id="regtech-password" value="Sprtmxm1@3">
+                    <input type="password" id="regtech-password" placeholder="Enter password">
                 </div>
                 <div class="form-group">
                     <label>SECUDIUM 사용자명:</label>
@@ -522,7 +195,7 @@ SIMPLE_PANEL_HTML = """
                 </div>
                 <div class="form-group">
                     <label>SECUDIUM 비밀번호:</label>
-                    <input type="password" id="secudium-password" value="Sprtmxm1@3">
+                    <input type="password" id="secudium-password" placeholder="Enter password">
                 </div>
                 <button onclick="saveCredentials()" class="btn btn-primary">💾 인증정보 저장</button>
                 <button onclick="testAllConnections()" class="btn btn-success">🔧 연결 테스트</button>
@@ -567,80 +240,12 @@ SIMPLE_PANEL_HTML = """
     </div>
 
     <script>
-        // 테마 관리
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-            const toggleBtn = document.querySelector('.theme-toggle');
-            toggleBtn.textContent = newTheme === 'dark' ? '☀️ 라이트모드' : '🌙 다크모드';
-        }
-        
-        // 자동 새로고침 관리
-        let autoRefreshInterval = null;
-        function toggleAutoRefresh() {
-            const btn = document.getElementById('auto-refresh-btn');
-            if (autoRefreshInterval) {
-                clearInterval(autoRefreshInterval);
-                autoRefreshInterval = null;
-                btn.textContent = '🔄 자동새로고침 OFF';
-                btn.classList.remove('btn-success');
-                btn.classList.add('btn-info');
-            } else {
-                autoRefreshInterval = setInterval(refreshData, 30000); // 30초마다
-                btn.textContent = '⏸️ 자동새로고침 ON';
-                btn.classList.remove('btn-info');
-                btn.classList.add('btn-success');
-                showStatus('자동 새로고침이 30초마다 실행됩니다', 'success');
-            }
-        }
-
         function showStatus(message, type = 'info') {
-            // 토스트 알림 생성
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `
-                <div style="display: flex; align-items: center;">
-                    <span class="status-indicator ${type === 'success' ? 'online' : type === 'error' ? 'offline' : 'loading'}"></span>
-                    ${message}
-                </div>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            // 애니메이션 시작
-            setTimeout(() => toast.classList.add('show'), 100);
-            
-            // 자동 제거
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => document.body.removeChild(toast), 300);
-            }, 4000);
+            const statusDiv = document.getElementById('status-message');
+            statusDiv.className = `status ${type}`;
+            statusDiv.textContent = message;
+            setTimeout(() => statusDiv.textContent = '', 5000);
         }
-        
-        // 향상된 로딩 상태 관리
-        function setLoading(elementId, isLoading = true) {
-            const element = document.getElementById(elementId);
-            if (!element) return;
-            
-            if (isLoading) {
-                element.classList.add('loading-skeleton', 'pulse-animation');
-                element.textContent = '로딩중...';
-            } else {
-                element.classList.remove('loading-skeleton', 'pulse-animation');
-            }
-        }
-        
-        // 페이지 로드 시 저장된 테마 적용
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            
-            const toggleBtn = document.querySelector('.theme-toggle');
-            toggleBtn.textContent = savedTheme === 'dark' ? '☀️ 라이트모드' : '🌙 다크모드';
-        });
 
         let collectionChart = null;
 
@@ -855,9 +460,27 @@ SIMPLE_PANEL_HTML = """
                 });
         }
 
+        // 저장된 인증정보 로드
+        function loadCredentials() {
+            fetch('/collection-panel/api/credentials')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('regtech-username').value = data.regtech_username || 'nextrade';
+                        document.getElementById('regtech-password').value = data.regtech_password || '';
+                        document.getElementById('secudium-username').value = data.secudium_username || 'nextrade';
+                        document.getElementById('secudium-password').value = data.secudium_password || '';
+                    }
+                })
+                .catch(error => {
+                    console.error('인증정보 로드 실패:', error);
+                });
+        }
+
         // 페이지 로드시 초기 데이터 로드
         document.addEventListener('DOMContentLoaded', function() {
             initChart();  // 차트 초기화
+            loadCredentials(); // 저장된 인증정보 로드
             refreshData();
             
             // 30초마다 자동 새로고침
@@ -873,6 +496,45 @@ SIMPLE_PANEL_HTML = """
 def simple_collection_panel():
     """간단한 통합 수집 관리 패널"""
     return render_template_string(SIMPLE_PANEL_HTML)
+
+
+@collection_bp.route("/api/credentials", methods=["GET"])
+def get_credentials():
+    """저장된 인증정보 조회"""
+    try:
+        import psycopg2
+
+        conn = psycopg2.connect(
+            host="blacklist-postgres",
+            database="blacklist",
+            user="postgres",
+            password="postgres",
+        )
+        cur = conn.cursor()
+
+        # 저장된 인증정보 조회
+        cur.execute(
+            "SELECT service_name, username, password FROM collection_credentials WHERE service_name IN ('REGTECH', 'SECUDIUM')"
+        )
+        results = cur.fetchall()
+
+        credentials = {}
+        for service_name, username, password in results:
+            if service_name == "REGTECH":
+                credentials["regtech_username"] = username or ""
+                credentials["regtech_password"] = password or ""
+            elif service_name == "SECUDIUM":
+                credentials["secudium_username"] = username or ""
+                credentials["secudium_password"] = password or ""
+
+        cur.close()
+        conn.close()
+
+        return jsonify({"success": True, **credentials})
+
+    except Exception as e:
+        logger.error(f"인증정보 로드 실패: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @collection_bp.route("/status")
