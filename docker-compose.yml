@@ -54,7 +54,7 @@ services:
 
   app:
     build: .
-    image: registry.jclee.me/blacklist-app:production
+    image: registry.jclee.me/blacklist-app:latest
     container_name: blacklist-app
     restart: unless-stopped
     depends_on:
