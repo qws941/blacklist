@@ -1,0 +1,139 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: registry.jclee.me/blacklist-postgres:latest
+    container_name: blacklist-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=blacklist
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - TZ=Asia/Seoul
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - blacklist-network
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d blacklist"]
+      interval: 15s
+      timeout: 5s
+      start_period: 120s  # 60s → 120s 증가
+      retries: 5          # 3 → 5 증가
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  redis:
+    image: registry.jclee.me/blacklist-redis:latest
+    container_name: blacklist-redis
+    restart: unless-stopped
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment:
+      - TZ=Asia/Seoul
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,KEYS,PEXPIRE,DEL,EVAL,SHUTDOWN
+      - REDIS_REPLICATION_DISABLED=yes
+    volumes:
+      - redis_data:/data
+      - redis_run:/var/run/redis
+      - ./redis-silent.conf:/usr/local/etc/redis/redis.conf
+    tmpfs:
+      - /tmp
+    networks:
+      - blacklist-network
+    ports:
+      - "32544:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      start_period: 30s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  app:
+    build: .
+    image: registry.jclee.me/blacklist-app:latest
+    container_name: blacklist-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - POSTGRES_HOST=blacklist-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=blacklist
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - REDIS_HOST=blacklist-redis
+      - REDIS_PORT=6379
+      - FLASK_ENV=production
+      - PORT=2542
+      - TZ=Asia/Seoul
+      - LOG_LEVEL=INFO
+      - PYTHONUNBUFFERED=1
+      - GUNICORN_WORKERS=2      # 4 → 2로 줄여 리소스 경합 방지
+      - GUNICORN_MAX_REQUESTS=1000
+      - GUNICORN_TIMEOUT=60     # 타임아웃 추가
+      - DB_RETRY_COUNT=5        # DB 연결 재시도 횟수
+      - DB_RETRY_DELAY=10       # DB 연결 재시도 간격(초)
+    volumes:
+      - app_logs:/app/logs
+      - app_data:/app/data
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    networks:
+      - blacklist-network
+    ports:
+      - "2542:2542"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:2542/health || exit 1"]
+      interval: 30s
+      timeout: 15s      # 10s → 15s 증가
+      start_period: 180s # 60s → 180s 증가 (DB 준비 시간 고려)
+      retries: 5        # 3 → 5 증가
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+volumes:
+  postgres_data:
+  redis_data:
+  redis_run:
+  app_logs:
+  app_data:
+
+networks:
+  blacklist-network:
+    driver: bridge
+    external: false  # external: true → false로 변경하여 자동 생성
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

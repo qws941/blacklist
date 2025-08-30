@@ -1,0 +1,109 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: registry.jclee.me/blacklist-postgres:latest
+    container_name: blacklist-postgres-stress
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=blacklist
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - TZ=Asia/Seoul
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - blacklist-network
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d blacklist"]
+      interval: 5s
+      timeout: 3s
+      start_period: 30s  # 매우 짧은 start_period
+      retries: 2         # 적은 재시도 횟수
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'     # 매우 제한된 CPU
+          memory: 300M    # 매우 제한된 메모리
+        reservations:
+          cpus: '0.1'
+          memory: 100M
+
+  redis:
+    image: registry.jclee.me/blacklist-redis:latest
+    container_name: blacklist-redis-stress
+    restart: unless-stopped
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment:
+      - TZ=Asia/Seoul
+    volumes:
+      - redis_data:/data
+      - ./redis-silent.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - blacklist-network
+    ports:
+      - "32544:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 2s
+      start_period: 10s
+      retries: 2
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'     # 제한된 CPU
+          memory: 100M    # 제한된 메모리
+        reservations:
+          cpus: '0.1'
+          memory: 50M
+
+  app:
+    image: registry.jclee.me/blacklist-app:latest
+    container_name: blacklist-app-stress
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - POSTGRES_HOST=blacklist-postgres-stress
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=blacklist
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - REDIS_HOST=blacklist-redis-stress
+      - REDIS_PORT=6379
+      - FLASK_ENV=production
+      - PORT=2542
+      - GUNICORN_WORKERS=4  # 높은 worker 수로 CPU 압박
+      - GUNICORN_TIMEOUT=30
+    networks:
+      - blacklist-network
+    ports:
+      - "2542:2542"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:2542/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      start_period: 20s  # 짧은 start_period
+      retries: 2
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'     # 제한된 CPU로 Gunicorn workers와 경합
+          memory: 200M    # 매우 제한된 메모리
+        reservations:
+          cpus: '0.1'
+          memory: 100M
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  blacklist-network:
+    driver: bridge

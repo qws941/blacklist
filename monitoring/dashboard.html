@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blacklist System 모니터링 대시보드</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f6fa;
+            color: #2f3542;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .header .subtitle {
+            opacity: 0.9;
+            margin-top: 0.25rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .metric-title {
+            font-size: 0.875rem;
+            color: #57606f;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .metric-change {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .metric-change.positive {
+            color: #27ae60;
+        }
+        
+        .metric-change.negative {
+            color: #e74c3c;
+        }
+        
+        .metric-change.neutral {
+            color: #57606f;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-healthy {
+            background: #27ae60;
+        }
+        
+        .status-warning {
+            background: #f39c12;
+        }
+        
+        .status-error {
+            background: #e74c3c;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .chart-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .services-list {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .service-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .service-item:last-child {
+            border-bottom: none;
+        }
+        
+        .service-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .service-name {
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+        
+        .service-status {
+            font-size: 0.875rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        
+        .service-status.healthy {
+            background: #d5f4e6;
+            color: #27ae60;
+        }
+        
+        .service-status.unhealthy {
+            background: #ffeaea;
+            color: #e74c3c;
+        }
+        
+        .refresh-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .refresh-btn:hover {
+            background: #5a6fd8;
+            transform: scale(1.05);
+        }
+        
+        .last-updated {
+            color: #57606f;
+            font-size: 0.875rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Blacklist System 모니터링</h1>
+        <div class="subtitle">실시간 시스템 상태 및 성능 모니터링</div>
+    </div>
+    
+    <div class="container">
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">총 블랙리스트 IP</div>
+                <div class="metric-value" id="total-ips">-</div>
+                <div class="metric-change neutral" id="ips-change">로딩 중...</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">REGTECH 수집</div>
+                <div class="metric-value" id="regtech-ips">-</div>
+                <div class="metric-change neutral" id="regtech-change">로딩 중...</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">SECUDIUM 수집</div>
+                <div class="metric-value" id="secudium-ips">-</div>
+                <div class="metric-change neutral" id="secudium-change">로딩 중...</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">시스템 상태</div>
+                <div class="metric-value">
+                    <span class="status-indicator status-healthy" id="system-status-indicator"></span>
+                    <span id="system-status-text">정상</span>
+                </div>
+                <div class="metric-change neutral" id="uptime">로딩 중...</div>
+            </div>
+        </div>
+        
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">일별 수집 현황</div>
+                <canvas id="dailyChart" width="400" height="200"></canvas>
+            </div>
+            
+            <div class="chart-card">
+                <div class="chart-title">소스별 분포</div>
+                <canvas id="sourceChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+        
+        <div class="services-list">
+            <h3 class="chart-title">서비스 상태</h3>
+            <div id="services-container">
+                <div class="service-item">
+                    <div class="service-info">
+                        <span class="status-indicator status-healthy" id="app-status"></span>
+                        <span class="service-name">Blacklist Application</span>
+                    </div>
+                    <span class="service-status healthy" id="app-status-text">정상</span>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">
+                        <span class="status-indicator status-healthy" id="postgres-status"></span>
+                        <span class="service-name">PostgreSQL Database</span>
+                    </div>
+                    <span class="service-status healthy" id="postgres-status-text">정상</span>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">
+                        <span class="status-indicator status-healthy" id="redis-status"></span>
+                        <span class="service-name">Redis Cache</span>
+                    </div>
+                    <span class="service-status healthy" id="redis-status-text">정상</span>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">
+                        <span class="status-indicator status-healthy" id="watchtower-status"></span>
+                        <span class="service-name">Watchtower</span>
+                    </div>
+                    <span class="service-status healthy" id="watchtower-status-text">정상</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="last-updated">
+            마지막 업데이트: <span id="last-updated-time">-</span>
+        </div>
+    </div>
+    
+    <button class="refresh-btn" onclick="refreshData()">새로고침</button>
+    
+    <script>
+        let dailyChart, sourceChart;
+        
+        // 차트 초기화
+        function initCharts() {
+            // 일별 수집 차트
+            const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+            dailyChart = new Chart(dailyCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'REGTECH',
+                        data: [],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'SECUDIUM',
+                        data: [],
+                        borderColor: '#764ba2',
+                        backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // 소스별 분포 차트
+            const sourceCtx = document.getElementById('sourceChart').getContext('2d');
+            sourceChart = new Chart(sourceCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['REGTECH', 'SECUDIUM'],
+                    datasets: [{
+                        data: [0, 0],
+                        backgroundColor: ['#667eea', '#764ba2']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 데이터 로드
+        async function loadData() {
+            try {
+                // API 엔드포인트에서 데이터 가져오기
+                const healthResponse = await fetch('/health');
+                const healthData = await healthResponse.json();
+                
+                const statusResponse = await fetch('/api/blacklist/status');
+                const statusData = await statusResponse.json();
+                
+                // 메트릭 업데이트
+                updateMetrics(statusData);
+                updateSystemStatus(healthData);
+                updateCharts(statusData);
+                updateServices();
+                
+                document.getElementById('last-updated-time').textContent = new Date().toLocaleString('ko-KR');
+                
+            } catch (error) {
+                console.error('데이터 로드 실패:', error);
+                updateSystemStatus({ status: 'error', message: '데이터 로드 실패' });
+            }
+        }
+        
+        // 메트릭 업데이트
+        function updateMetrics(data) {
+            if (data.blacklist_stats) {
+                const stats = data.blacklist_stats;
+                
+                document.getElementById('total-ips').textContent = stats.total_ips || 0;
+                document.getElementById('regtech-ips').textContent = stats.regtech_count || 0;
+                document.getElementById('secudium-ips').textContent = stats.secudium_count || 0;
+                
+                // 변화량 표시 (예시)
+                document.getElementById('ips-change').textContent = '전일 대비 활성';
+                document.getElementById('regtech-change').textContent = '수집 중';
+                document.getElementById('secudium-change').textContent = '수집 중';
+            }
+        }
+        
+        // 시스템 상태 업데이트
+        function updateSystemStatus(data) {
+            const statusIndicator = document.getElementById('system-status-indicator');
+            const statusText = document.getElementById('system-status-text');
+            const uptime = document.getElementById('uptime');
+            
+            if (data.status === 'healthy') {
+                statusIndicator.className = 'status-indicator status-healthy';
+                statusText.textContent = '정상';
+                uptime.textContent = `운영 시간: ${data.uptime || '알 수 없음'}`;
+                uptime.className = 'metric-change positive';
+            } else {
+                statusIndicator.className = 'status-indicator status-error';
+                statusText.textContent = '오류';
+                uptime.textContent = data.message || '상태 확인 불가';
+                uptime.className = 'metric-change negative';
+            }
+        }
+        
+        // 차트 업데이트
+        function updateCharts(data) {
+            if (data.daily_stats) {
+                // 일별 차트 업데이트
+                const labels = data.daily_stats.map(item => item.date);
+                const regtechData = data.daily_stats.map(item => item.regtech || 0);
+                const secudiumData = data.daily_stats.map(item => item.secudium || 0);
+                
+                dailyChart.data.labels = labels;
+                dailyChart.data.datasets[0].data = regtechData;
+                dailyChart.data.datasets[1].data = secudiumData;
+                dailyChart.update();
+            }
+            
+            if (data.blacklist_stats) {
+                // 소스별 분포 차트 업데이트
+                const stats = data.blacklist_stats;
+                sourceChart.data.datasets[0].data = [
+                    stats.regtech_count || 0,
+                    stats.secudium_count || 0
+                ];
+                sourceChart.update();
+            }
+        }
+        
+        // 서비스 상태 업데이트
+        async function updateServices() {
+            const services = ['app', 'postgres', 'redis', 'watchtower'];
+            
+            for (const service of services) {
+                try {
+                    // 각 서비스의 헬스체크 (실제 구현에서는 적절한 API 호출)
+                    const isHealthy = await checkServiceHealth(service);
+                    updateServiceStatus(service, isHealthy);
+                } catch (error) {
+                    updateServiceStatus(service, false);
+                }
+            }
+        }
+        
+        // 서비스 헬스체크 (모의 구현)
+        async function checkServiceHealth(service) {
+            // 실제 구현에서는 각 서비스별로 적절한 헬스체크 로직 구현
+            return new Promise(resolve => {
+                setTimeout(() => resolve(Math.random() > 0.1), 100);
+            });
+        }
+        
+        // 서비스 상태 UI 업데이트
+        function updateServiceStatus(service, isHealthy) {
+            const indicator = document.getElementById(`${service}-status`);
+            const statusText = document.getElementById(`${service}-status-text`);
+            
+            if (isHealthy) {
+                indicator.className = 'status-indicator status-healthy';
+                statusText.textContent = '정상';
+                statusText.className = 'service-status healthy';
+            } else {
+                indicator.className = 'status-indicator status-error';
+                statusText.textContent = '오류';
+                statusText.className = 'service-status unhealthy';
+            }
+        }
+        
+        // 새로고침
+        function refreshData() {
+            loadData();
+        }
+        
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            loadData();
+            
+            // 자동 새로고침 (30초마다)
+            setInterval(loadData, 30000);
+        });
+    </script>
+</body>
+</html>

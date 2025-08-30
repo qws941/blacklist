@@ -1,0 +1,254 @@
+# 프로덕션 환경 Docker Compose - 무중단 배포 및 오케스트레이션 지원
+version: '3.8'
+
+services:
+  postgres:
+    image: registry.jclee.me/blacklist-postgres:latest
+    container_name: blacklist-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=blacklist
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - TZ=Asia/Seoul
+      - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - blacklist-network
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d blacklist"]
+      interval: 15s
+      timeout: 5s
+      start_period: 120s  # PostgreSQL 완전 초기화 대기
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+      restart_policy:
+        condition: unless-stopped
+        delay: 10s
+        max_attempts: 3
+        window: 60s
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "com.centurylinklabs.watchtower.lifecycle.pre-update=docker exec blacklist-postgres pg_dump -U postgres blacklist > /backup/pre-update.sql"
+
+  redis:
+    image: registry.jclee.me/blacklist-redis:latest  
+    container_name: blacklist-redis
+    restart: unless-stopped
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment:
+      - TZ=Asia/Seoul
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,KEYS,PEXPIRE,DEL,EVAL,SHUTDOWN
+      - REDIS_REPLICATION_DISABLED=yes
+    volumes:
+      - redis_data:/data
+      - redis_run:/var/run/redis
+      - ./redis-silent.conf:/usr/local/etc/redis/redis.conf
+      - ./redis-backup:/backup
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    networks:
+      - blacklist-network
+    ports:
+      - "32544:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      start_period: 30s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+      restart_policy:
+        condition: unless-stopped
+        delay: 5s
+        max_attempts: 3
+        window: 30s
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "com.centurylinklabs.watchtower.lifecycle.pre-update=docker exec blacklist-redis redis-cli BGSAVE"
+
+  app:
+    image: registry.jclee.me/blacklist-app:latest
+    container_name: blacklist-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - POSTGRES_HOST=blacklist-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=blacklist
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - REDIS_HOST=blacklist-redis
+      - REDIS_PORT=6379
+      - FLASK_ENV=production
+      - PORT=2542
+      - TZ=Asia/Seoul
+      - LOG_LEVEL=INFO
+      - PYTHONUNBUFFERED=1
+      # 프로덕션 최적화 설정
+      - GUNICORN_WORKERS=2
+      - GUNICORN_MAX_REQUESTS=1000
+      - GUNICORN_TIMEOUT=60
+      - GUNICORN_KEEPALIVE=5
+      - GUNICORN_PRELOAD_APP=true
+      # DB 연결 안정성 설정  
+      - DB_RETRY_COUNT=5
+      - DB_RETRY_DELAY=10
+      - DB_POOL_SIZE=10
+      - DB_MAX_OVERFLOW=20
+      # 헬스체크 설정
+      - HEALTH_CHECK_TIMEOUT=30
+      - STARTUP_PROBE_DELAY=60
+    volumes:
+      - app_logs:/app/logs
+      - app_data:/app/data
+      - app_backup:/app/backup
+    tmpfs:
+      - /tmp:noexec,nosuid,size=200m
+    networks:
+      - blacklist-network
+    ports:
+      - "2542:2542"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:2542/health --max-time 15 || exit 1"]
+      interval: 30s
+      timeout: 15s
+      start_period: 180s  # 충분한 앱 시작 시간 확보
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+      restart_policy:
+        condition: unless-stopped
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "com.centurylinklabs.watchtower.lifecycle.pre-update=curl -f http://localhost:2542/health"
+      - "com.centurylinklabs.watchtower.lifecycle.post-update=curl -f http://localhost:2542/health"
+
+  # Watchtower for automated updates
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: blacklist-watchtower
+    restart: unless-stopped
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=300  # 5분마다 체크
+      - WATCHTOWER_ROLLING_RESTART=true
+      - WATCHTOWER_INCLUDE_STOPPED=false
+      - WATCHTOWER_REVIVE_STOPPED=false
+      - WATCHTOWER_LIFECYCLE_HOOKS=true
+      - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_TOKEN}
+      - WATCHTOWER_HTTP_API_UPDATE=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - watchtower_data:/tmp
+    networks:
+      - blacklist-network
+    ports:
+      - "8080:8080"  # API 포트
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"  # 자기 자신은 제외
+
+  # 모니터링 및 헬스체크
+  health-monitor:
+    image: registry.jclee.me/blacklist-app:latest
+    container_name: blacklist-health-monitor
+    restart: unless-stopped
+    command: python /app/scripts/health_monitor.py
+    depends_on:
+      - app
+    environment:
+      - MONITOR_INTERVAL=30
+      - HEALTH_ENDPOINT=http://blacklist-app:2542/health
+      - ALERT_WEBHOOK=${SLACK_WEBHOOK_URL}
+    volumes:
+      - app_logs:/app/logs
+      - monitoring_data:/app/monitoring
+    networks:
+      - blacklist-network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+volumes:
+  postgres_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/blacklist/postgres-data
+  redis_data:
+    driver: local
+    driver_opts:
+      type: none  
+      o: bind
+      device: /opt/blacklist/redis-data
+  redis_run:
+  app_logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/blacklist/app-logs
+  app_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/blacklist/app-data
+  app_backup:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/blacklist/app-backup
+  redis_backup:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/blacklist/redis-backup
+  watchtower_data:
+  monitoring_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/blacklist/monitoring
+
+networks:
+  blacklist-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+    driver_opts:
+      com.docker.network.bridge.name: blacklist-br0
